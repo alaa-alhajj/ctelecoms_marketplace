@@ -1,0 +1,313 @@
+<IfModule mod_expires.c>
+
+ ExpiresActive on
+
+ ExpiresDefault "access plus 1 month"
+
+ ExpiresByType application/javascript "access plus 1 year"
+
+ ExpiresByType image/x-ico "access plus 1 year"
+
+ ExpiresByType image/jpg "access plus 14 days"
+
+ ExpiresByType image/jpeg "access plus 14 days"
+
+ ExpiresByType image/gif "access plus 14 days"
+
+ ExpiresByType image/png "access plus 14 days"
+
+ ExpiresByType text/css "access plus 14 days"
+
+</IfModule>
+
+
+
+RewriteEngine on
+
+
+
+RewriteBase /ctelecoms_marketplace/
+
+
+
+AddType video/ogg .ogv
+AddType video/mp4 .mp4
+AddType video/mp4 .m4v
+AddType video/webm .webm
+SetEnvIfNoCase Request_URI \.(ogv|mp4|m4v|webm)$ no-gzip dont-vary
+
+#---404--------------------------------------------------------------------------------------------
+
+#ErrorDocument 404 "<H3>404 - Page not found</H3>"
+
+RewriteRule ^backup/$ backup [L]
+
+#---Email------------------------------------------------------------------------------------------
+
+RewriteRule ([^/]+)/email([^/]+)$ send.php?pLang=$1&id=$2 [L]
+
+
+
+#---Index------------------------------------------------------------------------------------------
+
+RewriteRule ^([^/]+)/$ index.php?pLang=$1 [L]
+
+RewriteRule ^([^/]+)/$ ?pLang=$1 [L]
+
+#---Images------------------------------------------------------------------------------------------
+
+RewriteRule ^ui/(.*)$ uploads/$1 [L]
+RewriteRule ^attach/(.*)$ attachments/$1 [L]
+RewriteRule ^vi/(.*)$ view/includes/css/images/$1 [L]
+
+RewriteRule ^css/(.*)$ view/includes/css/$1 [L]
+
+RewriteRule ^inc/(.*)$ view/includes/$1 [L]
+
+RewriteRule ^att/(.*)$ uploads/attach/$1 [L]
+
+RewriteRule ^vdi/(.*)$ uploads/videos/$1 [L]
+
+RewriteRule ^ft/(.*)$ modules/includes/css/images/filesTypes/$1 [L]
+
+
+
+#---Ajax------------------------------------------------------------------------------------------
+
+RewriteRule ^visits$  view/common/visits.php [L]
+RewriteRule ^mail/([^/]+)$  widgets/mailing_list_simple/subscribe.php?email=$1 [L]
+RewriteRule ^([^/]+)/types$  widgets/types_blc/types.php?pLang=$1 [L]
+RewriteRule ^types$  widgets/types_blc/types.php [L]
+
+RewriteRule ^CloseTicket$  widgets/ajax/CloseTicket.php [L]
+RewriteRule ^addTicket$  widgets/ajax/addTicket.php [L]
+RewriteRule ^addReplay$  widgets/ajax/addReplay.php [L]
+#RewriteRule ^(.*)/widgets/(.*)$ ^widgets/$2 [L]
+
+#----------user----------
+RewriteRule ^([^/]+)/Dashboard/$ view/user/dashboard.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Dashboard$ view/user/dashboard.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Tickets/$ view/user/tickets.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Tickets$ view/user/tickets.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Ticket([0-9]+)$ view/user/singleTicket.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Ticket([0-9]+)/$ view/user/singleTicket.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Ticket([0-9]+)/([^/]+)$ view/user/singleTicket.php?pLang=$1&id=$2&title=$3 [L]
+
+
+RewriteRule ^([^/]+)/BaseArticle$ view/user/BaseArticle.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/BaseArticle/Type([0-9]+)/([^/]+)$ view/user/BaseArticle.php?pLang=$1&id=$2&title=$3 [L]
+RewriteRule ^([^/]+)/BaseArticle/Type([0-9]+)/$ view/user/BaseArticle.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/BaseArticle/Type([0-9]+)$ view/user/BaseArticle.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/BaseArticle/Read([0-9]+)/([^/]+)$ view/user/ReadArticle.php?pLang=$1&id=$2&title=$3 [L]
+RewriteRule ^([^/]+)/BaseArticle/Read([0-9]+)/$ view/user/ReadArticle.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/BaseArticle/Read([0-9]+)$ view/user/ReadArticle.php?pLang=$1&id=$2 [L]
+
+
+#---Search---------------------------------------------------------------------------------
+
+RewriteRule ^([^/]+)/Search view/search/viewSearch.php?pLang=$1&word=$2 [L]
+RewriteRule ^([^/]+)/Search$ view/search/viewSearch.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Documentary/Search$ view/documentary/search.php?pLang=$1&section=Documentary [L]
+RewriteRule ^([^/]+)/Media/Search view/media/search.php?pLang=$1&section=Media [L]
+RewriteRule ^([^/]+)/Development/Search$ view/development/search.php?pLang=$1&section=Development [L]
+RewriteRule ^([^/]+)/Cultural/Search$ view/cultural/search.php?pLang=$1&section=Cultural [L]
+#---Pages------------------------------------------------------------------------------------------
+
+
+#---Services------------------------------------------------------------------------------------------
+RewriteRule ^([^/]+)/Services$ view/services/viewAllServices.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Services/pn([0-9]+)/$ view/services/viewAllServices.php?pLang=$1&pn=$2 [L]
+RewriteRule ^([^/]+)/Services/pn([0-9]+)$ view/services/viewAllServices.php?pLang=$1&pn=$2 [L]
+#---View Service------------------------------------------------------------------------------------------
+RewriteRule ^([^/]+)/Service([0-9]+)/([^/]+)$ view/services/viewServices.php?pLang=$1&id=$2&title=$3 [L]
+RewriteRule ^([^/]+)/Service([0-9]+)/$ view/services/viewServices.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Service([0-9]+)$ view/services/viewServices.php?pLang=$1&id=$2 [L]
+
+#---Features------------------------------------------------------------------------------------------
+RewriteRule ^([^/]+)/Features$ view/features/viewAllFeatures.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Features/pn([0-9]+)/$ view/features/viewAllFeatures.php?pLang=$1&pn=$2 [L]
+RewriteRule ^([^/]+)/Features/pn([0-9]+)$ view/features/viewAllFeatures.php?pLang=$1&pn=$2 [L]
+#---View Feautre------------------------------------------------------------------------------------------
+RewriteRule ^([^/]+)/Feature([0-9]+)/([^/]+)$ view/features/viewFeature.php?pLang=$1&id=$2&title=$3 [L]
+RewriteRule ^([^/]+)/Feature([0-9]+)/$ view/features/viewFeature.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Feature([0-9]+)$ view/features/viewFeature.php?pLang=$1&id=$2 [L]
+
+
+#---Villas------------------------------------------------------------------------------------------
+RewriteRule ^([^/]+)/Villas$ view/villas/viewAllVillas.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Villas/pn([0-9]+)/$ view/villas/viewAllVillas.php?pLang=$1&pn=$2 [L]
+RewriteRule ^([^/]+)/Villas/pn([0-9]+)$ view/villas/viewAllVillas.php?pLang=$1&pn=$2 [L]
+#---View villas------------------------------------------------------------------------------------------
+RewriteRule ^([^/]+)/Villa([0-9]+)/([^/]+)$ view/villas/viewVillas.php?pLang=$1&id=$2&title=$3 [L]
+RewriteRule ^([^/]+)/Villa([0-9]+)/$ view/villas/viewVillas.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Villa([0-9]+)$ view/villas/viewVillas.php?pLang=$1&id=$2 [L]
+
+#---Forms------------------------------------------------------------------------------------------
+RewriteRule ^([^/]+)/Form([0-9]+)/([^/]+)$ view/qforms/viewQforms.php?pLang=$1&id=$2&title=$3 [L]
+RewriteRule ^([^/]+)/Form([0-9]+)/$ view/qforms/viewQforms.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Form([0-9]+)$ view/qforms/viewQforms.php?pLang=$1&id=$2 [L]
+#---Galleries------------------------------------------------------------------------------------------
+
+RewriteRule ^([^/]+)/Galleries$ view/galleries/viewAllGalleries.php?pLang=$1 [L]
+
+
+
+#---View Gallery------------------------------------------------------------------------------------------
+
+RewriteRule ^([^/]+)/Galleries([0-9]+)/([^/]+)$ view/galleries/viewGalleries.php?pLang=$1&id=$2&title=$3 [L]
+
+RewriteRule ^([^/]+)/Galleries([0-9]+)/$ view/galleries/viewGalleries.php?pLang=$1&id=$2 [L]
+
+RewriteRule ^([^/]+)/Galleries([0-9]+)$ view/galleries/viewGalleries.php?pLang=$1&id=$2 [L]
+
+
+
+#---FAQ-------------------------------------------------------------------------------
+
+RewriteRule ^([^/]+)/FAQ$ view/faq/faq.php?pLang=$1 [L]
+
+
+
+
+
+
+
+
+#---Users-----------------------------------------------------------------------------------------
+RewriteRule ^([^/]+)/Logout$ view/users/logout-user.php [L]
+RewriteRule ^([^/]+)/edit-info$ view/users/edit-info.php [L]
+RewriteRule ^([^/]+)/my-account$ view/users/my-account.php [L]
+RewriteRule ^([^/]+)/list-members$ view/users/list-members.php [L]
+RewriteRule ^([^/]+)/list-members/delete([0-9]+)/$ view/users/list-members.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/add-members$ view/users/add-members.php [L]
+RewriteRule ^([^/]+)/inbox$ view/users/msg-inbox.php [L]
+RewriteRule ^([^/]+)/sent$ view/users/msg-sent.php [L]
+RewriteRule ^([^/]+)/compose$ view/users/msg-compose.php [L]
+RewriteRule ^([^/]+)/view-msg/msg([0-9]+)/$ view/users/msg-view.php?pLang=$1&msg_id=$2 [L]
+RewriteRule ^([^/]+)/msg-reply/msg([0-9]+)/$ view/users/msg-reply.php?pLang=$1&msg_id=$2 [L]
+RewriteRule ^([^/]+)/msg-view-reply/msg([0-9]+)/$ view/users/msg-reply-view.php?pLang=$1&msg_id=$2 [L]
+
+RewriteRule ^([^/]+)/list-articles/TP([0-9]+)/$ view/users/list-articles.php?pLang=$1&news_type=$2 [L]
+#---Products------------------------------------------------------------------------------------------
+RewriteRule ^([^/]+)/Products$ view/products/viewAllProducts.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Products/cat([0-9]+)$ view/products/viewAllProducts.php?pLang=$1&cat_id=$2 [L]
+RewriteRule ^([^/]+)/Products/cat([0-9]+)/$ view/products/viewAllProducts.php?pLang=$1&cat_id=$2 [L]
+RewriteRule ^([^/]+)/Products/pn([0-9]+)/cat([0-9]+)/$ view/products/viewAllProducts.php?pLang=$1&pn=$2&cat_id=$3 [L]
+RewriteRule ^([^/]+)/Products/pn([0-9]+)/cat([0-9]+)$ view/products/viewAllProducts.php?pLang=$1&pn=$2&cat_id=$3 [L]
+
+
+
+RewriteRule ^([^/]+)/Product([0-9]+)/([^/]+)$ view/products/viewProducts.php?pLang=$1&id=$2&title=$3 [L]
+
+RewriteRule ^([^/]+)/Products-cat$ view/products/viewAllProducts-cat.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Products-cat/$ view/products/viewAllProducts-cat.php?pLang=$1 [L]
+#---News------------------------------------------------------------------------------------------
+
+RewriteRule ^([^/]+)/News$ view/news/viewAllNews.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/News/TP([0-9]+)$ view/news/viewAllNews.php?pLang=$1&news_type=$2 [L]
+RewriteRule ^([^/]+)/News/TP([0-9]+)/$ view/news/viewAllNews.php?pLang=$1&news_type=$2 [L]
+
+RewriteRule ^([^/]+)/News/pn([0-9]+)/$ view/news/viewAllNews.php?pLang=$1&pn=$2 [L]
+RewriteRule ^([^/]+)/News/pn([0-9]+)$ view/news/viewAllNews.php?pLang=$1&pn=$2 [L]
+RewriteRule ^([^/]+)/News/TP([0-9]+)/pn([0-9]+)/$ view/news/viewAllNews.php?pLang=$1&news_type=$2&pn=$3 [L]
+
+RewriteRule ^([^/]+)/Blog/$ view/blog/viewAllBlog.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Blog/Sol([0-9]+)/$ view/blog/viewAllBlog.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Blog/Sol([0-9]+)/pn([0-9]+)/$ view/blog/viewAllBlog.php?pLang=$1&id=$2&pn=$3 [L]
+RewriteRule ^([^/]+)/Blog/pn([0-9]+)/$ view/blog/viewAllBlog.php?pLang=$1&pn=$2 [L]
+
+RewriteRule ^([^/]+)/Blog/pn([0-9]+)$ view/blog/viewAllBlog.php?pLang=$1&pn=$2 [L]
+
+
+RewriteRule ^([^/]+)/Blog([0-9]+)/$ view/blog/viewBlogC.php?pLang=$1&id=$2 [L]
+
+RewriteRule ^([^/]+)/Blog([0-9]+)$ view/blog/viewBlogC.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Blog([0-9]+)/([^/]+)$ view/blog/viewBlogC.php?pLang=$1&id=$2&title=$3 [L]
+#---View News------------------------------------------------------------------------------------------
+
+RewriteRule ^([^/]+)/News([0-9]+)/([^/]+)$ view/news/viewNews.php?pLang=$1&id=$2&title=$3 [L]
+
+
+RewriteRule ^([^/]+)/Videos$ view/videos/viewAllVideos.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Videos/$ view/videos/viewAllVideos.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Video([0-9]+)/([^/]+)$ view/videos/viewVideo.php?pLang=$1&id=$2&title=$3 [L]
+RewriteRule ^([^/]+)/Video([0-9]+)/$ view/videos/viewVideo.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Video([0-9]+)$ view/videos/viewVideo.php?pLang=$1&id=$2 [L]
+
+RewriteRule ^([^/]+)/Projects$ view/projects/viewAllProject.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Projects/Sol([0-9]+)/$ view/projects/viewAllProject.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Projects/Sol([0-9]+)/pn([0-9]+)/$ view/projects/viewAllProject.php?pLang=$1&id=$2&pn=$3 [L]
+
+RewriteRule ^([^/]+)/Projects/$ view/projects/viewAllProject.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Projects/pn([0-9]+)/$ view/projects/viewAllProject.php?pLang=$1&pn=$2 [L]
+
+RewriteRule ^([^/]+)/Project([0-9]+)/([^/]+)$ view/projects/viewProject.php?pLang=$1&id=$2&title=$3 [L]
+RewriteRule ^([^/]+)/Project([0-9]+)/$ view/projects/viewProject.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Project([0-9]+)$ view/projects/viewProject.php?pLang=$1&id=$2 [L]
+
+RewriteRule ^([^/]+)/Provinces$ view/provinces/viewAllprovinces.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Provinces/$ view/provinces/viewAllprovinces.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Provinces/pn([0-9]+)/$ view/provinces/viewAllprovinces.php?pLang=$1&pn=$2 [L]
+RewriteRule ^([^/]+)/Province([0-9]+)/([^/]+)$ view/provinces/viewprovince.php?pLang=$1&id=$2&title=$3 [L]
+RewriteRule ^([^/]+)/Province([0-9]+)/$ view/provinces/viewprovince.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Province([0-9]+)$ view/provinces/viewprovince.php?pLang=$1&id=$2 [L]
+
+
+RewriteRule ^([^/]+)/News([0-9]+)/$ view/news/viewNews.php?pLang=$1&id=$2 [L]
+
+RewriteRule ^([^/]+)/News([0-9]+)$ view/news/viewNews.php?pLang=$1&id=$2 [L]
+
+#---Downloads------------------------------------------------------------------------------------------
+
+RewriteRule ^([^/]+)/Downloads$ view/downloads/viewAllDownloads.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Downloads/TP([0-9]+)$ view/downloads/viewAllDownloads.php?pLang=$1&cat_id=$2 [L]
+RewriteRule ^([^/]+)/Downloads/TP([0-9]+)/$ view/downloads/viewAllDownloads.php?pLang=$1&cat_id=$2 [L]
+RewriteRule ^([^/]+)/Downloads/pn([0-9]+)/$ view/downloads/viewAllDownloads.php?pLang=$1&pn=$2 [L]
+RewriteRule ^([^/]+)/Downloads/pn([0-9]+)$ view/downloads/viewAllDownloads.php?pLang=$1&pn=$2 [L]
+RewriteRule ^([^/]+)/Download([0-9]+)/([^/]+)$ view/downloads/viewDownload.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Download([0-9]+)$ view/downloads/viewDownload.php?pLang=$1&id=$2 [L]
+#------------------- Activities ----------------------------------
+
+RewriteRule ^([^/]+)/Activities$ view/activities/viewAllActivities.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Activities/TP([0-9]+)$ view/activities/viewAllActivities.php?pLang=$1&activities_type=$2 [L]
+RewriteRule ^([^/]+)/Activities/TP([0-9]+)/$ view/activities/viewAllActivities.php?pLang=$1&activities_type=$2 [L]
+RewriteRule ^([^/]+)/Activities/pn([0-9]+)/$ view/activities/viewAllActivities.php?pLang=$1&pn=$2 [L]
+RewriteRule ^([^/]+)/Activities/pn([0-9]+)$ view/activities/viewAllActivities.php?pLang=$1&pn=$2 [L]
+RewriteRule ^([^/]+)/Activities/TP([0-9]+)/pn([0-9]+)/$ view/activities/viewAllActivities.php?pLang=$1&activities_type=$2&pn=$3 [L]
+RewriteRule ^([^/]+)/Activity([0-9]+)/$ view/activities/viewActivity.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Activity([0-9]+)/$ view/activities/viewActivity.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Activity([0-9]+)$ view/activities/viewActivity.php?pLang=$1&id=$2 [L]
+#---Academic Stuff ------------------------------------------------------------------------------------------
+RewriteRule ^([^/]+)/Academicstuff/$ view/council/viewCouncilOfCollage.php?pLang=0&college_id=0 [L]
+RewriteRule ^([^/]+)/Council([0-9]+)$ view/council/viewCouncil.php?pLang=$1&council_id=$2 [L]
+RewriteRule ^([^/]+)/Council([0-9]+)/Teacher([0-9]+)$ view/council/viewTeacher.php?pLang=$1&council_id=$2&teacher_id=$3 [L]
+
+RewriteRule ^([^/]+)/Clients$ view/clients/viewAllClients.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Partners$ view/partners/viewAllPartners.php?pLang=$1 [L]
+#---Events------------------------------------------------------------------------------------------
+RewriteRule ^([^/]+)/Events$ view/events/viewAllEvents.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Events([0-9]+)/Register/$ view/events/register.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Events/pn([0-9]+)/$ view/events/viewAllEvents.php?pLang=$1&pn=$2 [L]
+RewriteRule ^([^/]+)/Events/$ view/events/viewAllEvents.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Events([0-9]+)/([^/]+)$ view/events/viewEvents.php?pLang=$1&id=$2&title=$3 [L]
+#--- College ------------------------------------------------------
+
+
+RewriteRule ^([^/]+)/Jobs$ view/jobs/viewAllJobs.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Jobs/$ view/jobs/viewAllJobs.php?pLang=$1 [L]
+RewriteRule ^([^/]+)/Jobs([0-9]+)/([^/]+)$   view/jobs/viewJob.php?pLang=$1&id=$2&title=$3 [L]
+RewriteRule ^([^/]+)/Jobs([0-9]+)/$     view/jobs/viewJob.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/Jobs([0-9]+)$     view/jobs/viewJob.php?pLang=$1&id=$2 [L]
+
+RewriteRule ^([^/]+)/Jobs([0-9]+)/Apply/$     view/jobs/applyJob.php?pLang=$1&id=$2 [L]
+#------------------- Complaints ----------------------------------
+
+RewriteRule ^([^/]+)/createComplaint$ view/complaints/createComplaint.php?pLang=$1&id=$2 [L]
+RewriteRule ^([^/]+)/createEvaluation([0-9]+)$ view/complaints/createEvaluation.php?pLang=$1&comp_id=$2 [L]
+RewriteRule ^([^/]+)/Reply([0-9]+)/([^/]+)$ view/complaints/addReply.php?pLang=$1&comp_id=$2&enc_email=$3 [L]
+
+
+RewriteRule ^([^/]+)/page([0-9]+)/([^/]+)$  view/pages/viewPage.php?pLang=$1&id=$2&title=$3 [L]
+RewriteRule ^([^/]+)/page([0-9]+)/pn([0-9]+)/([^/]+)$  view/pages/viewPage.php?pLang=$1&id=$2&pn=$3&title=$4 [L]
+RewriteRule ^([^/]+)/page([0-9]+)/pn([0-9]+)/ext_param([^/]+)/([^/]+)$  view/pages/viewPage.php?pLang=$1&id=$2&pn=$3&extra_param=$4&title=$5 [L]
+RewriteRule ^([^/]+)/page([0-9]+)/pn([0-9]+)/g([0-9]+)/c([0-9]+)/sc([0-9]+)/([^/]+)$  view/pages/viewPage.php?pLang=$1&id=$2&pn=$3&gov_id=$4&cat_id=$5&subCat_id=$6&title=$7 [L]

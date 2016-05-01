@@ -1,0 +1,43 @@
+
+
+
+.cslide-slides-master {
+  overflow: hidden;
+  direction: ltr;
+  border:1px solid white;
+}
+
+.cslide-slides-master:last-child {
+  margin-bottom: 0; 
+}
+
+.cslide-slides-container {
+  visibility: hidden;
+}
+
+
+.cslide-slide {
+  float: left;
+}
+
+.cslide-prev-next {
+
+}
+
+.cslide-prev, .cslide-next {
+
+}
+
+.cslide-prev:hover,
+.cslide-next:hover {
+
+}
+
+.cslide-prev.cslide-disabled:hover,
+.cslide-next.cslide-disabled:hover {
+
+}
+
+.cslide-disabled {
+
+}

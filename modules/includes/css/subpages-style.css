@@ -1,0 +1,270 @@
+
+.content{
+    font-family: 'Microsoft Yi Baiti';
+    font-size: 20px;
+}
+
+.content .orders-sect{
+    font-size: 16px;
+}
+.content .create-order-sect{
+    font-family: 'Microsoft Yi Baiti';
+    font-size: 20px;
+    
+}
+
+.content .create-order-sect input{
+    border:1px solid #c9c7c7;
+}
+
+.ui-widget-header{
+  border: 0px;
+  background: #7d8389 !important;   
+}
+/*////////////////////////////////////////////////////////////////////*/
+/****************************** Responsive Code ************************/
+/*////////////////////////////////////////////////////////////////////*/
+@media screen and (max-width:1024px){
+/*********** Menu ****************/    
+.menu-sect .navbar  ul li a{
+    padding-left: 5px;
+}   
+  .menu-sect .navbar  ul li a span{
+     padding-left: 0px;
+     font-size: 20px;
+ }
+
+.item-financial .item-div2 .text-cls{
+     font-size: 20px;
+     padding-left: 5px;
+ }
+ .item-financial .item-div2 .btn-cls{
+     font-size: 18px;
+     line-height: 17px;
+ }
+ .content .con-sect1 .item-title{
+     padding: 10px;
+     padding-top: 20px;
+ }
+ .con-sect1 .item .item-yard  .item-title{
+     padding-top: 40px;
+ }
+ .create-order-sect .date-filed img{
+     float:right;
+     margin:0px;
+ }
+ .create-order-sect input{
+     width:85%; 
+ }
+ 
+}
+@media screen and (max-width:768px){
+    .container{
+        width: 100%;
+    }
+    .menu-sect{
+        min-height: 0px !important;
+        margin-bottom: 50px;
+		max-height:auto !important;
+		min-height:auto !important;
+		height:auto !important;
+    }
+    .menu-sect #navbar{
+        padding: 0px;
+        margin:0px;
+        max-height:1000px;
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+        width: 100%;
+        text-align: center;
+    }
+    .navbar-header{
+        margin: 0px !important;
+        padding: 0px !important;
+        width: 100%;
+        height: 0px !important;
+    }
+    .menu-sect .navbar button{
+        margin: 0px !important;
+        color:#ffffff !important;
+        background-color: #023e7c;
+        float:left !important;
+        clear: both;
+        margin-top:-60px !important;
+        margin-left: 30px !important;
+        margin-right: 30px !important;
+        margin-bottom: 15px !important;
+    }
+    /*****************************/
+    .content .item{
+        margin-bottom: 50px;
+    }
+    .con-sect2 .item-orders .item-div1{
+        min-height: 300px;
+        background-color: #8c8c8c;
+    }
+    
+    .con-sect2 .item-orders .item-subtitle{
+        min-height: 200px;
+        background-color: #8c8c8c;
+        text-align:  center;
+        width: 100%;
+        margin:auto;
+    }
+    
+    .con-sect2 .item-orders .sub-title-cls{
+      float:left;
+      width: 30%;
+      margin-right:5%;
+      margin-left: 5%;
+    }
+    /**************************************/
+    .content{
+        font-size: 16px;
+    }
+    /*********** Current pages*************/
+    .content .orders-sect{
+       margin-top: 50px;
+    }
+    .content .nav-bar{
+        min-height: 130px;
+    }
+    .content .filters-sect{
+       text-align: center;
+       min-height: 60px; 
+       padding-left: 15px !important;
+       padding-right: 15px !important;
+    }
+    .filters-sect .lbl{
+       font-size: 15px;
+       margin-left: -15px;
+       margin-right: -15px;
+    }
+    .table-cls{
+        width: 100%;
+    }
+    .table-cls #tableId{
+         width: 100%;
+    }
+    .table-cls #tableId tbody tr td{
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+     }
+    .table-tool-bar .num-rows {
+        width: 100%;
+     }
+     .table-tool-bar .num-rows .limit{
+         width: 25%;
+     } 
+	 
+	 
+	.item-orders{
+		 width:100%;
+		 margin-left:0!important;
+	}
+	
+	.item-financial{
+		width:100%;
+	}
+	
+	.financial-con{
+		padding-right:0!important;
+	}
+	
+	.orders-con{
+		padding-right:0!important;
+		padding-left:0!important;
+	}
+	
+	.item{margin-top:110px!important;}
+	/**************** Create Orders*************/
+	.create-order-sect .date-filed img{
+		 float:right;
+		 margin:0px;
+	 }
+	 .create-order-sect input{
+		 border:1px solid red;
+	 }
+ 
+}
+
+@media screen and (max-width:600px){
+    .con-sect2 .item-orders .sub-title-cls{
+      width: 25%;
+      margin-right:4%;
+      margin-left: 4%;
+    }
+    .orders-sect .nav-bar .nav{
+        font-size: 25px;
+    }
+    .create-order-sect .nav-bar .nav{
+        font-size: 25px;
+    }
+    
+    .table-cls{
+        width: 100%;
+    }
+    .table-cls #tableId{
+         width: 100%;
+    }
+   .table-cls #tableId thead tr th{
+     border:1px solid blue;
+    }    
+    .table-cls #tableId tbody tr td{
+        padding-left:0px !important;
+        padding-right:0px !important;
+        margin:0px;
+        min-width: 50px !important;
+        
+        border:1px solid red;
+     }
+    .table-tool-bar .num-rows {
+        width: 100%;
+     }
+     .table-tool-bar .num-rows .limit{
+         width: 25%;
+     } 
+    
+}
+
+@media screen and (max-width:500px){
+
+    .orders-sect .nav-bar .nav{
+        font-size: 20px;
+    }
+    .create-order-sect .nav-bar .nav{
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width:660px){
+    .create-order-sect{
+     } 
+     .create-order-sect .form-sect2{
+         padding:0px;
+         margin:0px;
+         float:left;
+         clear: both;
+     }
+     .create-order-sect .form-sect2 div{
+         float:left;
+         clear: both;
+         width: 100%;
+     }
+     .create-order-sect .form-sect2 input{
+         width: 100%;
+         float:left;
+         clear: both;
+         z-index: 17;
+     }
+        .create-order-sect .form-sect2 input[type="date"]{
+           margin-bottom: 15px;
+        }
+     .create-order-sect .form-sect3{
+         clear: both;
+     }
+     .create-order-sect .form-sect4{
+         clear: both;
+     }
+     
+}

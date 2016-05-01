@@ -1,0 +1,17 @@
+@import "easy-responsive-tabs.css";
+@import "font-awesome/css/font-awesome.min.css";
+.row-nomargin{margin: 0px !important}
+.product-price{color:green;margin-top: 20px !important;font-size: 14px}
+.cart-button a{float: right ;color:green;font-size: 14px}
+.margTop20{margin-top: 20px !important}
+.freeTrial-button a{border:1px solid #000;background:#f58120 !important;padding: 0px 5px}
+.flright{float: right}
+.flLeft{float: left;margin-top: 10px;    clear: left;}
+.more-button{    float: right;
+    border: 1px solid #000;
+    padding: 0px 5px;background:#f58120
+}
+.width100{width:100%}
+.block{width: 100%;
+    clear: both;}
+.clear{width:100%;clear:both;height: 40px}

@@ -1,0 +1,102 @@
+.nav-con a:hover{
+    background:#337ab7;
+}
+
+.nav-con a{
+    background:#dd4b39;
+    color:white;
+    margin-left:10px;
+    padding:5px;
+    margin-top:2px;
+}
+
+.nav-con{
+    float:right;
+}
+
+.filter-con input{
+    float:left;
+}
+
+.filter-item label{
+    float:left;
+    padding-right:20px;
+    padding-top:2px;
+}
+
+.filter-item input[type='text']{
+    border:2px solid white;
+
+}
+
+.filter-item{
+    float:left;
+}
+
+.filter-con button[type='submit']:hover{
+    background:#337ab7;
+}
+
+.filter-con button[type='submit']{
+    border:0;
+    background:#dd4b39;
+    color:white;
+    float:left;
+    padding:0px;
+    padding:3px;
+    padding-left:10px;
+    padding-right:10px;
+    margin-left:10px;
+
+}
+
+.filter-con{
+    float:left;
+    width:400px;
+}
+
+.nav-stacked>li.active>a, .nav-stacked>li.active>a:hover {
+   
+    border-left-color: #DD4B39 !important;
+}
+.mailbox-messages{min-height: 250px;}
+.box{width:100%;clear:both; margin-top:0px;}
+.container-button a{margin:5px;padding:3px;background: #dd4b39;color:#fff}
+.container-button a:hover{margin:5px;padding:3px;background: #B13C2E;color:#fff}
+.btn-submit{background-color: #d73925;color:#fff;}
+.btn-submit:hover{background-color: #B13C2E;color:#fff}
+.content{min-height: 500px !important}
+a{color:#d73925}
+.btn.btn-back{background-color: #f4f4f4;color: #444;border-color: #ddd;}
+.btn.btn-back:hover{background-color: #e7e7e7}
+a:hover{color:#B13C2E}
+.pagination{margin:0px !important}
+.box-header .btn{margin:0px 5px;}
+.pagination li.active a{background: #DD4B39 !important;color:#fff !important;border:1px solid #DD4B39 !important;}
+.pagination  a{color: #DD4B39 !important;}
+.pagination li.disabled a{background: #fff !important;color:#666 !important;}
+.box-header .form-group label{padding:0px 5px;}
+
+.wizerd-block select{
+    width:100%;
+}
+
+.wizerd-block td,.wizerd-block th{
+    padding-bottom:10px;
+}
+
+.wizerd-block{
+    background:white;
+    border-top:2px solid #dd4b39;
+    padding-bottom:20px;
+    min-height:370px;
+
+}
+
+.block-title{
+    margin-bottom:20px;
+    width:100%;
+    padding:10px;
+    color:#dd4b39;
+    font-size:16px;
+}

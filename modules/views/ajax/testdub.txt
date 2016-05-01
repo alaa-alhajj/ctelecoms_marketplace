@@ -1,0 +1,2 @@
+UPDATE cms_pages SET seo_description = ?, seo_keywords = ?, seo_img = ?
+WHERE id='23'

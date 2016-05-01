@@ -1,0 +1,2 @@
+[24-Jul-2013 14:40:36] PHP Warning:  Unterminated comment starting line 3823 in /home4/odyneusa/public_html/americanpro/modules/includes/dbUtils.php on line 3823
+[24-Jul-2013 14:40:36] PHP Fatal error:  fatal flex scanner internal error--end of buffer missed in /home4/odyneusa/public_html/americanpro/modules/includes/dbUtils.php on line 3823

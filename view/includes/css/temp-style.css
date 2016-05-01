@@ -1,0 +1,502 @@
+/*******************Fonts***********************/
+@import "fonts/DIN-Black/styles.css";
+@import "fonts/DIN-Light/styles.css";
+@import "fonts/DIN-Medium/styles.css";
+@import "fonts/DINBold/styles.css";
+@import "fonts/Montserrat-Light/styles.css";
+/***************************** Gloable ********************/
+html,body{
+    padding:0;
+    margin:0;
+    width:100%;
+    height:100%;
+    background-color:white;
+    direction: ltr;
+    font-family:'DIN-Light';
+    font-size: 18px;
+}
+
+a{
+    color:#1e499f;
+}
+a:hover{
+     color:#4c4c4c;
+}
+
+input[type="text"]{
+    font-size: 16px;
+}
+input[type="submit"]{
+    
+}
+
+
+/***********************************************************/
+.container{
+    max-width: 1170px;
+}
+.header-sect{
+    width:100%;
+    background-color: white;
+    min-height: 230px;
+}
+.header-sect .header {
+    min-height: 175px;
+}
+
+.header .logo-cls{
+    text-align: left;
+    margin-top:65px;
+    margin-bottom: 65px;
+}
+.header .logo-txt{
+    min-height: 54px;
+    color:#1e499f;
+    margin-top:65px;
+    margin-bottom: 65px;
+    border-left:1px solid #b4b4b4;
+    font-size: 14px;
+    padding: 30px 0px 0px 10px;
+}
+
+.header .search-box {
+    max-width: 300px;
+    height: 50px;
+    border:1px solid #b4b4b4;
+    margin-top: 65px;
+    margin-bottom: 65px;
+}
+.header .search-box:hover {
+    border:1px solid #1e499f;
+}
+.header .search-box  input[type="text"]{
+    width: 83%;
+    height: 25px;
+    float:left;
+    border:0px;
+    border-right: 1px solid #b4b4b4;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    padding: 0px 10px 0px 10px;
+}
+.header .search-box  input[type="submit"]{
+     float: right;
+     width: 15%;
+     height: 45px;
+     border:0px;
+     background: url(images/search-icon.png) center center white no-repeat;
+}
+.header .search-box  input[type="submit"]:hover{
+    opacity: 0.8;
+}
+
+.header-sect .menu-sect{
+    width:100%;
+    min-height:50px;
+    background-color: #1e499f;
+}
+.menu-sect .menu{
+    max-height:50px;
+}
+.header-sect .header-bottom-border{
+    width: 100%;
+    min-height: 10px;
+    background-color:#b4b4b4;
+    z-index: 0;
+}
+
+ /************** Menu Section *************/
+ .menu-sect .navbar{
+    padding:0px;
+    margin:0px;
+    float:left;
+    width:100%;
+    text-align: left;
+    font-size:20px;
+ }
+ .menu-sect .navbar a{
+     padding:0;
+     margin:0;
+     height:55px;
+     min-width: 100px;
+     color:white;
+     padding:10px;
+     text-align: center;
+     z-index:10;
+     border-top:5px solid #1e499f;
+     border-bottom:5px solid #b4b4b4;
+     margin-top: -1px;
+ }
+  
+ .menu-sect .navbar .dropdown-menu > li > a{
+    border:0px;
+    padding:0px;
+    padding:3px 10px 3px 10px;
+    height: 30px;
+    min-width: 250px;
+    text-align: left;
+    color: #231f20;
+ }
+.menu-sect .navbar a:hover{
+    border-top:5px solid #b4b4b4;
+    border-bottom:5px solid #1e499f;
+    background-color: #1e499f;
+ }
+  .menu-sect .navbar .active{
+    border-top:5px solid #b4b4b4;
+    background-color: #1e499f;
+    height:56px;
+    margin-top: -1px;
+ }
+
+ .menu-sect .navbar .active img{
+     margin-top: -5px;
+ }
+ .menu-sect .navbar .active:hover img{
+    margin-top: 0px;
+ }
+ .menu-sect .navbar .active:hover{
+    border:0px; 
+    margin-top: 0px;
+ }
+  .menu-sect .navbar .active a{
+     background: none;
+ }
+
+ .menu-sect .navbar a:focus{
+    background: none;
+    outline: 0px;
+ }
+ .nav > li > a:hover, .nav > li > a:focus{
+      background:#efefef;
+ }
+ .nav .open > a, .nav .open > a:hover, .nav .open > a:focus{
+    border-top-color: #b4b4b4;
+    border-bottom-color: #1e499f;
+ }
+ .menu-sect .navbar .dropdown-menu{
+    padding:0px;
+    margin:0px;
+    background-color: #efefef;
+ }
+ .menu-sect .navbar .dropdown-menu a:hover{
+    background-color: #e4e4e4;
+ }
+ 
+ .menu-sect .navbar #navbar .dropdown-menu{
+ 
+ }
+ .menu-sect .navbar button{
+     color:#ffffff !important;
+     background-color: #ffffff;
+ }
+ .menu-sect .navbar button span{
+   background-color: #1e499f;  
+ }
+ 
+ .site-content {
+     min-height: 800px;
+ }
+ .site-content .div-title{
+     font-size: 24px;
+     color:#1e499f;
+     margin-top: 15px;
+     margin-bottom: 15px;
+ }
+ .site-content .cont-sect3 .div-title{
+     text-align: center;
+ }
+ 
+ .site-content .txt-title{
+     font-size: 18px;
+     margin-top:20px;
+ }
+ 
+ .site-content .txt-title a{
+    color:#282828;
+ }
+.site-content .txt-title a:hover{
+    color:#1e499f;
+ }
+ .site-content .div-image{
+     overflow: hidden;
+ }
+  .site-content .txt{
+     font-size: 18px;
+     color:#231f20;
+ }
+ 
+ .site-content .txt{
+    text-align: justify;
+ }
+ 
+ 
+ .site-content  .cont-sect1{
+     min-height: 620px;
+     margin-top: 45px;
+ } 
+ 
+ .site-content  .cont-sect2{
+     min-height: 620px;
+     margin-top: 45px;
+ }
+ 
+  .site-content  .cont-sect3{
+     min-height: 520px;
+     margin-top: 45px;
+ }
+ 
+ .cont-sect3 .cost-living-div {
+    padding-left: 7px;
+ }
+/******************** Footer ***********************/
+.footer-sect{
+    width: 100%;
+    min-height: 385px;
+    background-color: #e4e4e4;
+}
+.footer{
+    min-height: 355px;
+    line-height: 25px;
+    font-size: 18px;
+    color:#353535;
+}
+.footer .footer-lft-div{
+     line-height: 28px;
+}
+.footer .title{
+    color:#1e499f;
+    font-size: 24px;
+    min-height: 40px;
+    margin-top:15px;
+    margin-bottom: 0px;
+}
+.footer .map-div{
+    min-width:300px;
+    min-height:141px;
+    margin-top:10px;
+    margin-bottom:10px;
+    
+}
+.footer .social-div {
+    margin-top: 30px;
+    text-align: left;
+}
+.footer .social-div img{
+    margin-right:10px;
+}
+.footer .div-cont a{
+    display: block;
+    color:#4c4c4c;
+}
+.footer .div-cont a:hover{
+    color:#1e499f;
+}
+.footer .footer-center-div{
+    padding-left: 30px;
+}
+
+.footer-sect .copyrght{
+    width: 100%;
+    min-height: 30px;
+    text-align: center;
+    background-color: #c9c9c9;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 14px;
+    color:#363636;
+}
+/***************************************/
+.nopadding{  
+    padding:0!important;
+}
+.nopadding-left{
+    padding-left: 0!important;
+}
+.nopadding-right{
+    padding-right: 0!important;
+}
+.nomargin{
+    margin: 0!important;    
+}
+.nomargin-left{
+    margin-left: 0!important;
+}
+.nomargin-right{
+    margin-right: 0!important;
+}
+/************************ Fonts ****************************/
+.header .logo-txt{
+      font-family: 'Montserrat-Light';
+}
+.menu-sect .navbar,.site-content .div-title ,.footer .title{
+       font-family: 'DIN-Medium';
+}
+.site-content .txt-title{
+    font-family: 'DINBold';
+}
+.site-content .txt ,.footer{
+    font-family: 'DIN-Light';
+}
+/******************************* Responsive ****************/
+@media screen and (max-width:1024px){
+    .header .logo-txt{
+        margin-left: 40px;
+        font-size: 12px;
+    }
+    .menu-sect .navbar a{
+        font-size: 15px;
+    }
+    .site-content .col-sm-8,.site-content .col-sm-4 ,.site-content .col-sm-6{
+        overflow: hidden;
+    }
+    .cont-sect3 .cost-living-div {
+        padding-left: 15px;
+    }
+    .site-content .cont-sect3{
+        margin-bottom: 20px;
+    }
+}
+@media screen and (max-width:1000px){
+    .header{
+        width:97%;
+    }
+    .header .logo-txt{
+        display: none;
+    }
+    .menu{
+        width: 97%;
+    }
+    .site-content {
+        width: 97%;
+    }
+    .footer{
+        width: 97%;
+    }
+ 
+   .menu-sect .menu {
+        max-height: 100px;
+        height:auto;
+    }
+    .menu-sect .menu  .navbar a{
+       border:0px;
+       margin:0px;
+       height:45px;
+    }
+    .menu-sect .menu  .navbar a:hover{
+        border:0px;
+        margin:0px;
+        opacity: 0.8;
+    }
+    .menu-sect .menu  .navbar .active{
+        border:0px;
+        margin:0px;
+        height:45px;
+        background-color: #b4b4b4;
+        color:#1e499f;
+    }
+    .menu-sect .menu  .navbar .active:hover img{
+        margin-top:-5px;
+    }
+    
+}
+@media screen and (max-width:768px){
+    .header div{
+        width: 100%;
+        float: left;
+        text-align: center!important;
+    }
+    .header .logo-div .logo-cls{
+        text-align: center !important;
+    }
+    .header .search-div{
+        padding-left: 20%;
+    }
+    .header .search-div .search-box{
+        width:75%;
+        margin:0px;
+        margin-bottom: 10px;
+    }
+    
+    .menu-sect {
+        width: 100%;
+        float:left;
+        clear:both;
+    }
+    .menu-sect .menu{
+        margin:0px;
+    }
+    .menu-sect .navbar .dropdown-menu li a{
+         text-align: center;
+     }
+    
+    .site-content{
+        width:100%;
+        clear:both;
+        text-align: center;
+    }
+    .site-content .recovery-div{
+        margin-left: 15px;
+    }
+    .site-content .doing-bussiness-div{
+        margin-right: 15px;
+    }
+    .site-content .sy-economy-div{
+        margin-left: 15px;
+    }
+    .site-content .insight-div{
+        margin-right: 15px;
+    }
+    .site-content .local-development-div{
+        margin-left: 15px;
+    }
+    .site-content .knowledge-economy-div{
+        margin-right: 15px;
+    }
+    .site-content .cont-sect1{
+        margin-top: 0px;
+    }
+    .site-content .cont-sect2{
+        margin-top: 0px;
+    }
+    .site-content .cont-sect3{
+        margin-top: 0px;
+    }
+    .site-content  .div-title  {
+        margin-top:50px;
+        padding-top:50px !important;
+        border-top:1px solid #b4b4b4;
+    }
+    
+    .footer-sect{
+        text-align: center;
+    }
+    .footer .social-div {
+        text-align: center;
+    }
+    .footer .footer-lft-div ,.footer .div-cont {
+        margin-left:15px;
+    }
+    .footer .contact-div{
+        margin-top:50px;
+        border-top:1px solid #b4b4b4;
+        margin-right: 15px;
+    }
+    
+}
+@media screen and (max-width:500px){
+    .footer-sect .copyrght{
+        font-size: 15px;
+        padding-left: 15px;
+        padding-right:15px;
+    }
+    .site-content {
+        overflow: hidden;
+    }
+    .footer-sect{
+        overflow: hidden;
+    }
+    .header-sect{
+        overflow: hidden;
+    }
+}
