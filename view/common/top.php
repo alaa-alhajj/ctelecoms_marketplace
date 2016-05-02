@@ -15,3 +15,10 @@ $voiControl=new VoilaController();
 $utils=new utils();
 $widgets=new widgets();
 
+if(!isset($_SESSION['Shopping_Cart'])){
+        $_SESSION['Shopping_Cart']=array();
+}
+
+if(!isset($_SESSION['compareIDs'])){
+        $_SESSION['compareIDs']=array();
+}
