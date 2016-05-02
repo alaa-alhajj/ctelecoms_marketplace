@@ -23,14 +23,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     } else {
         $message = $utils->getConstant("ErrorMessage");
         $type = "error";
-        echo '<script>waitingDialog.hide();
-            swal({
-            title: "",
-            text: "' . $message . '",
-            type: "' . $type . '",
-            showConfirmButton: false
-            , showConfirmButton: false, timer: 2000
-        });
+         echo '<script>notificationMessage(false);
         </script>';
     }
 }

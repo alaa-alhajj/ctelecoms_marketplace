@@ -24,32 +24,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
             }
         }
     
-    if ($exec == true || ( $exec >= 0 && is_int($exec))) {
-        $success = true;
-    } else {
-        $success = false;
-    }
-    $message = "";
-    @session_start();
-
-    if ($success) {
-        $message = $utils->getConstant("Success");
-        $type = "success";
-        $_SESSION['saveFormStatus'] = "success";
-    } else {
-        $message = $utils->getConstant("Faild");
-        $type = "error";
-        $_SESSION['saveFormStatus'] = "faild";
-    }
-
-    echo '<script>waitingDialog.hide();
-            swal({
-            title: "",
-            text: "' . $message . '",
-            type: "' . $type . '",
-            showConfirmButton: false
-            , showConfirmButton: false, timer: 2000
-        });
+      echo '<script>notificationMessage(true);
         </script>';
     if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);

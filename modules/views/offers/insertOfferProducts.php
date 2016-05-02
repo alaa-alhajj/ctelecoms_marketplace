@@ -12,47 +12,14 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
    $query = $fpdo->update($db_table)->set(array('`product_ids`' => $Related_ids))->where("id='$id'");
     $exec = $query->execute();
 
-    if ($exec == true || ( $exec >= 0 && is_int($exec))) {
-        $success = true;
-    } else {
-        $success = false;
-    }
-    $message = "";
-    @session_start();
-
-    if ($success) {
-        $message = $utils->getConstant("Success");
-        $type = "success";
-        $_SESSION['saveFormStatus'] = "success";
-    } else {
-        $message = $utils->getConstant("Faild");
-        $type = "error";
-        $_SESSION['saveFormStatus'] = "faild";
-    }
-
-    echo '<script>waitingDialog.hide();
-            swal({
-            title: "",
-            text: "' . $message . '",
-            type: "' . $type . '",
-            showConfirmButton: false
-            , showConfirmButton: false, timer: 2000
-        });
+  echo '<script>notificationMessage(true);
         </script>';
     if($Related_ids !=""){
     $utils->redirect($pageList);
     }else{
-        $message = $utils->getConstant("ErrorMessage");
-        $type = "error";
-        echo '<script>waitingDialog.hide();
-            swal({
-            title: "",
-            text: "' . $message . '",
-            type: "' . $type . '",
-            showConfirmButton: false
-            , showConfirmButton: false, timer: 2000
-        });
-        </script>'; 
+
+       echo '<script>notificationMessage(false);
+        </script>';
     }
 }
 echo $path = '<ul id="breadcrumbs-one">

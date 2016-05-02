@@ -483,14 +483,8 @@ $(document).ready(function() {
                     var StrippedString = $question.replace(/(<([^>]+)>)/ig, "");
                     $this.parents().find('.faq_' + $id + " .panel-title").html(StrippedString);
 
-                    waitingDialog.hide();
-                    swal({
-                        title: "",
-                        text: 'success',
-                        type: "success",
-                        showConfirmButton: false
-                        , showConfirmButton: false, timer: 2000
-                    });
+                     notificationMessage(true);
+      
                 }
             }
         });

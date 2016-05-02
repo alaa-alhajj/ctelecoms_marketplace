@@ -30,7 +30,7 @@ $cols_check_type = array('title_type');
 $types_check_type = array('title_type' => 'radio');
 $sourc_check_type = array('title_type' => array('pro_price_type', 'title', 'id'));
 $cols_check_group = array('title_group');
-$types_check_group = array('title_group' => 'checkbox');
+$types_check_group = array('title_group' => 'checkboxCostum');
 
 
 $Savecols_dynamic_Pricing = array('duration_ids', 'unit_id', 'type_id', 'product_id');

@@ -29,29 +29,15 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
         $_SESSION['saveFormStatus'] = "faild";
     }
 
-    echo '<script>waitingDialog.hide();
-            swal({
-            title: "",
-            text: "' . $message . '",
-            type: "' . $type . '",
-            showConfirmButton: false
-            , showConfirmButton: false, timer: 2000
-        });
+     echo '<script>notificationMessage(true);
         </script>';
     if($Related_ids !=""){
     $utils->redirect($pageList);
     }else{
         $message = $utils->getConstant("ErrorMessage");
         $type = "error";
-        echo '<script>waitingDialog.hide();
-            swal({
-            title: "",
-            text: "' . $message . '",
-            type: "' . $type . '",
-            showConfirmButton: false
-            , showConfirmButton: false, timer: 2000
-        });
-        </script>'; 
+         echo '<script>notificationMessage(false);
+        </script>';
     }
 }
 echo $path = '<ul id="breadcrumbs-one">

@@ -3,7 +3,7 @@
 include '../../common/header.php';
 include 'config.php';
 if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
-    $id = $_REQUEST['pro_id'];
+    $id = $_REQUEST['id'];
     $photo = $_REQUEST['photos'];
     //  $save_ob = new saveform($db_table, $_REQUEST, $Savecols_photo, "id='$id'");
      $save_ob = new saveform($db_table, $_REQUEST, $cols_photo, "id", $order_field, $map_field, '', false);
@@ -11,7 +11,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
     if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-        $utils->redirect($pageProductPricing1 . "?pro_id=" . $_REQUEST['pro_id']);
+        $utils->redirect($pageProductPricing1 . "?id=" . $_REQUEST['id']);
     }
 }
 echo $path = '<ul id="breadcrumbs-one">
@@ -27,7 +27,7 @@ echo $path = '<ul id="breadcrumbs-one">
     <li><a href="#">SEO</a></li>
 </ul>';
 $form = new GenerateFormField();
-$values = $fpdo->from($db_table)->where('id', $_REQUEST['pro_id'])->fetch();
+$values = $fpdo->from($db_table)->where('id', $_REQUEST['id'])->fetch();
 $form->setColumns($cols_photo);
 $form->setTypes($types_photo);
 $form->setValues($values);
