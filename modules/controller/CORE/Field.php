@@ -207,16 +207,9 @@ class field extends utils {
                     break;
                 }
             case "select": {
-                
-                    $fileds = $this->fpdo->from('cms_module_fields')->where("table_id='" . $_SESSION['cmsMID'] . "' and plus !='' and type='select'")->fetch();
-                    $plus_array = explode(',', $fileds['plus']);
-                    if ($this->table && $this->table != "") {
-                       
-                        $res = $this->getInputListFromTable();
-                    } else {
-                       
-                        $res = $this->getInputListPlus();
-                    } 
+
+                    $res = $this->getInputListPlus();
+
 
                     break;
                 }
@@ -247,11 +240,11 @@ class field extends utils {
 
                     break;
                 }
-                 case "checkboxCostum": {
+            case "checkboxCostum": {
 
 
                     if ($this->table && $this->table != "") {
-                      
+
                         $res = $this->getInputCheckboxFromTableCostume();
                     } else {
                         $res = $this->getInputCheckbox();
@@ -259,7 +252,7 @@ class field extends utils {
 
                     break;
                 }
-                
+
             case "DynamicCheckbox": {
                     if ($this->table && $this->table != "") {
                         $res = $this->getInputCheckboxFromTable();
@@ -335,6 +328,7 @@ class field extends utils {
         }
         return $result;
     }
+
     function getInputCheckboxFromTable() {
 
         $query = $this->fpdo->from($this->table)->select(" $this->t_value , $this->t_name ");

@@ -42,8 +42,24 @@ $values1 = $fpdo->from($db_table)->where('id', $_REQUEST['pro_id'])->fetch();
 
 $get_features=$fpdo->from('customer_fields')->feathAll();
 
-$add_feature='<div class="box box-danger form-horizontal"><div class="box-body">';
-$add_feature.='<div class="customerField"><div class="col-sm-10 nopadding"><input id="title" name="title" value="" type="text" required="" size="" class=" form-control" placeholder="Enter Field"></div>';
+
+
+$field_ob2 = new field();
+$field_ob2->SetIdField('type');
+$field_ob2->SetNameField('type');
+$field_ob2->SetCssClass('form-control');
+$field_ob2->SetTypeField('select');
+$field_ob2->SetTable();
+$field_ob2->SetTname('type');
+$field_ob2->SetValueField();
+$field_ob2->setWhere();
+$field_ob2->SetExtra($extra);
+
+$add_feature = '<div class="box box-danger form-horizontal"><div class="box-body">';
+$add_feature.='<div class="customerField catFeatures"><div class="col-sm-3 "><input id="title" name="title" value="" type="text" required="" size="" class=" form-control" placeholder="Enter Field"></div>'
+        . '<div class="col-sm-3 ">' . $field_ob2->getField() . '</div>'
+        . '<div class="col-sm-3 "><input id="plus" name="" value="" type="tags" size="" class="TagsInput" placeholder="" style="display:none"></div>';
+
 $add_feature.="<div class='col-sm-2 '><a href='javascript:;' class='addCustomerField' data-ajax='../../views/ajax/AddCustomerFieldAjax.php'><i class='fa fa-plus-circle' aria-hidden='true' style='font-size:29px'></i></a></div>";
 $add_feature.="</div>";
 $add_feature.='<table id="TableCustomerFields" class="table table-striped  table table-bordered table-hover">

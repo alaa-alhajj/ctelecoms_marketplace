@@ -7,12 +7,15 @@ $db_table_feature = "customer_fields";
 if ($action == "Insert") {
 
     $title = $_REQUEST['title'];
-
+ $type = $_REQUEST['type'];
+    $plus_g = $_REQUEST['plus'];
     $_REQUESTf = array();
     $_REQUESTf['title'] = $title;
 
     $_REQUESTf['action'] = $action;
-    $Savecols = array('title');
+      $_REQUESTf['type'] = $type;
+    $_REQUESTf['plus'] = $plus_g;
+    $Savecols = array('title', 'type', 'plus');
     $save_ob = new saveform($db_table_feature, $_REQUESTf, $Savecols, "id", $order_field, $map_field, '', false, false);
     $insert_id = $save_ob->getInsertId();
     $field_ob = new field();
