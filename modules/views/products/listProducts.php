@@ -35,13 +35,13 @@ $listTable->_source(array('cat_id' => array('product_category', 'id', 'title')))
 $listTable->_class('table table-striped');
 $listTable->_edit($pageUpdate, array("id"));
 $listTable->setOrderBy("id");
-$listTable->setExtraLinks(array(array('Features', $utils->icons->ico['list'], 'insertProductFeatures.php', array('pro_id' => 'id'), ''),
-    array('Photos', $utils->icons->ico['list'], 'insertProductPhotos.php', array('pro_id' => 'id'), '')
-    , array('Pricing', $utils->icons->ico['list'], 'insertProductPricingf.php', array('pro_id' => 'id'), '')
-    , array('Add-Ons', $utils->icons->ico['list'], 'insertProductAddOns.php', array('pro_id' => 'id'), '')
-    , array('Related Products', $utils->icons->ico['list'], 'insertProductRelated.php', array('pro_id' => 'id'), '')
-    , array('Required Fields', $utils->icons->ico['list'], 'insertProductReqFields.php', array('pro_id' => 'id'), '')
-    , array('FAQs', $utils->icons->ico['list'], 'insertProductFAQ.php', array('pro_id' => 'id'), '')
+$listTable->setExtraLinks(array(array('Features', $utils->icons->ico['list'], 'insertProductFeatures.php', array('id' => 'id'), ''),
+    array('Photos', $utils->icons->ico['list'], 'insertProductPhotos.php', array('id' => 'id'), '')
+    , array('Pricing', $utils->icons->ico['list'], 'insertProductPricingf.php', array('id' => 'id'), '')
+    , array('Add-Ons', $utils->icons->ico['list'], 'insertProductAddOns.php', array('id' => 'id'), '')
+    , array('Related Products', $utils->icons->ico['list'], 'insertProductRelated.php', array('id' => 'id'), '')
+    , array('Required Fields', $utils->icons->ico['list'], 'insertProductReqFields.php', array('id' => 'id'), '')
+    , array('FAQs', $utils->icons->ico['list'], 'insertProductFAQ.php', array('id' => 'id'), '')
      , array('Purchase Order', $utils->icons->ico['list'], '../purchase_orders/listPurchaseOrder.php', array('product' => 'title','pid'=>'id'), '')
 ));
 $listTable->_special(false);

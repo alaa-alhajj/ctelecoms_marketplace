@@ -2,7 +2,7 @@
 
 include '../../common/header.php';
 include 'config.php';
-$id = $_REQUEST['pro_id'];
+$id = $_REQUEST['id'];
 if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     $Related_ids = "";
     foreach ($_REQUEST['Slectedproduct'] as $product_id) {
@@ -11,39 +11,14 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     $query = $fpdo->update($db_table)->set(array('`package_pro_ids`' => $Related_ids))->where("id='$id'");
     $exec = $query->execute();
 
-    if ($exec == true || ( $exec >= 0 && is_int($exec))) {
-        $success = true;
-    } else {
-        $success = false;
-    }
-    $message = "";
-    @session_start();
-
-    if ($success) {
-        $message = $utils->getConstant("Success");
-        $type = "success";
-        $_SESSION['saveFormStatus'] = "success";
-    } else {
-        $message = $utils->getConstant("Faild");
-        $type = "error";
-        $_SESSION['saveFormStatus'] = "faild";
-    }
-
-    echo '<script>waitingDialog.hide();
-            swal({
-            title: "",
-            text: "' . $message . '",
-            type: "' . $type . '",
-            showConfirmButton: false
-            , showConfirmButton: false, timer: 2000
-        });
+    echo '<script>notificationMessage(true);
         </script>';
     if ($Related_ids != "") {
         if ($_REQUEST['saveClose'] != "") {
             $utils->redirect($pageList);
         } else {
 
-            $utils->redirect($pageProductFeatures . "?pro_id=" . $_REQUEST['pro_id']);
+            $utils->redirect($pageProductFeatures . "?id=" . $_REQUEST['id']);
         }
     } else {
         $message = $utils->getConstant("ErrorMessage");
@@ -90,7 +65,7 @@ $AllProducts.="<div class='row search-style'>"
         . "<div class='col-sm-10'>" . $select_products . "</div>"
         . '<div class="col-sm-2"><button type="button" id="buttonSearchAddOns" data-place="Search Package Products" class="btn btn-submit"><span class="fa fa-search"></span></button></div>'
         . "</div><div class='AddAddOnsTo div-search'>";
-$productsA = $query = $fpdo->from('products')->where("id='" . $_REQUEST['pro_id'] . "'")->fetch();
+$productsA = $query = $fpdo->from('products')->where("id='" . $_REQUEST['id'] . "'")->fetch();
 
 $addOns_array = explode(',', rtrim($productsA['package_pro_ids'], ','));
 foreach ($addOns_array as $addOns) {

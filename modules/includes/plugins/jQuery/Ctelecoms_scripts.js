@@ -35,18 +35,9 @@ $(document).ready(function() {
                     $this.parent().find(".spin-waiting").remove();
                     $this.attr("placeholder", 'Enter Feature');
                     $thisButton.removeClass('stop-button');
-                   
-                      waitingDialog.hide();
-                swal({
-                    title: "",
-                    text: 'success',
-                    type: "success",
-                    showConfirmButton: false
-                    , showConfirmButton: false, timer: 2000
-                });
-                setTimeout(function() {
+                  
                     location.reload();
-                }, 2000);
+              
                 }
             });
         }
@@ -193,17 +184,9 @@ $(document).ready(function() {
                 $this_plus.find('span').show();
                 $this_plus.find('span').html(data[1]);
                 $this.html("<a href='javascript:;' data-id='" + $id + "' class='editFeature'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>");
-                     waitingDialog.hide();
-                swal({
-                    title: "",
-                    text: 'success',
-                    type: "success",
-                    showConfirmButton: false
-                    , showConfirmButton: false, timer: 2000
-                });
-                setTimeout(function() {
+             
                     location.reload();
-                }, 2000);
+              
             }
         });
     });
@@ -525,14 +508,7 @@ $(document).ready(function() {
             success: function(data) {
                 if (data === 1 || data === '1') {
                     //  $this.parents().find('.faq_' + $id).fadeOut();
-                    waitingDialog.hide();
-                    swal({
-                        title: "",
-                        text: 'success',
-                        type: "success",
-                        showConfirmButton: false
-                        , showConfirmButton: false, timer: 2000
-                    });
+                   
                     location.reload();
                 }
             }
@@ -574,17 +550,9 @@ $(document).ready(function() {
                     $this.parent().find(".spin-waiting").remove();
                     $this.attr("placeholder", 'Enter Feild');
                     $thisButton.removeClass('stop-button');
-                        waitingDialog.hide();
-                swal({
-                    title: "",
-                    text: 'success',
-                    type: "success",
-                    showConfirmButton: false
-                    , showConfirmButton: false, timer: 2000
-                });
-                setTimeout(function() {
+               
                     location.reload();
-                }, 2000);
+               
                 }
             });
         }
@@ -690,17 +658,9 @@ $(document).ready(function() {
                 $this_plus.find('span').show();
                 $this_plus.find('span').html(data[1]);
                 $this.html("<a href='javascript:;' data-id='" + $id + "' class='editCustomerField' data-ajax='" + $ajax_url + "'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>");
-                 waitingDialog.hide();
-                swal({
-                    title: "",
-                    text: 'success',
-                    type: "success",
-                    showConfirmButton: false
-                    , showConfirmButton: false, timer: 2000
-                });
-                setTimeout(function() {
+             
                     location.reload();
-                }, 2000);
+               
             }
         });
     });
@@ -749,18 +709,8 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
 
-                waitingDialog.hide();
-
-                swal({
-                    title: "",
-                    text: 'success',
-                    type: "success",
-                    showConfirmButton: false
-                    , showConfirmButton: false, timer: 2000
-                });
-                setTimeout(function() {
                     window.location = $redirect;
-                }, 2000);
+              
             }
         });
 

@@ -10,7 +10,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-        $utils->redirect($pageProductFeatures . "?pro_id=" . $insert_id);
+        $utils->redirect($pageProductFeatures . "?id=" . $insert_id);
     }
 }
 echo $path = '<ul id="breadcrumbs-one">

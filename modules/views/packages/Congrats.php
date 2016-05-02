@@ -3,44 +3,8 @@
 include "../../common/top.php";
 include '../../common/header.php';
 include 'config.php';
-$id = $_REQUEST['pro_id'];
-if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
+$id = $_REQUEST['id'];
 
-    $get_page_id = $fpdo->from($db_table)->where("id='$id'")->fetch();
-    $query = $fpdo->update('cms_pages')->set(array('seo_title' => $_REQUEST['seo_title'], 'seo_description' => $_REQUEST['seo_description'], 'seo_keywords' => $_REQUEST['seo_keywords'], 'seo_img' => $_REQUEST['seo_img']))->where("id='" . $get_page_id['id'] . "'");
-    $exec = $query->execute();
-
-    if ($exec == true || ( $exec >= 0 && is_int($exec))) {
-        $success = true;
-    } else {
-        $success = false;
-    }
-    $message = "";
-    @session_start();
-
-    if ($success) {
-        $message = $utils->getConstant("Success");
-        $type = "success";
-        $_SESSION['saveFormStatus'] = "success";
-    } else {
-        $message = $utils->getConstant("Faild");
-        $type = "error";
-        $_SESSION['saveFormStatus'] = "faild";
-    }
-
-    echo '<script>waitingDialog.hide();
-            swal({
-            title: "",
-            text: "' . $message . '",
-            type: "' . $type . '",
-            showConfirmButton: false
-            , showConfirmButton: false, timer: 2000
-        });
-        </script>';
-
-
-    $utils->redirect($pageList);
-}
 $Congrats="<div class='col-sm-12'><h1 style='margin-top:130px;margin-bottom:60px;text-align:center'>Congratulations a new package has been entered successfully</h1></div>"
         .'<div class="col-sm-12" style="margin-bottom:130px;text-align:center">'
         . '   <a href="'.$pageList.'" class="btn btn-back " >Go to package list</a>&nbsp;'

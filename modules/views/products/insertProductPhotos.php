@@ -3,43 +3,19 @@
 include '../../common/header.php';
 include 'config.php';
 if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
-    $id = $_REQUEST['pro_id'];
+    $id = $_REQUEST['id'];
     $photo = $_REQUEST['photos'];
     //  $save_ob = new saveform($db_table, $_REQUEST, $Savecols_photo, "id='$id'");
-    $query = $fpdo->update($db_table)->set(array('photos' => $_REQUEST['photos']))->where("id='$id'");
-    $exec = $query->execute();
+  //  $query = $fpdo->update($db_table)->set(array('photos' => $_REQUEST['photos']))->where("id='$id'");
+  //  $exec = $query->execute();
+    
+    $save_ob = new saveform($db_table, $_REQUEST, $cols_photo, "id", $order_field, $map_field, '', false);
 
-    if ($exec == true || ( $exec >= 0 && is_int($exec))) {
-        $success = true;
-    } else {
-        $success = false;
-    }
-    $message = "";
-    @session_start();
-
-    if ($success) {
-        $message =$utils->getConstant("Success");
-        $type = "success";
-        $_SESSION['saveFormStatus'] = "success";
-    } else {
-        $message = $utils->getConstant("Faild");
-        $type = "error";
-        $_SESSION['saveFormStatus'] = "faild";
-    }
   
-        echo '<script>waitingDialog.hide();
-            swal({
-            title: "",
-            text: "' . $message . '",
-            type: "' . $type . '",
-            showConfirmButton: false
-            , showConfirmButton: false, timer: 2000
-        });
-        </script>';
          if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-           $utils->redirect($pageProductPricing1 . "?pro_id=" . $_REQUEST['pro_id']);
+           $utils->redirect($pageProductPricing1 . "?id=" . $_REQUEST['id']);
     }
     }
    echo $path = '<ul id="breadcrumbs-one">
@@ -54,7 +30,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
     <li><a href="#">SEO</a></li>
 </ul>';
     $form = new GenerateFormField();
-    $values = $fpdo->from($db_table)->where('id', $_REQUEST['pro_id'])->fetch();
+    $values = $fpdo->from($db_table)->where('id', $_REQUEST['id'])->fetch();
     $form->setColumns($cols_photo);
     $form->setTypes($types_photo);
     $form->setValues($values);

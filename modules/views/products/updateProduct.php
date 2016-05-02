@@ -11,7 +11,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
     if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-        $utils->redirect($pageProductFeatures . "?pro_id=" . $_REQUEST['id']);
+        $utils->redirect($pageProductFeatures . "?id=" . $_REQUEST['id']);
     }
 }
 echo $path = '<ul id="breadcrumbs-one">

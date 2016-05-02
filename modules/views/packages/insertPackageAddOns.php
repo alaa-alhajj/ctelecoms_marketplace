@@ -2,7 +2,7 @@
 
 include '../../common/header.php';
 include 'config.php';
-$id = $_REQUEST['pro_id'];
+$id = $_REQUEST['id'];
 if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     $addOns_ids = "";
     foreach ($_REQUEST['Slectedproduct'] as $product_id) {
@@ -11,37 +11,12 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     $query = $fpdo->update($db_table)->set(array('`add_ons_pro_ids`' => $addOns_ids))->where("id='$id'");
     $exec = $query->execute();
 
-    if ($exec == true || ( $exec >= 0 && is_int($exec))) {
-        $success = true;
-    } else {
-        $success = false;
-    }
-    $message = "";
-    @session_start();
-
-    if ($success) {
-        $message = $utils->getConstant("Success");
-        $type = "success";
-        $_SESSION['saveFormStatus'] = "success";
-    } else {
-        $message = $utils->getConstant("Faild");
-        $type = "error";
-        $_SESSION['saveFormStatus'] = "faild";
-    }
-
-    echo '<script>waitingDialog.hide();
-            swal({
-            title: "",
-            text: "' . $message . '",
-            type: "' . $type . '",
-            showConfirmButton: false
-            , showConfirmButton: false, timer: 2000
-        });
+   echo '<script>notificationMessage(true);
         </script>';
     if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-        $utils->redirect($pageProductRelated . "?pro_id=" . $_REQUEST['pro_id']);
+        $utils->redirect($pageProductRelated . "?id=" . $_REQUEST['id']);
     }
 }
 echo $path = '<ul id="breadcrumbs-one">
@@ -76,7 +51,7 @@ $AllProducts.="<div class='row search-style'>"
         . '<div class="col-sm-2"><button type="button" id="buttonSearchAddOns" data-place="Search Add-Ons" class="btn btn-submit"><span class="fa fa-search"></span></button></div>'
         . "</div><div class='AddAddOnsTo div-search'>";
 
-$productsA = $query = $fpdo->from('products')->where("id='" . $_REQUEST['pro_id'] . "'")->fetch();
+$productsA = $query = $fpdo->from('products')->where("id='" . $_REQUEST['id'] . "'")->fetch();
 
 $addOns_array = explode(',', rtrim($productsA['add_ons_pro_ids'], ','));
 foreach ($addOns_array as $addOns) {
@@ -102,7 +77,7 @@ $form->setSubmit(true);
 $form->setSubmitName('Save & Continue');
 $form->setSaveCloseBtn(true, 'Save & Close');
 $form->setAsForm(true);
-$form->setSkipBtn(true, $pageProductRelated . "?pro_id=" . $_REQUEST['pro_id']);
+$form->setSkipBtn(true, $pageProductRelated . "?id=" . $_REQUEST['id']);
 $form->setBackBtn(true);
 $form->setAppendToForm($AllProducts);
 echo $form->getForm('Insert');

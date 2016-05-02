@@ -3,9 +3,9 @@
 include "../../common/top.php";
 include '../../common/header.php';
 include 'config.php';
-$id = $_REQUEST['pro_id'];
+$id = $_REQUEST['id'];
 
-$values1 = $fpdo->from($db_pro_FAQ)->where('product_id', $_REQUEST['pro_id'])->fetch();
+$values1 = $fpdo->from($db_pro_FAQ)->where('product_id', $_REQUEST['id'])->fetch();
 
 if (isset($_REQUEST) && $_REQUEST['action'] == "Insert") {
 
@@ -17,9 +17,9 @@ if (isset($_REQUEST) && $_REQUEST['action'] == "Insert") {
     if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } elseif ($_REQUEST['InsertNew'] != "") {
-        $utils->redirect($pageProductFAQ . "?pro_id=" . $id);
+        $utils->redirect($pageProductFAQ . "?id=" . $id);
     } else {
-        $utils->redirect($pageProductSEO . "?pro_id=" . $id);
+        $utils->redirect($pageProductSEO . "?id=" . $id);
     }
 }
 echo $path = '<ul id="breadcrumbs-one">
@@ -43,7 +43,7 @@ $form->setRequireds($required);
 //$form->setSkipBtn(true, $pageProductSEO . "?pro_id=" . $_REQUEST['pro_id']);
 $form->setAddBtn(true, "", "Save & Insert New", "btn btn-new");
 $form->setBackBtn(true);
-$form->setSkipBtn(true, $pageProductSEO . "?pro_id=" . $_REQUEST['pro_id']);
+$form->setSkipBtn(true, $pageProductSEO . "?id=" . $_REQUEST['id']);
 $form->setSaveCloseBtn(true, 'Save & Close');
 $form->setCountCell(1);
 $form->setSubmit(true);
@@ -53,7 +53,7 @@ $form->setAsForm(true);
 echo $form->getForm('Insert');
 if ($values1['id'] != "") {
 
-    $get_faqs = $fpdo->from($db_pro_FAQ)->where('product_id', $_REQUEST['pro_id'])->fetchAll();
+    $get_faqs = $fpdo->from($db_pro_FAQ)->where('product_id', $_REQUEST['id'])->fetchAll();
     $faq = ' <div class="box box-danger form-horizontal"><div class="box-body">  <div class="panel-group" id="accordion">
         <div class="overlay">
     

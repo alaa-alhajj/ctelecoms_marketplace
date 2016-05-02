@@ -3,18 +3,24 @@
 include "../../common/top.php";
 include '../../common/header.php';
 include 'config.php';
-$get_Cat = $fpdo->from($db_table)->where("id='" . $_REQUEST['pro_id'] . "'")->fetch();
+$get_Cat = $fpdo->from($db_table)->where("id='" . $_REQUEST['id'] . "'")->fetch();
 if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     // $save_ob = new saveform($db_table, $_REQUEST, $Savecols);
-    $get_feature_value = $fpdo->from('product_features_values')->where("product_id='" . $_REQUEST['pro_id'] . "'")->fetch();
+    $get_feature_value = $fpdo->from('product_features_values')->where("product_id='" . $_REQUEST['id'] . "'")->fetch();
     if ($get_feature_value['id'] != "") {
-       $query = $fpdo->deleteFrom('product_features_values')->where('product_id', $_REQUEST['pro_id'])->execute();
+       $query = $fpdo->deleteFrom('product_features_values')->where('product_id', $_REQUEST['id'])->execute();
     } 
         foreach ($_REQUEST['SlectedFeatures'] as $feature_id) {
             $feature_val = $_REQUEST['feature_' . $feature_id];
             if ($feature_val != "") {
-                $query = $fpdo->insertInto('product_features_values')->values(array('`feature_id`' => $feature_id, '`product_id`' => $_REQUEST['pro_id'], '`value`' => $feature_val));
-                $exec = $query->execute();
+                   $SavecolsFeatures = array('feature_id', 'product_id', 'value');
+            $_REQUESTA['action'] = 'Insert';
+            $_REQUESTA['feature_id']=$feature_id;
+            $_REQUESTA['product_id']=$_REQUEST['id'];
+             $_REQUESTA['value']=$feature_val;
+            $save_ob = new saveform('product_features_values', $_REQUESTA, $SavecolsFeatures, "id", $order_field, $map_field, '', false);
+               // $query = $fpdo->insertInto('product_features_values')->values(array('`feature_id`' => $feature_id, '`product_id`' => $_REQUEST['pro_id'], '`value`' => $feature_val));
+                //$exec = $query->execute();
             }
         }
     
@@ -48,7 +54,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-        $utils->redirect($pageProductPhotos . "?pro_id=" . $_REQUEST['pro_id']);
+        $utils->redirect($pageProductPhotos . "?id=" . $_REQUEST['id']);
     }
 }
 echo $path = '<ul id="breadcrumbs-one">
@@ -68,12 +74,12 @@ $get_features = $fpdo->from($db_pro_features)->where("cat_id='" . $get_Cat['cat_
 $row_id = explode('_', $db_pro_Type);
 $add_feature = '';
 $add_feature.='
-<input type="hidden" value="' . $_REQUEST['pro_id'] . '">   
+<input type="hidden" value="' . $_REQUEST['id'] . '">   
 <table id="" class="table table-striped  table table-bordered table-hover">
 
 <tbody id="" class="sortable ui-sortable">';
 foreach ($get_features as $feature) {
-    $get_feature_value = $fpdo->from('product_features_values')->where("product_id='" . $_REQUEST['pro_id'] . "' and feature_id='" . $feature['id'] . "'")->fetch();
+    $get_feature_value = $fpdo->from('product_features_values')->where("product_id='" . $_REQUEST['id'] . "' and feature_id='" . $feature['id'] . "'")->fetch();
     
      $get_feature_type=$fpdo->from('product_features')->where("id",$feature['id'])->fetch();
     if($get_feature_type['type'] =='DynamicSelect'){

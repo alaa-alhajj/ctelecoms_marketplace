@@ -3,7 +3,7 @@
 include "../../common/top.php";
 include '../../common/header.php';
 include 'config.php';
-$id = $_REQUEST['pro_id'];
+$id = $_REQUEST['id'];
 $get_pricing = $fpdo->from($db_table_dynamic_price)->where("product_id='$id'")->fetch();
 
 $values1 = $fpdo->from($db_product_price_value)->where('dynamic_price_id', $get_pricing['id'])->fetch();
@@ -23,7 +23,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
         if ($_REQUEST['saveClose'] != "") {
             $utils->redirect($pageList);
         } else {
-            $utils->redirect($pageProductAddOns . "?pro_id=" . $_REQUEST['pro_id']);
+            $utils->redirect($pageProductAddOns . "?id=" . $_REQUEST['id']);
         }
     }
 }

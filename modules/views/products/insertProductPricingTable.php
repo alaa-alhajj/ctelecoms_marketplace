@@ -3,7 +3,7 @@
 include "../../common/top.php";
 include '../../common/header.php';
 include 'config.php';
-$id = $_REQUEST['pro_id'];
+$id = $_REQUEST['id'];
 $get_pricing = $fpdo->from($db_table_dynamic_price)->where("product_id='$id'")->fetch();
 
 $values1 = $fpdo->from($db_product_price_value)->where('dynamic_price_id', $get_pricing['id'])->fetch();
@@ -25,14 +25,14 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
           if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-        $utils->redirect($pageProductAddOns . "?pro_id=" . $_REQUEST['pro_id']);
+        $utils->redirect($pageProductAddOns . "?id=" . $_REQUEST['id']);
     }
     }
 }
 echo $path = '<ul id="breadcrumbs-one">
     <li><a href="' . $pageInsertProduct . '">Product Data</a></li>
-    <li><a href="' . $pageProductPhotos . "?pro_id=" . $_REQUEST['pro_id'] . '">Features</a></li>
-    <li><a href="' . $pageProductPhotos . "?pro_id=" . $_REQUEST['pro_id'] . '">Photos</a></li>
+    <li><a href="' . $pageProductPhotos . "?id=" . $_REQUEST['id'] . '">Features</a></li>
+    <li><a href="' . $pageProductPhotos . "?id=" . $_REQUEST['id'] . '">Photos</a></li>
     <li class="active-menue"><a href="' . $pageInsertProduct . '">Pricing</a></li>
     <li><a href="' . $pageInsertProduct . '">Add-ons</a></li>
     <li><a href="' . $pageInsertProduct . '">Related Products</a></li>

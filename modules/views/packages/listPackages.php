@@ -36,14 +36,14 @@ $listTable->_source(array('cat_id' => array('product_category', 'id', 'title')))
 $listTable->_class('table table-striped');
 $listTable->_edit($pageUpdate, array("id"));
 $listTable->setOrderBy("id");
-$listTable->setExtraLinks(array(array('Package Products', $utils->icons->ico['list'], 'insertPackageProducts.php', array('pro_id' => 'id'), ''),
-    array('Features', $utils->icons->ico['list'], 'insertPackageFeatures.php', array('pro_id' => 'id'), ''),
-    array('Photos', $utils->icons->ico['list'], 'insertPackagePhotos.php', array('pro_id' => 'id'), '')
-    , array('Pricing', $utils->icons->ico['list'], 'insertPackagePricingf.php', array('pro_id' => 'id'), '')
-    , array('Add-Ons', $utils->icons->ico['list'], 'insertPackageAddOns.php', array('pro_id' => 'id'), '')
-    , array('Related Products', $utils->icons->ico['list'], 'insertPackageRelated.php', array('pro_id' => 'id'), '')
-    , array('Required Fields', $utils->icons->ico['list'], 'insertPackageReqFields.php', array('pro_id' => 'id'), '')
-    , array('FAQs', $utils->icons->ico['list'], 'insertPackageFAQ.php', array('pro_id' => 'id'), '')
+$listTable->setExtraLinks(array(array('Package Products', $utils->icons->ico['list'], 'insertPackageProducts.php', array('id' => 'id'), ''),
+    array('Features', $utils->icons->ico['list'], 'insertPackageFeatures.php', array('id' => 'id'), ''),
+    array('Photos', $utils->icons->ico['list'], 'insertPackagePhotos.php', array('id' => 'id'), '')
+    , array('Pricing', $utils->icons->ico['list'], 'insertPackagePricingf.php', array('id' => 'id'), '')
+    , array('Add-Ons', $utils->icons->ico['list'], 'insertPackageAddOns.php', array('id' => 'id'), '')
+    , array('Related Products', $utils->icons->ico['list'], 'insertPackageRelated.php', array('id' => 'id'), '')
+    , array('Required Fields', $utils->icons->ico['list'], 'insertPackageReqFields.php', array('id' => 'id'), '')
+    , array('FAQs', $utils->icons->ico['list'], 'insertPackageFAQ.php', array('id' => 'id'), '')
      , array('Purchase Order', $utils->icons->ico['list'], '../purchase_orders/listPurchaseOrder.php', array('product' => 'title','pid'=>'id'), '')
 ));
 $listTable->_special(false);

@@ -236,7 +236,7 @@ class field extends utils {
                     $res = $this->getInputHiddenField($this->name, $this->value, "hidden");
                     break;
                 }
-            case "checkbox": {
+            case "checkbox":case "radio": {
 
 
                     if ($this->table && $this->table != "") {
@@ -247,6 +247,19 @@ class field extends utils {
 
                     break;
                 }
+                 case "checkboxCostum": {
+
+
+                    if ($this->table && $this->table != "") {
+                      
+                        $res = $this->getInputCheckboxFromTableCostume();
+                    } else {
+                        $res = $this->getInputCheckbox();
+                    }
+
+                    break;
+                }
+                
             case "DynamicCheckbox": {
                     if ($this->table && $this->table != "") {
                         $res = $this->getInputCheckboxFromTable();
@@ -298,9 +311,9 @@ class field extends utils {
         return $res;
     }
 
-    function getInputCheckboxFromTable() {
+    function getInputCheckboxFromTableCostume() {
 
-        $query = $this->fpdo->from($this->table)->select(" $this->t_value , $this->t_name");
+        $query = $this->fpdo->from($this->table)->select(" $this->t_value , $this->t_name as name ");
 
         if ($this->where != "") {
             $query->where($this->where);
@@ -315,7 +328,31 @@ class field extends utils {
             }
             $result.= "<div  class='checkbox $this->css_class'>
             <label>
-             <input type='checkbox' name='$this->name[]' $checked value='" . $row[$this->t_value] . "'>
+             <input type='checkbox' name='title_group[]' $checked value='" . $row[$this->t_value] . "'>
+              " . $row['name'] . "
+            </label>
+        </div>";
+        }
+        return $result;
+    }
+    function getInputCheckboxFromTable() {
+
+        $query = $this->fpdo->from($this->table)->select(" $this->t_value , $this->t_name ");
+
+        if ($this->where != "") {
+            $query->where($this->where);
+        }
+        $query->orderBy($this->t_name . " ASC")->execute();
+        $values = explode(',', $this->value);
+        $result = "";
+        foreach ($query as $row) {
+            $checked = "";
+            if (in_array($row[$this->t_value], $values) == true) {
+                $checked = "checked = 'checked'";
+            }
+            $result.= "<div  class='checkbox $this->css_class'>
+            <label>
+             <input type='$this->type' name='$this->name[]' $checked value='" . $row[$this->t_value] . "'>
               " . $row[$this->t_name] . "
             </label>
         </div>";

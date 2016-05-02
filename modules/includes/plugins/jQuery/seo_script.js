@@ -27,14 +27,7 @@ $(document).ready(function() {
                     dataType: 'json', async: false,
                     success: function(data)
                     {
-                        waitingDialog.hide();
-                        swal({
-                            title: "",
-                            text: 'success',
-                            type: "success",
-                            showConfirmButton: false
-                            , showConfirmButton: false, timer: 2000
-                        });
+                      notificationMessage(true);
                         $('.SEOMODAL').modal('toggle');
 
                     }
@@ -55,24 +48,14 @@ $(document).ready(function() {
         } else {
             $url = '../../views/ajax/SaveDublicatedRecord.php';
         }
-        
+
         $.ajax({
             url: $url,
             data: {table: $table, id: $id, redirect: $redirect, cols: $cols, module: $module},
             type: 'post', dataType: 'json',
             success: function(data) {
-                waitingDialog.hide();
-
-                swal({
-                    title: "",
-                    text: 'success',
-                    type: "success",
-                    showConfirmButton: false
-                    , showConfirmButton: false, timer: 2000
-                });
-                setTimeout(function() {
-                    window.location = $redirect + "?id=" + data;
-                }, 2000);
+               
+                window.location = $redirect + "?id=" + data;
 
             }
         });

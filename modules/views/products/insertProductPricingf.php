@@ -3,8 +3,8 @@
 include "../../common/top.php";
 include '../../common/header.php';
 include 'config.php';
-$id = $_REQUEST['pro_id'];
-$values1 = $fpdo->from('product_dynamic_price')->where('product_id', $_REQUEST['pro_id'])->fetch();
+$id = $_REQUEST['id'];
+$values1 = $fpdo->from('product_dynamic_price')->where('product_id', $_REQUEST['id'])->fetch();
 $action="";
 if ($values1['id'] != "") {
     $action = "Edit";
@@ -37,41 +37,19 @@ if (isset($_REQUEST) && $_REQUEST['action'] == $action) {
       
     $save_ob = new saveform($db_table_dynamic_price, $_REQUEST, $Savecols_dynamic_Pricing,'id','','','',false);
     }elseif($action=='Edit'){
-         $query = $fpdo->update($db_table_dynamic_price)->set(array('unit_id' => $unit_ids,'type_id'=>$type_ids,'duration_ids'=>$duration_ids))->where("product_id='$id'");
-   $exec = $query->execute();
+           $_REQUEST['unit_id'] = $unit_ids;
+    $_REQUEST['type_id'] = $type_ids;
+    $_REQUEST['duration_ids'] = $duration_ids;
+    $_REQUEST['product_id'] = $id;
+         $save_ob = new saveform($db_table_dynamic_price, $_REQUEST, $Savecols_dynamic_Pricing,'id','','','',false);
+      //   $query = $fpdo->update($db_table_dynamic_price)->set(array('unit_id' => $unit_ids,'type_id'=>$type_ids,'duration_ids'=>$duration_ids))->where("product_id='$id'");
+   //$exec = $query->execute();
 
-    if ($exec == true || ( $exec >= 0 && is_int($exec))) {
-        $success = true;
-    } else {
-        $success = false;
-    }
-    $message = "";
-    @session_start();
-
-    if ($success) {
-        $message =$utils->getConstant("Success");
-        $type = "success";
-        $_SESSION['saveFormStatus'] = "success";
-    } else {
-        $message = $utils->getConstant("Faild");
-        $type = "error";
-        $_SESSION['saveFormStatus'] = "faild";
-    }
-  
-        echo '<script>waitingDialog.hide();
-            swal({
-            title: "",
-            text: "' . $message . '",
-            type: "' . $type . '",
-            showConfirmButton: false
-            , showConfirmButton: false, timer: 2000
-        });
-        </script>';
          }
           if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-    $utils->redirect($pageProductPricing2 . "?pro_id=" . $_REQUEST['pro_id']);
+    $utils->redirect($pageProductPricing2 . "?id=" . $_REQUEST['id']);
     }
 }
 echo $path = '<ul id="breadcrumbs-one">
