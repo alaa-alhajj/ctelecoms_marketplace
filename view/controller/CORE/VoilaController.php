@@ -30,4 +30,8 @@ class VoilaController  {
     function obPath() {
         return new path();
     }
+    
+     function Ecommerce_System() {
+	return new Ecommerce_System();
+    }
 }
