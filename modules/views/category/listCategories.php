@@ -18,7 +18,8 @@ $listTable->_source();
 $listTable->_class('table table-striped');
 $listTable->_edit($pageUpdate, array("id"));
 $listTable->setOrderBy("id");
-$listTable->setExtraLinks(array(array('photos',$utils->icons->ico['list'],'insertCategoryPhotos.php',array('id'=>'id'),''),array('Features',$utils->icons->ico['list'],'insertCategoryFeature.php',array('id'=>'id'),'')));
+$listTable->setExtraLinks(array(
+    array('photos',$utils->icons->ico['list'],'insertCategoryPhotos.php',array('id'=>'id'),''),array('Features',$utils->icons->ico['list'],'insertCategoryFeature.php',array('id'=>'id'))));
 $listTable->_special(false);
 $listTable->_active(false);
 $listTable->_seo_page('page_id');

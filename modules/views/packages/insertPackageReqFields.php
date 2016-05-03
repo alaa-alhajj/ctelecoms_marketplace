@@ -49,9 +49,9 @@ $values1 = $fpdo->from($db_table)->where('id', $_REQUEST['id'])->fetch();
 $get_features = $fpdo->from('customer_fields')->feathAll();
 
 $add_feature = '<div class="box box-danger form-horizontal"><div class="box-body">';
-$add_feature.='<div class="customerField"><div class="col-sm-10 nopadding"><input id="title" name="title" value="" type="text" required="" size="" class=" form-control" placeholder="Enter Field"></div>';
-$add_feature.="<div class='col-sm-2 '><a href='javascript:;' class='addCustomerField' data-ajax='../../views/ajax/AddFieldAjax.php'><i class='fa fa-plus-circle' aria-hidden='true' style='font-size:29px'></i></a></div>";
-$add_feature.="</div>";
+//$add_feature.='<div class="customerField"><div class="col-sm-10 nopadding"><input id="title" name="title" value="" type="text" required="" size="" class=" form-control" placeholder="Enter Field"></div>';
+//$add_feature.="<div class='col-sm-2 '><a href='javascript:;' class='addCustomerField' data-ajax='../../views/ajax/AddFieldAjax.php'><i class='fa fa-plus-circle' aria-hidden='true' style='font-size:29px'></i></a></div>";
+//$add_feature.="</div>";
 $add_feature.='<table id="TableCustomerFields" class="table table-striped  table table-bordered table-hover">
 <thead>
 <tr>

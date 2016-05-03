@@ -4,73 +4,89 @@ $(document).ready(function() {
     urlWindow = arr[arr.length - 1];
 
     /* Category scripts*/
-
     $("body").on('click', '.addCategoryFeature', function() {
-        $title = $('.catFeatures input').val();
-        $this = $('.catFeatures input');
+        $title = $('.catFeatures #title').val();
+        $this = $('.catFeatures #title');
         $cat_id = $(this).data('cat');
+        $type = $(".catFeatures #type").val();
+        $this_type = $(".catFeatures #type");
+        $plus_select = $(".catFeatures [name='plusFeature']").val();
+        $plus_tags = $(".catFeatures [name='plusFeatureTags']").val();
+        if (typeof $plus_select !== "undefined") {
+            $plus = $plus_select;
+        } else {
+            $plus = $plus_tags;
+        }
         $thisButton = $(this);
-
-        if ($title !== "") {
+        if ($title !== "" && $type !== "") {
             $action = "Insert";
-
-
-            $this.attr('readonly', true);
-            $this.prop('readonly', true);
-            $this.parent().append("<div class='center-text spin-waiting'><i class='fa fa-spinner fa-spin spinner-style' ></i></div>");
-            $this.attr("placeholder", 'Entering New Feature');
             $(this).addClass('stop-button');
-
             $.ajax({
                 url: "AddFeatureAjax.php",
                 type: 'post',
-                data: {title: $title, cat: $cat_id, action: $action},
+                data: {title: $title, cat: $cat_id, action: $action, type: $type, plus: $plus},
                 dataType: 'json',
                 success: function(data) {
+                    $(".catFeatures .TagsInput").hide();
+                    $(".catFeatures ul.tagit").hide();
 
-                    $('#TableCategoryFeatures tbody').append(data);
-                    $this.val('');
-                    $this.attr('readonly', false);
-                    $this.prop('readonly', false);
-                    $this.parent().find(".spin-waiting").remove();
-                    $this.attr("placeholder", 'Enter Feature');
                     $thisButton.removeClass('stop-button');
-                  
                     location.reload();
-              
                 }
             });
+        } else {
+            $message = "";
+            if ($title === "") {
+                $message += "You have to enter feature title <br> ";
+            }
+            if ($type === "") {
+                $message += "You have to choose feature type";
+            }
+            $('#ErrorModal .modal-body').html($message);
+            $('#ErrorModal').modal();
         }
+
     });
 
 
 
 
 
-    $var_name_field_puls = 'plus';
     $(".table-fileds-costum .TagsInput").hide();
     $(".table-fileds-costum ul.tagit").hide();
-    $(".table-fileds-costum [name='type']").change(function() {
 
-        $this_id = $(this).parent().data('id');
+    function ChangeTypeOnLoad($pass_id) {
+        $(".table-fileds-costum .TagsInput").hide();
+        $(".table-fileds-costum ul.tagit").hide();
+        $vv = $('#f_' + $pass_id + " [name='type']").val();
 
-        if ($(this).val() === "DynamicSelect") {
-
+        $vv_sel = $('#f_' + $pass_id + " [name='type']");
+        $this_id = $vv_sel.parent().data('id');
+        if ($vv === "DynamicSelect") {
+            $this_plus = $('#f_' + $pass_id + " #plus_" + $pass_id).data('plus');
             $(".table-fileds-costum ul.tagit").hide();
             $(".table-fileds-costum .TagsInput").attr('name', "");
             $.ajax({url: "../../views/ajax/getCostumeDropDown.php"
                 , type: 'post'
-                , data: {field: $var_name_field_puls, class: "er-daw-qw"}
+                , data: {field: 'AddFeatureSelect', class: "er-daw-qw", val: $this_plus}
                 , success: function(data) {
+                    $(data).insertBefore(".table-fileds-costum #plus_" + $this_id + " span");
 
-                    $(".table-fileds-costum #plus_" + $this_id).html(data);
                 }});
-        } else if ($(this).val() === 'radio' || $(this).val() === 'checkbox' || $(this).val() === 'select') {
-
+        }
+        else if ($vv === 'radio' || $vv === 'checkbox' || $vv === 'select') {
             $('.tagit').tagit();
+            $('#f_' + $id + " #plus_" + $pass_id + " .tagit .tagit-label").each(function()
+            {
+                $this_tag = $(this).html();
+                $a = $this_tag.replace('×', '');
+                $(this).html($a);
+
+
+            });
             $(".table-fileds-costum #plus_" + $this_id + " ul.tagit").show();
             $(".table-fileds-costum .er-daw-qw").remove();
-            $(".table-fileds-costum .tagit").attr('name', $var_name_field_puls);
+            $(".table-fileds-costum .TagsInput").attr('name', 'AddFeatureTags');
             $('.tagit').tagit();
 
         } else {
@@ -78,12 +94,8 @@ $(document).ready(function() {
             $(".table-fileds-costum .er-daw-qw").remove();
             $(".table-fileds-costum .TagsInput").attr('name', "");
         }
-    });
 
-
-    $(".table-fileds-costum .TagsInput").hide();
-    $(".table-fileds-costum ul.tagit").hide();
-
+    }
 
     $("body").on('click', '.editFeature', function() {
         $id = $(this).data('id');
@@ -92,51 +104,12 @@ $(document).ready(function() {
         $('#f_' + $id + " input").prop('readonly', false);
         $('#f_' + $id + " #type" + $id).show();
         $this_type = $('#f_' + $id + " #sp" + $id).remove();
+        $type = $('#f_' + $id + "  #type" + $id).val();
 
         $this_plus = $('#f_' + $id + " #plus_" + $id + " span").hide();
 
         $(this).parent().html("<a href='javascript:;' data-id='" + $id + "' class='SaveEditFeature'><i class='fa fa-floppy-o' aria-hidden='true'></i></a>");
-
-
-        $var_name_field_puls = 'plus';
-        $val_field_plus = $(".table-fileds-costum .TagsInput").val();
-
-        $vv = $('#f_' + $id + " [name='type']").val();
-        $vv_sel = $('#f_' + $id + " [name='type']");
-        $this_id = $vv_sel.parent().data('id');
-        if ($vv === "DynamicSelect") {
-            $this_plus = $('#f_' + $id + " #plus_" + $id).data('plus');
-            $(".table-fileds-costum ul.tagit").hide();
-            $(".table-fileds-costum .TagsInput").attr('name', "");
-            $.ajax({url: "../../views/ajax/getCostumeDropDown.php"
-                , type: 'post'
-                , data: {field: $var_name_field_puls, class: "er-daw-qw", val: $this_plus}
-                , success: function(data) {
-
-                    $(".table-fileds-costum #plus_" + $this_id).html(data);
-                }});
-        }
-        else if ($vv === 'radio' || $vv === 'checkbox' || $vv === 'select') {
-            $('.tagit').tagit();
-               $('#f_' + $id + " #plus_" + $id + " .tagit .tagit-label").each(function()
-            {
-                $this_tag = $(this).html() ;
-                $a=$this_tag.replace('×','');
-                 $(this).html($a);
-          
-
-            });
-            $(".table-fileds-costum #plus_" + $this_id + " ul.tagit").show();
-            $(".table-fileds-costum .er-daw-qw").remove();
-            $(".table-fileds-costum .tagit").attr('name', $var_name_field_puls);
-            $('.tagit').tagit();
-
-        } else {
-            $(".table-fileds-costum ul.tagit").hide();
-            $(".table-fileds-costum .er-daw-qw").remove();
-            $(".table-fileds-costum .TagsInput").attr('name', "");
-        }
-
+        ChangeTypeOnLoad($id);
         makeTag();
 
 
@@ -163,10 +136,7 @@ $(document).ready(function() {
 
             });
         }
-
-
         $this_plus = $('#f_' + $id + " #plus_" + $id);
-
         $action = "Edit";
         $.ajax({
             url: "AddFeatureAjax.php",
@@ -174,19 +144,7 @@ $(document).ready(function() {
             data: {title: $title, id: $id, action: $action, type: $type, plus: $plus},
             dataType: 'json',
             success: function(data) {
-
-                $input.attr('readonly', true);
-                $input.prop('readonly', true);
-                $this_type.parent().html(data[0]);
-                $this_type.hide();
-
-                $this_plus.children().hide();
-                $this_plus.find('span').show();
-                $this_plus.find('span').html(data[1]);
-                $this.html("<a href='javascript:;' data-id='" + $id + "' class='editFeature'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>");
-             
-                    location.reload();
-              
+                location.reload();
             }
         });
     });
@@ -483,8 +441,8 @@ $(document).ready(function() {
                     var StrippedString = $question.replace(/(<([^>]+)>)/ig, "");
                     $this.parents().find('.faq_' + $id + " .panel-title").html(StrippedString);
 
-                     notificationMessage(true);
-      
+                    notificationMessage(true);
+
                 }
             }
         });
@@ -502,56 +460,55 @@ $(document).ready(function() {
             success: function(data) {
                 if (data === 1 || data === '1') {
                     //  $this.parents().find('.faq_' + $id).fadeOut();
-                   
+
                     location.reload();
                 }
             }
         });
     });
-
-
-
     /* Customer Fields*/
-
     $("body").on('click', '.addCustomerField', function() {
-        $title = $('.customerField input').val();
-        $this = $('.customerField input');
 
+        $title = $('.customerField #title').val();
+        $this = $('.customerField #title');
+        $type = $(".catFeatures #type").val();
+        $this_type = $(".catFeatures #type");
+        $plus_select = $(".catFeatures [name='plusFeature']").val();
+        $plus_tags = $(".catFeatures [name='plusFeatureTags']").val();
+        if (typeof $plus_select !== "undefined") {
+            $plus = $plus_select;
+        } else {
+            $plus = $plus_tags;
+        }
         $thisButton = $(this);
-
-        if ($title !== "") {
-            $action = "Insert";
+        if ($title !== "" && $type !== "") {
             $ajax_url = $(this).data('ajax');
-
-            $this.attr('readonly', true);
-            $this.prop('readonly', true);
-            $this.parent().append("<div class='center-text spin-waiting'><i class='fa fa-spinner fa-spin spinner-style' ></i></div>");
-            $this.attr("placeholder", 'Entering New Feature');
+            $action = "Insert";
             $(this).addClass('stop-button');
-
             $.ajax({
                 url: $ajax_url,
                 type: 'post',
-                data: {title: $title, action: $action},
+                data: {title: $title, action: $action, type: $type, plus: $plus},
                 dataType: 'json',
                 success: function(data) {
-
-                    $('#TableCustomerFields tbody').append(data);
                     checkBoxStyle();
-                    $this.val('');
-                    $this.attr('readonly', false);
-                    $this.prop('readonly', false);
-                    $this.parent().find(".spin-waiting").remove();
-                    $this.attr("placeholder", 'Enter Feild');
                     $thisButton.removeClass('stop-button');
-               
                     location.reload();
-               
                 }
             });
+        } else {
+            $message = "";
+            if ($title === "") {
+                $message += "You have to enter Field title <br> ";
+            }
+            if ($type === "") {
+                $message += "You have to choose Field type";
+            }
+            $('#ErrorModal .modal-body').html($message);
+            $('#ErrorModal').modal();
         }
-    });
 
+    });
 
     $("body").on('click', '.editCustomerField', function() {
         $id = $(this).data('id');
@@ -559,62 +516,25 @@ $(document).ready(function() {
         $('#f_' + $id + " input").removeAttr('readonly');
         $('#f_' + $id + " input").attr('readonly', false);
         $('#f_' + $id + " input").prop('readonly', false);
+        $('#f_' + $id + " #type" + $id).show();
         $this_type = $('#f_' + $id + " #sp" + $id).remove();
+        $type = $('#f_' + $id + "  #type" + $id).val();
 
         $this_plus = $('#f_' + $id + " #plus_" + $id + " span").hide();
+
         $(this).parent().html("<a href='javascript:;' data-id='" + $id + "' class='SaveEditCustomerField' data-ajax='" + $ajax_url + "'><i class='fa fa-floppy-o' aria-hidden='true'></i></a>");
-        $('#f_' + $id + " #type" + $id).show();
-     
-        $var_name_field_puls = 'plus';
-        $val_field_plus = $(".table-fileds-costum .TagsInput").val();
-
-        $vv = $('#f_' + $id + " [name='type']").val();
-        $vv_sel = $('#f_' + $id + " [name='type']");
-        $this_id = $vv_sel.parent().data('id');
-        if ($vv === "DynamicSelect") {
-            $this_plus = $('#f_' + $id + " #plus_" + $id).data('plus');
-           
-            $(".table-fileds-costum ul.tagit").hide();
-            $(".table-fileds-costum .TagsInput").attr('name', "");
-            $.ajax({url: "../../views/ajax/getCostumeDropDown.php"
-                , type: 'post'
-                , data: {field: $var_name_field_puls, class: "er-daw-qw", val: $this_plus}
-                , success: function(data) {
-
-                    $(".table-fileds-costum #plus_" + $this_id).html(data);
-                }});
-        }
-        else if ($vv === 'radio' || $vv === 'checkbox' || $vv === 'select') {
-            $('.tagit').tagit();
-             $('#f_' + $id + " #plus_" + $id + " .tagit .tagit-label").each(function()
-            {
-                $this_tag = $(this).html() ;
-                $a=$this_tag.replace('×','');
-                 $(this).html($a);
-          
-
-            });
-            $(".table-fileds-costum #plus_" + $this_id + " ul.tagit").show();
-            $(".table-fileds-costum .er-daw-qw").remove();
-            $(".table-fileds-costum .tagit").attr('name', $var_name_field_puls);
-            $('.tagit').tagit();
-
-        } else {
-            $(".table-fileds-costum ul.tagit").hide();
-            $(".table-fileds-costum .er-daw-qw").remove();
-            $(".table-fileds-costum .TagsInput").attr('name', "");
-        }
-
+        ChangeTypeOnLoad($id);
         makeTag();
-    });
 
+
+    });
 
     $("body").on('click', '.SaveEditCustomerField', function() {
         $id = $(this).data('id');
         $this = $(this).parent();
+        $ajax_url = $(this).data('ajax');
         $input = $('#f_' + $id + " input");
         $title = $('#f_' + $id + " input").val();
-        $ajax_url = $(this).data('ajax');
         $type = $('#f_' + $id + "  #type" + $id).val();
         $this_type = $('#f_' + $id + " #type" + $id);
         $plus_val = $('#f_' + $id + " #plus_" + $id + " .er-daw-qw").val();
@@ -630,34 +550,20 @@ $(document).ready(function() {
 
             });
         }
-
-
         $this_plus = $('#f_' + $id + " #plus_" + $id);
         $action = "Edit";
-        $input.parent().append("<div class='center-text spin-waiting'><i class='fa fa-spinner fa-spin spinner-style' ></i></div>");
         $.ajax({
             url: $ajax_url,
             type: 'post',
             data: {title: $title, id: $id, action: $action, type: $type, plus: $plus},
             dataType: 'json',
             success: function(data) {
+                location.reload();
 
-                $input.attr('readonly', true);
-                $input.prop('readonly', true);
-                $input.parent().find(".spin-waiting").remove();
-                $this_type.parent().html(data[0]);
-                $this_type.hide();
-
-                $this_plus.children().hide();
-                $this_plus.find('span').show();
-                $this_plus.find('span').html(data[1]);
-                $this.html("<a href='javascript:;' data-id='" + $id + "' class='editCustomerField' data-ajax='" + $ajax_url + "'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>");
-             
-                    location.reload();
-               
             }
         });
     });
+
 
     $("body").on('click', '.DeleteCustomerField', function() {
         $id = $(this).data('id');
@@ -703,8 +609,8 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
 
-                    window.location = $redirect;
-              
+                window.location = $redirect;
+
             }
         });
 
@@ -741,4 +647,67 @@ $(document).ready(function() {
             }
         }
     });
+
+
+
+    $(".catFeatures .TagsInput").hide();
+    $(".catFeatures ul.tagit").hide();
+    $(".catFeatures [name='type']").change(function() {
+        if ($(this).val() === "DynamicSelect") {
+
+            $(".catFeatures ul.tagit").hide();
+            $(".catFeatures .TagsInput").attr('name', "");
+            $.ajax({url: "../ajax/getModuleDropDown.php"
+                , type: 'post'
+                , data: {field: 'plusFeature', class: "er-daw-qw form-control"}
+                , success: function(data) {
+                    $(data).insertBefore(".catFeatures ul.tagit");
+                }});
+        }
+        else if ($(this).val() === 'radio' || $(this).val() === 'checkbox' || $(this).val() === 'select') {
+            $(".catFeatures ul.tagit").show();
+            $(".catFeatures .er-daw-qw").remove();
+            $(".catFeatures .TagsInput").attr('name', 'plusFeatureTags');
+
+        } else {
+            $(".catFeatures ul.tagit").hide();
+            $(".catFeatures .er-daw-qw").remove();
+            $(".catFeatures .TagsInput").attr('name', "");
+        }
+    });
+
+
+    $(".table-fileds-costum .TagsInput").hide();
+    $(".table-fileds-costum ul.tagit").hide();
+    $(".table-fileds-costum [name='type']").change(function() {
+
+        $this_id = $(this).parent().data('id');
+
+        if ($(this).val() === "DynamicSelect") {
+
+            $(".table-fileds-costum ul.tagit").hide();
+            $(".table-fileds-costum .TagsInput").attr('name', "");
+            $.ajax({url: "../../views/ajax/getCostumeDropDown.php"
+                , type: 'post'
+                , data: {field: 'AddFeatureSelect', class: "er-daw-qw"}
+                , success: function(data) {
+                    $(data).insertBefore(".table-fileds-costum #plus_" + $this_id + " span");
+
+                }});
+        } else if ($(this).val() === 'radio' || $(this).val() === 'checkbox' || $(this).val() === 'select') {
+            $(".table-fileds-costum #plus_" + $this_id + " ul.tagit").show();
+
+            $(".table-fileds-costum .er-daw-qw").remove();
+            $(".table-fileds-costum .TagsInput").attr('name', 'AddFeatureTags');
+
+            $('.tagit').tagit();
+
+
+        } else {
+            $(".table-fileds-costum ul.tagit").hide();
+            $(".table-fileds-costum .er-daw-qw").remove();
+            $(".table-fileds-costum .TagsInput").attr('name', "");
+        }
+    });
+
 });

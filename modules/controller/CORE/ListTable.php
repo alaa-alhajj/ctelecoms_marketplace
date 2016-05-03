@@ -62,6 +62,27 @@ class ListTable extends utils {
     var $module;
     var $PurchaseOrderSearch;
     var $Add;
+    var $val;
+    var $moreButton = false;
+    var $ReviewSearch;
+
+    public function rewriteFilter($val) {
+        $chrs = array('/', '&', '$', '_', ' ');
+
+        for ($i = 0; $i < count($chrs); $i++) {
+
+            $val = str_replace($chrs[$i], '-', $val);
+        }
+
+        $chrs2 = array(':', '?', '^', '%', '(', ')', '"', "'");
+
+        for ($i = 0; $i < count($chrs2); $i++) {
+
+            $val = str_replace($chrs2[$i], '', $val);
+        }
+
+        return $val;
+    }
 
     public function setRequireds($requireds) {
         $this->requireds = $requireds;
@@ -139,8 +160,9 @@ class ListTable extends utils {
         return $this->extraLinks;
     }
 
-    public function setExtraLinks($extraLinks) {
+    public function setExtraLinks($extraLinks, $moreButton = false) {
         $this->extraLinks = $extraLinks;
+        $this->moreButton = $moreButton;
     }
 
     public function setLimit($limit) {
@@ -180,7 +202,8 @@ class ListTable extends utils {
     function _delete($delete = true) {
         $this->delete = $delete;
     }
-     function _Add($Add = true) {
+
+    function _Add($Add = true) {
         $this->Add = $Add;
     }
 
@@ -198,6 +221,10 @@ class ListTable extends utils {
 
     public function _PurchaseOrderSearch($PurchaseOrderSearch) {
         $this->purchaseOrderSearch = $PurchaseOrderSearch;
+    }
+    
+    public function _ReviewSearch($ReviewSearch) {
+        $this->reviewSearch = $ReviewSearch;
     }
 
     function _dublicate($table, $record_id, $redirect, $colsInsert, $module, $display, $ajaxFile = "") {
@@ -283,41 +310,57 @@ class ListTable extends utils {
         $this->_seo_page();
         $this->_dublicate();
     }
-function GetQueryForSerachPurchaseOrder($customer, $date, $product,$from,$to,$pid) {
+
+    function GetQueryForReview($customer) {
         $customer = trim($customer);
-        $where="";
-       if($customer !=""){
-           $where.=" and customers.`name` like '%$customer%'";
-       }
-       if($date !=""){
-           $where.=" and purchase_order.`order_date` like '%$date%'";
-       }
-       if($product !=""){
-          $where.=" and products.title like '%$product%'"; 
-       }
-       if($pid !=""){
-           $where.=" and products.id='$pid'";
-       }
-       if($from !="" || $to !=""){
-           $from = date('Y-m-d', strtotime($_REQUEST['From']));
-           $to = date('Y-m-d', strtotime($_REQUEST['To']));
-           $where.=" and purchase_order.`order_date` BETWEEN '$from' AND '$to'";
-       }
+        $where = "";
+        if ($customer != "") {
+            $where.=" and customers.`name` like '%$customer%'";
+        }
+      
+        $query = $this->fpdo->from('customer_reviews')
+                ->leftJoin('customers on customers.id=customer_reviews.customer_id ')
+                ->where("customer_reviews.id !='0' $where");
+        $query->limit($this->limit);
+        return $query;
+    }
+    
+    function GetQueryForSerachPurchaseOrder($customer, $date, $product, $from, $to, $pid) {
+        $customer = trim($customer);
+        $where = "";
+        if ($customer != "") {
+            $where.=" and customers.`name` like '%$customer%'";
+        }
+        if ($date != "") {
+            $where.=" and purchase_order.`order_date` like '%$date%'";
+        }
+        if ($product != "") {
+            $where.=" and products.title like '%$product%'";
+        }
+        if ($pid != "") {
+            $where.=" and products.id='$pid'";
+        }
+        if ($from != "" || $to != "") {
+            $from = date('Y-m-d', strtotime($_REQUEST['From']));
+            $to = date('Y-m-d', strtotime($_REQUEST['To']));
+            $where.=" and purchase_order.`order_date` BETWEEN '$from' AND '$to'";
+        }
         $query = $this->fpdo->from('purchase_order')
                 ->leftJoin('customers on customers.id=purchase_order.customer_id ')
                 ->leftJoin('purchase_order_products on purchase_order_products.purchase_order_id=purchase_order.id ')
                 ->leftJoin('products on products.id=purchase_order_products.product_id ')->groupBy("purchase_order_products.purchase_order_id")
                 ->where("purchase_order.id !='0' $where");
-            $query->limit($this->limit);
-            return $query;
-        
+        $query->limit($this->limit);
+        return $query;
     }
+
     function getCount() {
         $query = $this->fpdo->from($this->db_table)->where($this->where_str);
-          if ($this->purchaseOrderSearch != "") {
-            $query = $this->GetQueryForSerachPurchaseOrder($this->purchaseOrderSearch[0], $this->purchaseOrderSearch[1], $this->purchaseOrderSearch[2], $this->purchaseOrderSearch[3], $this->purchaseOrderSearch[4]);  
-      
-            }
+        if ($this->purchaseOrderSearch != "") {
+            $query = $this->GetQueryForSerachPurchaseOrder($this->purchaseOrderSearch[0], $this->purchaseOrderSearch[1], $this->purchaseOrderSearch[2], $this->purchaseOrderSearch[3], $this->purchaseOrderSearch[4]);
+        }elseif($this->reviewSearch !=""){
+              $query = $this->GetQueryForReview($this->reviewSearch[0]);
+        }
         return count($query->fetchAll());
     }
 
@@ -454,13 +497,13 @@ function GetQueryForSerachPurchaseOrder($customer, $date, $product,$from,$to,$pi
     function FilterTable() {
         if (count($this->filter) > 0) {
             if ((basename($_SERVER['PHP_SELF']) === 'listPurchaseOrder.php')) {
-                $br="<br>";
-            }else{
-                $br="";
+                $br = "<br>";
+            } else {
+                $br = "";
             }
             $res.= "<form method='get' class='form-inline' action='" . $_SERVER['PHP_SELF'] . "'>";
             $res.= "<div class='form-inline'>";
-            $res.= "<div class='form-group'><label class='btn btn-danger'>Filter By: &nbsp;</label></div>".$br;
+            $res.= "<div class='form-group'><label class='btn btn-danger'>Filter By: &nbsp;</label></div>" . $br;
             $res.=$this->getParentAttr();
 
             foreach ($this->filter as $filter) {
@@ -521,10 +564,12 @@ function GetQueryForSerachPurchaseOrder($customer, $date, $product,$from,$to,$pi
     function GetListTable() {
         $this->updateOrderItems();
         $query = $this->fpdo->from($this->db_table)->where($this->where_str);
-         if ($this->purchaseOrderSearch != "") {
-            $query = $this->GetQueryForSerachPurchaseOrder($this->purchaseOrderSearch[0], $this->purchaseOrderSearch[1], $this->purchaseOrderSearch[2], $this->purchaseOrderSearch[3], $this->purchaseOrderSearch[4]);  
+        if ($this->purchaseOrderSearch != "") {
+            $query = $this->GetQueryForSerachPurchaseOrder($this->purchaseOrderSearch[0], $this->purchaseOrderSearch[1], $this->purchaseOrderSearch[2], $this->purchaseOrderSearch[3], $this->purchaseOrderSearch[4]);
+        }elseif($this->reviewSearch !=""){
+              $query = $this->GetQueryForReview($this->reviewSearch[0]);
         }
-       
+
         if ($this->orderBy != '') {
             $query->orderBy($this->orderBy);
         }
@@ -536,7 +581,7 @@ function GetQueryForSerachPurchaseOrder($customer, $date, $product,$from,$to,$pi
         if ($this->debug == true) {
             echo $query->getQuery();
         }
-     //   echo $query->getQuery(); die();
+        //  echo $query->getQuery(); die();
         $count = $query->execute();
         $countTable = count($query->execute());
         if ($_REQUEST['action'] == "add") {
@@ -585,9 +630,20 @@ function GetQueryForSerachPurchaseOrder($customer, $date, $product,$from,$to,$pi
                 }
                 $result.="</th>";
             }
-            foreach ($this->extraLinks as $exlink) {
-                $result.="<th width=30>" . $exlink[0] . "</th>\n";
+
+            $ext = 0;
+
+            if ($this->moreButton == true && count($this->extraLinks) > 0) {
+                $result.="<th width=30>" . $this->getConstant("More") . "</th>\n";
+            } elseif ($this->moreButton == false && count($this->extraLinks) > 0) {
+                
+                foreach ( $this->extraLinks as $exlink) {
+                    
+                    $result.="<th width=30>" . $exlink[0] . "</th>\n";
+                }
             }
+
+
 
 
             if ($this->active == true) {
@@ -671,8 +727,16 @@ function GetQueryForSerachPurchaseOrder($customer, $date, $product,$from,$to,$pi
                         $field_ob->SetInputLength($this->legths[$col]);
                         $result.= "<td>" . $field_ob->getField() . "</td>";
                     }
+                    $ext = 0;
                     foreach ($this->extraLinks as $exlink) {
-                        $result.="<td></td>\n";
+                        if ($this->moreButton === true && $exlink != "") {
+                            if ($ext < 1) {
+                                $result.="<td></td>\n";
+                            }
+                        } else {
+                            $result.="<td></td>\n";
+                        }
+                        $ext++;
                     }
                     if ($this->active == true) {
                         $result.="<td></td>\n";
@@ -768,9 +832,19 @@ function GetQueryForSerachPurchaseOrder($customer, $date, $product,$from,$to,$pi
                             $result.= "<td>" . $value . $field_ob->getField() . "</td>";
                         }
                     }
-                    foreach ($this->extraLinks as $exlink) {
-                        $result.="<td></td>\n";
+
+                    $ext = 0;
+
+                    if ($this->moreButton == true && count($this->extraLinks) > 0) {
+                       $result.="<td></td>\n";
+                    } elseif (count($this->extraLinks) > 0) {
+                        foreach ($this->extraLinks as $exlink) {
+                            $result.="<td></td>\n";
+                        }
                     }
+
+
+                    
                     if ($this->active == true) {
                         $result.="<td></td>\n";
                     }
@@ -846,16 +920,39 @@ function GetQueryForSerachPurchaseOrder($customer, $date, $product,$from,$to,$pi
                         }
                         $result.="<td>" . $value . "</td>\n";
                     }
-                    foreach ($this->extraLinks as $exlink) {
-                        $linkAttr = $exlink[3];
+                    $ext = 0;
+                    
+                     if ($this->moreButton === true && count($this->extraLinks) > 0) {
+                          $result.='<td> <div class="btn-group"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> MORE  <span class="caret"></span></button><ul class="dropdown-menu ss" role="menu">';
+                      foreach ($this->extraLinks as $exlink) {
+                               $linkAttr = $exlink[3];
 
                         $linkO = array();
                         foreach ($linkAttr as $key => $attr) {
                             array_push($linkO, "$key=" . $row[$attr]);
                         }
                         $linkO = implode('&', $linkO);
-                        $result.="<td><a title='" . $exlink[0] . "' data-toggle='tooltip' href='$exlink[2]?$linkO' target='$exlink[4]'>$exlink[1]</a></td>\n";
+                             $result.="<li><a title='" . $exlink[0] . "' data-toggle='tooltip' href='$exlink[2]?$linkO' target='$exlink[4]'>$exlink[1]$exlink[0]</a></li>\n";
+                            
+                        }
+                               $result.='</ul></div></td>';
+                    } elseif ($this->moreButton === false && count($this->extraLinks) > 0) {
+                        
+                        foreach ($this->extraLinks as $exlink) {
+                                 $linkAttr = $exlink[3];
+
+                        $linkO = array();
+                        foreach ($linkAttr as $key => $attr) {
+                            array_push($linkO, "$key=" . $row[$attr]);
+                        }
+                        $linkO = implode('&', $linkO);
+                            $result.="<td><a title='" . $exlink[0] . "' data-toggle='tooltip' href='$exlink[2]?$linkO' target='$exlink[4]'>$exlink[1]</a></td>\n";
+                        }
                     }
+                    
+                    
+                  
+             
                     if ($this->active == true) {
                         $result.="<td>" . $this->switcher($this->db_table, $row[$this->f_id], $this->f_active, $row[$this->f_active], "SwitcherV") . "</td>\n";
                     }
@@ -878,7 +975,7 @@ function GetQueryForSerachPurchaseOrder($customer, $date, $product,$from,$to,$pi
                         foreach ($this->cols_insert as $col_insert) {
                             $cols_pass.=$col_insert . ",";
                         }
-                        $result.="<td><a href='javascript:;' data-id='" . $row[$this->record_id] . "' data-redirect='" . $this->redirect . "' data-table='" . $this->table_name . "' data-cols='" . $cols_pass . "' data-module='" . $this->module_id . "' data-ajax='" . $this->ajaxFile . "' class='dublicate-button'>" . $this->icons->ico['dublicate'] . "</a></td>\n";
+                        $result.="<td><a href='javascript:;' data-id='" . $row[$this->record_id] . "' data-redirect='" . $this->redirect . "' data-table='" . $this->table_name . "' data-cols='" . $cols_pass . "' data-module='" . $_SESSION['cmsMID'] . "' data-ajax='" . $this->ajaxFile . "' class='dublicate-button'>" . $this->icons->ico['dublicate'] . "</a></td>\n";
                     }
 
                     if ($this->seo == true) {
@@ -889,7 +986,9 @@ function GetQueryForSerachPurchaseOrder($customer, $date, $product,$from,$to,$pi
                     }
 
                     if ($this->view_page == true) {
-                        $link_page=$this->view_page."page".$id.'/page-title';
+                        $get_page_title = $this->fpdo->from('cms_pages')->where("id='$id'")->fetch();
+
+                        $link_page = $this->view_page . "page" . $id . '/' . $this->rewriteFilter($get_page_title['title']);
                         $result.="<td><a href='$link_page' target='_blank'>" . $this->icons->ico['view'] . "</a></td>\n";
                     }
                     if ($this->edit != '') {
@@ -961,5 +1060,5 @@ function GetQueryForSerachPurchaseOrder($customer, $date, $product,$from,$to,$pi
         $result.="<script>$script</script>\n";
         return $result;
     }
- 
+
 }

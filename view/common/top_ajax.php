@@ -1,8 +1,12 @@
 <?php
 session_start();
-error_reporting(0);
-include_once ("../../config.php");
-include_once '../../view/controller/include.inc.php';
+//error_reporting(0);
+include_once ("../../../config.php");
+include_once '../../controller/include.inc.php';
+
+$voiControl=new VoilaController();
+$utils=new utils();
+$widgets=new widgets();
 $pLang='ar';
 $_SESSION['pLang']='ar';
 $dots = $_SESSION['dots'] = '../../';

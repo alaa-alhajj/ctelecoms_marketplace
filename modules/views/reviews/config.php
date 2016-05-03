@@ -1,20 +1,13 @@
 <?php
 
-$db_table = "products";
-$db_table_dynamic_price = "product_dynamic_price";
-$db_product_price_value = "product_price_values";
-$db_pro_features = "product_features";
-$db_pro_Type = "pro_price_type";
-$db_pro_Units = "pro_price_units";
-$db_pro_Groups = "pro_price_groups";
-$db_pro_FAQ = "product_faq";
+$db_table = "customer_reviews";
+
 $LPP = 8;
-$dublicated_cols=array('title', 'cat_id', 'brief', 'resources','photos','add_ons_pro_ids','package_pro_ids','related_pro_ids','customer_req_fields','is_package');
+$dublicated_cols=array('customer_id', 'review');
 $cols = array('title', 'cat_id', 'brief', 'resources');
-$first_save_cols=array('title', 'cat_id', 'brief', 'resources','is_package');
 $Savecols = array('title', 'cat_id', 'brief', 'resources');
 $colsUpdate = array('title', 'cat_id', 'brief', 'resources');
-$types = array('title' => "text", 'cat_id' => 'select+', 'brief' => 'SimpleTextEditor', 'resources' => 'SimpleTextEditor');
+$types = array('title' => "text", 'cat_id' => 'select', 'brief' => 'SimpleTextEditor', 'resources' => 'SimpleTextEditor');
 $source = array('cat_id' => array('product_category', 'title', 'id'));
 $required = array("title" => "required", "cat_id" => "required");
 $cols_photo = array('photos');
@@ -30,7 +23,7 @@ $cols_check_type = array('title_type');
 $types_check_type = array('title_type' => 'radio');
 $sourc_check_type = array('title_type' => array('pro_price_type', 'title', 'id'));
 $cols_check_group = array('title_group');
-$types_check_group = array('title_group' => 'checkboxCostum');
+$types_check_group = array('title_group' => 'checkbox');
 
 
 $Savecols_dynamic_Pricing = array('duration_ids', 'unit_id', 'type_id', 'product_id');
@@ -45,20 +38,19 @@ $Savecols_FAQ = array('product_id', 'question', 'answer');
 $cols_seo = array('seo_title', 'seo_description', 'seo_keywords', 'seo_img');
 $types_seo = array('title' => "text",'html' => "FullTextEditor",'seo_title' => "text",'seo_description' => "textarea",'seo_keywords' => "tags",'seo_img' => "photos");
 
-$pageList = "listPackages.php";
-$pageInsertProduct = "insertPackage.php";
-$pageInsertPackageProducts = "insertPackageProducts.php";
-$pageProductFeatures = "insertPackageFeatures.php";
-$pageProductPhotos = "insertPackagePhotos.php";
-$pageProductPricing1 = "insertPackagePricingf.php";
-$pageProductPricing2 = "insertPackagePricingS.php";
-$pageProductPricingTable = "insertPackagePricingTable.php";
-$pageProductAddOns = "insertPackageAddOns.php";
-$pageProductRelated = "insertPackageRelated.php";
-$pageProductReq_feilds = "insertPackageReqFields.php";
-$pageProductFAQ = "insertPackageFAQ.php";
-$pageProductSEO = "insertPackageSEO.php";
+$pageList = "listProducts.php";
+$pageInsertProduct = "insertProduct.php";
+$pageProductFeatures = "insertProductFeatures.php";
+$pageProductPhotos = "insertProductPhotos.php";
+$pageProductPricing1 = "insertProductPricingf.php";
+$pageProductPricing2 = "insertProductPricingS.php";
+$pageProductPricingTable = "insertProductPricingTable.php";
+$pageProductAddOns = "insertProductAddOns.php";
+$pageProductRelated = "insertProductRelated.php";
+$pageProductReq_feilds = "insertProductReqFields.php";
+$pageProductFAQ = "insertProductFAQ.php";
+$pageProductSEO = "insertProductSEO.php";
 $pageCongrats = "Congrats.php";
-$pageUpdate = "updatePackage.php";
-$pageEditFaq = "editPackageFAQ.php";
+$pageUpdate = "updateProduct.php";
+$pageEditFaq = "editProductFAQ.php";
 ?>

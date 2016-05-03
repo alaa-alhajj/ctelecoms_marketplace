@@ -35,7 +35,7 @@ if ($_REQUEST['cmsMID'] === '100' || $_SESSION['cmsMID']==='100') {
     $cols=array("name","password","customer_group");
     $listTable->setExtraLinks(array(array('Purchase Orders', $utils->icons->ico['list'], '../purchase_orders/listPurchaseOrder.php', array('customer' => 'name'), '')));
 }
-$listTable->_dublicate($db_table, 'id', $pageUpdate, $cols, $_REQUEST['cmsMID'], 'true');
+$listTable->_dublicate($db_table, 'id', $pageUpdate, $cols, $_SESSION['cmsMID'], 'true');
 if ($has_order) {
     $listTable->setOrderBy("item_order DESC");
     $listTable->_order(true, 'item_order');

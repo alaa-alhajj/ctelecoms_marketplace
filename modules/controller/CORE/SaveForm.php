@@ -163,13 +163,13 @@ class SaveForm extends utils {
         if ($success) {
             $message = $this->getConstant("Success");
             $type = "success";
-           $_SESSION['saveFormStatus'.$_SESSION['cmsMID']]= "success";
-           $_SESSION['saveFormMessage'.$_SESSION['cmsMID']] = $message;
+            $_SESSION['saveFormStatus' . $_SESSION['cmsMID']] = "success";
+            $_SESSION['saveFormMessage' . $_SESSION['cmsMID']] = $message;
         } else {
             $message = $this->getConstant("Faild");
             $type = "error";
-            $_SESSION['saveFormStatus'.$_SESSION['cmsMID']] = "faild";
-            $_SESSION['saveFormMessage'.$_SESSION['cmsMID']] = $message;
+            $_SESSION['saveFormStatus' . $_SESSION['cmsMID']] = "faild";
+            $_SESSION['saveFormMessage' . $_SESSION['cmsMID']] = $message;
         }
         if ($this->withAlert == true) {
             echo '<script>waitingDialog.hide();           
@@ -237,13 +237,13 @@ class SaveForm extends utils {
         if ($success) {
             $message = $this->getConstant("Success");
             $type = "success";
-            $_SESSION['saveFormStatus'.$_SESSION['cmsMID']] = "success";
-            $_SESSION['saveFormMessage'.$_SESSION['cmsMID']] = $message;
+            $_SESSION['saveFormStatus' . $_SESSION['cmsMID']] = "success";
+            $_SESSION['saveFormMessage' . $_SESSION['cmsMID']] = $message;
         } else {
             $message = $this->getConstant("Faild");
             $type = "error";
-            $_SESSION['saveFormStatus'.$_SESSION['cmsMID']] = "faild";
-            $_SESSION['saveFormMessage'.$_SESSION['cmsMID']] = $message;
+            $_SESSION['saveFormStatus' . $_SESSION['cmsMID']] = "faild";
+            $_SESSION['saveFormMessage' . $_SESSION['cmsMID']] = $message;
         }
         if ($this->withAlert == true) {
             echo '<script>waitingDialog.hide();
@@ -283,13 +283,13 @@ class SaveForm extends utils {
             if ($success) {
                 $message = $this->getConstant("Success");
                 $type = "success";
-                $_SESSION['saveFormStatus'.$_SESSION['cmsMID']] = "success";
-                $_SESSION['saveFormMessage'.$_SESSION['cmsMID']] = $message;
+                $_SESSION['saveFormStatus' . $_SESSION['cmsMID']] = "success";
+                $_SESSION['saveFormMessage' . $_SESSION['cmsMID']] = $message;
             } else {
                 $message = $this->getConstant("Faild");
                 $type = "error";
-                $_SESSION['saveFormStatus'.$_SESSION['cmsMID']] = "faild";
-                $_SESSION['saveFormMessage'.$_SESSION['cmsMID']] = $message;
+                $_SESSION['saveFormStatus' . $_SESSION['cmsMID']] = "faild";
+                $_SESSION['saveFormMessage' . $_SESSION['cmsMID']] = $message;
             }
             if ($this->withAlert == true) {
                 echo '<script>waitingDialog.hide();

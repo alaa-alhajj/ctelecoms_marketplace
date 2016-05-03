@@ -16,9 +16,21 @@ echo $path = '<ul id="breadcrumbs-one">
     
 </ul>';
 $get_features = $fpdo->from($db_table_feature)->where("cat_id='" . $_REQUEST['id'] . "'")->orderBy("item_order ASC")->feathAll();
+$field_ob2 = new field();
+$field_ob2->SetIdField('type');
+$field_ob2->SetNameField('type');
+$field_ob2->SetCssClass('form-control');
+$field_ob2->SetTypeField('select');
+$field_ob2->SetTable();
+$field_ob2->SetTname('type');
+$field_ob2->SetValueField();
+$field_ob2->setWhere();
+$field_ob2->SetExtra($extra);
 
 $add_feature = '<div class="box box-danger form-horizontal"><div class="box-body">';
-$add_feature.='<div class="catFeatures"><div class="col-sm-10 nopadding"><input id="title" name="title" value="" type="text" required="" size="" class=" form-control" placeholder="Enter Feature"></div>';
+$add_feature.='<div class="catFeatures"><div class="col-sm-3 "><input id="title" name="title" value="" type="text" required="" size="" class=" form-control" placeholder="Enter Feature"></div>'
+        . '<div class="col-sm-3 ">' . $field_ob2->getField() . '</div>'
+        . '<div class="col-sm-3 "><input id="plus" name="" value="" type="tags" size="" class="TagsInput" placeholder="" style="display:none"></div>';
 $add_feature.="<div class='col-sm-2 '><a href='javascript:;' class='addCategoryFeature' data-cat='" . $_REQUEST['id'] . "'><i class='fa fa-plus-circle' aria-hidden='true' style='font-size:29px'></i></a></div>";
 $add_feature.="</div>";
 $add_feature.='<table id="TableCategoryFeatures" class="table table-striped  table table-bordered table-hover">
@@ -50,22 +62,22 @@ foreach ($get_features as $feature) {
     $field_ob->SetValueField($get_fe_val['type']);
     $field_ob->setWhere();
     $field_ob->SetExtra($extra);
-    
-      if ($feature['type'] == 'DynamicSelect') {
+
+    if ($feature['type'] == 'DynamicSelect') {
         $fileds = $fpdo->from('cms_module_fields')->where("table_id='" . $feature['plus'] . "' and is_main='1'")->fetch();
         $module = $fpdo->from('cms_modules')->where('id', $feature['plus'])->fetch();
         $table = $module['title'];
 
         $plus = $table;
-        $id_table=$feature['plus'];
-    }else{
-        $plus=str_replace('×', '', $feature['plus']);
+        $id_table = $feature['plus'];
+    } else {
+        $plus = str_replace('×', '', $feature['plus']);
     }
     $add_feature.="<tr id='f_" . $feature['id'] . "'>
 	<td><input id='title' name='title' value='" . $feature['title'] . "' type='text' required='' size='' class=' form-control' readonly='readonly'></td>
 	<td data-id='" . $feature['id'] . "'>" . $field_ob->getField() . "<span id='sp" . $feature['id'] . "'>" . $feature['type'] . "</span></td>
-     <td id='plus_" . $feature['id'] . "' data-plus='".$id_table."'><span >" . $plus . '</span><input id="plus" name="" value="' . str_replace('×', '', $feature['plus']) . '" type="tags" size="" class="TagsInput tags_'.$feature['id'] .'" placeholder="" style="display:none">'
-          
+     <td id='plus_" . $feature['id'] . "' data-plus='" . $id_table . "'>"
+            . "<span >" . $plus . '</span><input id="plus" name="" value="' .$plus . '" type="tags" size="" class="TagsInput tags_' . $feature['id'] . '" placeholder="" style="display:none">'
             . '</td>';
 
     $add_feature.="<td>" . $utils->switcher($db_table_feature, $feature['id'], 'is_main', $feature['is_main'], "SwitcherV") . "</td>\n";

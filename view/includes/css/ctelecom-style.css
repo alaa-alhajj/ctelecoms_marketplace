@@ -1,4 +1,5 @@
 @import "easy-responsive-tabs.css";
+@import "star-rating.min.css";
 @import "font-awesome/css/font-awesome.min.css";
 .row-nomargin{margin: 0px !important}
 .product-price{color:green;margin-top: 20px !important;font-size: 14px}
@@ -18,3 +19,14 @@
 .color-faq{color:#ccc;margin-top:0px !important}
 .panel-border.in{border-top: 1px solid #f58120 !important}
 .allfaq-button{margin-top:30px !important}
+.rating-bars .bar-r{width:100%;height: 20px;background: #DADADA;float: left}
+.rating-bars .bar-rating{background: #f58120;height: 20px;width:0px;}
+.rating-bars .number-rate{float: left;}
+.margTop10{margin-top:10px !important}
+.over-rating{float: left;
+    padding-top: 12px;
+    padding-right: 7px;}
+.row-stars{margin-top: -13px;}
+
+.margbtm20{margin-bottom: 20px !important}
+.fontsize{font-size: 11px;float: left}

@@ -13,7 +13,7 @@ $dublicated_cols=array('title', 'cat_id', 'brief', 'resources','photos','add_ons
 $cols = array('title', 'cat_id', 'brief', 'resources');
 $Savecols = array('title', 'cat_id', 'brief', 'resources');
 $colsUpdate = array('title', 'cat_id', 'brief', 'resources');
-$types = array('title' => "text", 'cat_id' => 'select', 'brief' => 'SimpleTextEditor', 'resources' => 'SimpleTextEditor');
+$types = array('title' => "text", 'cat_id' => 'select+', 'brief' => 'SimpleTextEditor', 'resources' => 'SimpleTextEditor');
 $source = array('cat_id' => array('product_category', 'title', 'id'));
 $required = array("title" => "required", "cat_id" => "required");
 $cols_photo = array('photos');

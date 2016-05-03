@@ -33,7 +33,7 @@ $listTable->_columns(array('title', 'cat_id','special','add_ons_only'));
 $listTable->_Types(array('special'=>'flag','add_ons_only'=>'flag'));
 
 $listTable->_source(array('cat_id' => array('product_category', 'id', 'title')));
-$listTable->_class('table table-striped');
+$listTable->_class('');
 $listTable->_edit($pageUpdate, array("id"));
 $listTable->setOrderBy("id");
 $listTable->setExtraLinks(array(array('Package Products', $utils->icons->ico['list'], 'insertPackageProducts.php', array('id' => 'id'), ''),
@@ -45,7 +45,7 @@ $listTable->setExtraLinks(array(array('Package Products', $utils->icons->ico['li
     , array('Required Fields', $utils->icons->ico['list'], 'insertPackageReqFields.php', array('id' => 'id'), '')
     , array('FAQs', $utils->icons->ico['list'], 'insertPackageFAQ.php', array('id' => 'id'), '')
      , array('Purchase Order', $utils->icons->ico['list'], '../purchase_orders/listPurchaseOrder.php', array('product' => 'title','pid'=>'id'), '')
-));
+),true);
 $listTable->_special(false);
 $listTable->_active(false);
 $listTable->_seo_page('page_id');

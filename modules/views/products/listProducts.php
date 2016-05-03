@@ -43,7 +43,7 @@ $listTable->setExtraLinks(array(array('Features', $utils->icons->ico['list'], 'i
     , array('Required Fields', $utils->icons->ico['list'], 'insertProductReqFields.php', array('id' => 'id'), '')
     , array('FAQs', $utils->icons->ico['list'], 'insertProductFAQ.php', array('id' => 'id'), '')
      , array('Purchase Order', $utils->icons->ico['list'], '../purchase_orders/listPurchaseOrder.php', array('product' => 'title','pid'=>'id'), '')
-));
+),true);
 $listTable->_special(false);
 $listTable->_active(false);
 $listTable->_seo_page('page_id');

@@ -41,10 +41,11 @@ if (isset($_REQUEST) && $_REQUEST['action'] == $action) {
     $_REQUEST['type_id'] = $type_ids;
     $_REQUEST['duration_ids'] = $duration_ids;
     $_REQUEST['product_id'] = $id;
-         $save_ob = new saveform($db_table_dynamic_price, $_REQUEST, $Savecols_dynamic_Pricing,'id','','','',false);
-      //   $query = $fpdo->update($db_table_dynamic_price)->set(array('unit_id' => $unit_ids,'type_id'=>$type_ids,'duration_ids'=>$duration_ids))->where("product_id='$id'");
-   //$exec = $query->execute();
-
+        // $save_ob = new saveform($db_table_dynamic_price, $_REQUEST, $Savecols_dynamic_Pricing,'id','','','',false);
+         $query = $fpdo->update($db_table_dynamic_price)->set(array('unit_id' => $unit_ids,'type_id'=>$type_ids,'duration_ids'=>$duration_ids))->where("product_id='$id'");
+   $exec = $query->execute();
+ echo '<script>notificationMessage(true);
+        </script>';
          }
           if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);

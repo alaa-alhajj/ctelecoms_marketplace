@@ -163,16 +163,23 @@ class nestable extends field {
     var OldValue;
     var OldValueStatus=false;
         $('body').on('click','#SaveChange',function() {
-      //waitingDialog.show();
+      
             $.ajax({
                 type: 'POST',
                 url: '../ajax/neastedList.php',
                 data: {output_data:$('#nestable-output').val(),table:'$this->table',parent:'$this->field_Parent',item_order:'$this->field_order',table_id:'$this->field_id'},
                 success: function(data)
                 {
-                 waitingDialog.hide();
-                 notificationMessage(true,'Success Save Ordering');            
-                 $('.callout.callout-nesatable').parent('div').remove();       
+                waitingDialog.hide();
+            swal({
+            title: '',
+            text: 'Success Save Ordering',
+            type:'success',
+            showConfirmButton: false
+            , showConfirmButton: false, timer: 2000
+        });
+        $('.callout.callout-danger').remove();
+       
                 }
             });
         });

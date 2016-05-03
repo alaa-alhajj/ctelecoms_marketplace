@@ -21,7 +21,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Delete') {
 $listMenu = new nestable();
 $listMenu->setTable($db_table);
 $listMenu->setColumns(array('id', 'title','icon', 'module_id' ,'p_id'));
-$listMenu->setTypes(array('title' => 'text', 'module_id' => 'select','icon'=>"text"));
+$listMenu->setTypes(array('title' => 'text', 'module_id' => 'select+','icon'=>"text"));
 $listMenu->setCssClass(array( 'item_link' => 'chosen-select','icon'=>"iconpicker","module_id"=>"form-control"));
 $listMenu->setSource(array('module_id'=>array('cms_modules','title',"id")));
 $listMenu->setExtraFlag(array("short_cut"));

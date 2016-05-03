@@ -1,8 +1,8 @@
 <?php include "../common/top.php";
 
-$pLang='ar';
-$_SESSION['pLang']='ar';
-$_SESSION['_PREF']='/ezzati/';
+$pLang='en';
+$_SESSION['pLang']='en';
+$_SESSION['_PREF']='/ctelecoms/';
 $dots = $_SESSION['dots'] = '../../';
 $HP=1;
 
@@ -28,11 +28,11 @@ $path=new path();
 		<link rel="stylesheet" href="<?php echo _Include?>css/img-effects/effeckt.css"> 
 		<link href="<?php echo _Include?>css/rtl.css" rel="stylesheet" type="text/css"/>
                 <link href="<?php echo _Include?>css/ctelecom-style.css" rel="stylesheet" type="text/css"/>
-		<link href="<?php echo _Include?>css/rtl-ahmad.css" rel="stylesheet" type="text/css"/>
+		
 		<script src="<?php echo _Include?>js/jquery.min.1.11.0.js" type="text/javascript"></script>
 		<script src="<?php echo _Include?>js/jquery-ui.min.js" type="text/javascript"></script>
                 <script src="<?php echo _Include?>js/easyResponsiveTabs.js" type="text/javascript"></script>
-        
+        <script src="<?php echo _Include?>js/star-rating.min.js" type="text/javascript"></script>
 
 	   
 	</head>
