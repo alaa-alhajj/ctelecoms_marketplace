@@ -12,7 +12,7 @@ $_REQUEST['title'] = strtolower(str_replace(' ', '_', $field_titel));
 if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     $cat_id=  explode('=',$_REQUEST['_params'][0]);
 $_REQUEST['cat_id']=$cat_id[1];
-   $save_ob = new saveform($db_table, $_REQUEST, $cols, 'id','item_order','','',false);
+   $save_ob = new saveform($db_table, $_REQUEST, $cols_save, 'id','item_order','','',false);
    
   
       $utils->redirect($pageList."?cat_id=".$cat_id[1]);

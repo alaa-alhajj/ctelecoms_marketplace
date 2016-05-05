@@ -39,10 +39,11 @@ $(document).ready(function() {
     });
     /* Get Tabs Details Ajax*/
     $("body").on('click', '.GetProductDetails', function() {
+      
         $product_id = $(this).data('id');
         $get_data = $(this).data('details');
         $this = $(this);
-        $('#' + $get_data).children().show();
+        
         $this.removeClass('GetProductDetails');
         $.ajax({
             url: _PREF + "GetProductDetails",
@@ -56,16 +57,16 @@ $(document).ready(function() {
             }
         });
     });
-    
+
     path_hash = window.location.hash;
     arr = path_hash.split('#Details');
     $ReqId = arr[arr.length - 1];
     $product_id = $('#product_id').val();
-    if(path_hash ===""){
-        $ReqId='1';
+    if (path_hash === "") {
+        $ReqId = '1';
     }
     $get_data = $('.Details_' + $ReqId).attr('id');
-    
+
     $.ajax({
         url: _PREF + "GetProductDetails",
         data: {product: $product_id, get_data: $get_data},
@@ -185,8 +186,10 @@ $(document).ready(function() {
     });
 
 
-    $("body").on('click', '.RemoveToCart', function() {
-        $product_id = $('#product_id').val();
+    $("body").on('click', '.RemovefromCart', function() {
+        $product_id = $(this).data('id');
+        $this_tr = $(this).data('remove');
+        alert($product_id);
         $this = $(this);
         $.ajax({
             url: _PREF + "RemoveFromCart",
@@ -194,8 +197,31 @@ $(document).ready(function() {
             data: {pro_id: $product_id},
             dataType: 'html',
             success: function(data) {
-                $('.RemovedFromCart').hide();
-                $('.AddedToCart').show();
+                if ($this_tr !== "") {
+                    $this.parents().find('#' + $product_id).fadeOut();
+                } else {
+                    $('.RemovedFromCart').hide();
+                    $('.AddedToCart').show();
+                }
+            }
+        });
+    });
+
+    $('body').on('change', '#groups_cart', function() {
+        $duration_id = $(this).data('duration');
+        $group_id = $(this).val();
+        $dynamic_id = $(this).data('dynamic');
+        $product_id = $(this).data('product');
+        $.ajax({
+            url: _PREF + "GetProductPrice",
+            type: 'post',
+            data: {duration: $duration_id, group: $group_id, dynamic: $dynamic_id},
+            dataType: 'json',
+            success: function(data) {
+
+                $('#price_'+$product_id).html(data[0]);
+
+
             }
         });
     });

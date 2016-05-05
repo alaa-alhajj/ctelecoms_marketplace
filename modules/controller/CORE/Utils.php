@@ -149,13 +149,16 @@ class utils {
             $message = $_SESSION["saveFormMessage" . $_SESSION['cmsMID']];
             if ($status == 'success') {
                 echo "<script>setTimeout(function(){window.location.replace('$url');});</script>";
+                exit();
             } else {
                 echo "<script>notificationMessage(false,'$message')</script>";
                 unset($_SESSION["saveFormStatus" . $_SESSION['cmsMID']]);
             }
         } else {
             echo "<script>window.location.replace('$url');</script>";
+            exit();
         }
+        
     }
 
     public function getValuesImplode($table, $field_id, $field_name, $values) {

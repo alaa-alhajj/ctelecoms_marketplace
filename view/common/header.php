@@ -33,6 +33,9 @@ include_once 'view/common/langsLabel.php';
 	</head>
 	<body>  
 		<!------------------------ Header-------------------------->
-	 <div class="page-body container nopadding">
-			<div class="col-sm-12 nopadding">
+	
+                                <div class='site-wrapper nopadding container'>
+			<div class='site-con'>
+                            <div class="row row-nomargin">
 				<div class=' col-sm-12 site-path'><?php echo $path->getPath();?></div>
+                            </div>

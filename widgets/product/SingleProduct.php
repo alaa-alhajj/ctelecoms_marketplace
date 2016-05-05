@@ -26,7 +26,7 @@ $durations_select.="</select>";
 ?>
 <input type="hidden" id="dynamic_price_id" value="<?= $dynamic_price_id ?>" >
 <input type="hidden" id="product_id" value="<?= $product_id ?>" >
-<input type="hidden" id="customer_login" value="<?= $product_id ?>" >
+<input type="hidden" id="customer_login" value="<?= $_SESSION['CUSTOMER_ID'] ?>" >
 <div class="row row-nomargin">
 
 
@@ -76,7 +76,7 @@ $durations_select.="</select>";
        
             <div class="RemovedFromCart <?=$show_remove?>">
                 <div class='row row-nomargin product-price'>
-                    <div class="col-sm-12 cart-button"><a href='javascript:;' class="RemoveToCart"><i class="fa fa-cart-plus" aria-hidden="true"></i><span> Remove From Cart</span></a></div>
+                    <div class="col-sm-12 cart-button"><a href='javascript:;' class="RemovefromCart" data-id="<?=$product_id?>"><i class="fa fa-cart-plus" aria-hidden="true"></i><span> Remove From Cart</span></a></div>
                 </div>
             </div>
       
@@ -97,8 +97,8 @@ $durations_select.="</select>";
         <div class="col-sm-12 margTop20 freeTrial-button"><a href=''>Free Trial</a></div>
     </div>
     <div class='clear'></div>
-    <div class='block'>
-        <div id="Details">
+    <div class='block' >
+        <div id="Details" class="rel-div">
             <ul class="resp-tabs-list hor_1 product_details">
                 <li data-id="<?= $product_id ?>" data-details='overview' data-request="Details_1" class='GetProductDetails'>Overview</li>
                 <li data-id="<?= $product_id ?>" data-details='features' data-request="Details_2" class='GetProductDetails'>Features</li>
@@ -107,8 +107,10 @@ $durations_select.="</select>";
                 <li data-id="<?= $product_id ?>" data-details='review' data-request="Details_5" class='GetProductDetails'>Review</li>
                 <li data-id="<?= $product_id ?>" data-details='addons' data-request="Details_6" class='GetProductDetails'>Add-ons</li>
             </ul>
-            <div class="resp-tabs-container hor_1">
-
+            
+     <div class="overlay"></div>
+            <div class="resp-tabs-container hor_1 ">
+       
 
                 <div id='overview' class="Details_1"> <!-- Features -->
                     <p></p>
