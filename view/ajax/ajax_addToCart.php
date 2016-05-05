@@ -1,4 +1,5 @@
-<?php  include '../../../view/common/top_ajax2.php';
+<?php  
+include('../../view/common/top.php');
 
 
 $pro_id=$_REQUEST['pro_id'];
@@ -13,6 +14,6 @@ $product=array('pro_id'=>$pro_id,'duration_id'=>$duration_id,'group_id'=>$group_
 
 //add product to shopping Cart session
 $shopping_cart=$_SESSION['Shopping_Cart'];
-$shopping_cart[]=$product;
+$shopping_cart[$pro_id]=$product;
 $_SESSION['Shopping_Cart']=$shopping_cart;
 print_r($shopping_cart);

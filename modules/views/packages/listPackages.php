@@ -45,6 +45,7 @@ $listTable->setExtraLinks(array(array('Package Products', $utils->icons->ico['li
     , array('Required Fields', $utils->icons->ico['list'], 'insertPackageReqFields.php', array('id' => 'id'), '')
     , array('FAQs', $utils->icons->ico['list'], 'insertPackageFAQ.php', array('id' => 'id'), '')
      , array('Purchase Order', $utils->icons->ico['list'], '../purchase_orders/listPurchaseOrder.php', array('product' => 'title','pid'=>'id'), '')
+      , array('Reviews', $utils->icons->ico['list'], '../reviews/listReviews.php', array('product' => 'title'), '')
 ),true);
 $listTable->_special(false);
 $listTable->_active(false);

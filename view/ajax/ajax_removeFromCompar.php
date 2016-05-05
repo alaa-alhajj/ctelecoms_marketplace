@@ -1,4 +1,4 @@
-<?php  include '../../../view/common/top_ajax2.php';
+<?php  include('../../view/common/top.php');
 
 $compare_id=$_REQUEST['compare_id'];
 

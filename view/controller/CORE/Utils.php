@@ -69,7 +69,7 @@ class utils {
     }
 
     public function redirect($url) {
-        echo "<script>window.location.replace('$url');</script>";
+        echo "<script>window.location.replace('$url'); a</script>";
     }
 
     public function getValuesImplode($table, $field_id, $field_name, $values) {

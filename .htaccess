@@ -313,8 +313,10 @@ RewriteRule ^([^/]+)/page([0-9]+)/pn([0-9]+)/ext_param([^/]+)/([^/]+)$  view/pag
 RewriteRule ^([^/]+)/page([0-9]+)/pn([0-9]+)/g([0-9]+)/c([0-9]+)/sc([0-9]+)/([^/]+)$  view/pages/viewPage.php?pLang=$1&id=$2&pn=$3&gov_id=$4&cat_id=$5&subCat_id=$6&title=$7 [L]
 
 #------------------- Market Place 2/5/2016 ----------------------------------
-RewriteRule ^GetProductPrice$  view/includes/ajax/GetProductPrice.php [L]
-RewriteRule ^GetProductDetails$  view/includes/ajax/GetProductDetails.php [L]
+RewriteRule ^GetProductPrice$  view/ajax/GetProductPrice.php [L]
+RewriteRule ^GetProductDetails$  view/ajax/GetProductDetails.php [L]
 #------------------- Market Place 3/5/2016 ----------------------------------
-RewriteRule ^AddRating$  view/includes/ajax/AddRating.php [L]
-RewriteRule ^AddReview$  view/includes/ajax/AddReview.php [L]
+RewriteRule ^AddRating$  view/ajax/AddRating.php [L]
+RewriteRule ^AddReview$  view/ajax/AddReview.php [L]
+RewriteRule ^AddToCart$  view/ajax/ajax_addToCart.php [L]
+RewriteRule ^RemoveFromCart$  view/ajax/ajax_removeFromCart.php [L]

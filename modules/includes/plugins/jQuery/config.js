@@ -63,7 +63,7 @@ $(document).ready(function() {
             if (orderChanges != "") {
                 $("tr").css("cursor", "wait");
                 $.post("../ajax/order.php", {ot: order_table, of: order_filed, oi: order_id, ids: orderChanges}, function(data) {
-                    alert(data);
+                    //alert(data);
                     $("tr").css("cursor", "default");
                     $("#info").html(data);
                 });

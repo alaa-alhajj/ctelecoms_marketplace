@@ -208,8 +208,12 @@ class field extends utils {
                 }
             case "select": {
 
-                    $res = $this->getInputListPlus();
+                     if ($this->table && $this->table != "") {
+                        $res = $this->getInputListFromTable();
+                    } else {
 
+                        $res = $this->getInputList();
+                    }
 
                     break;
                 }

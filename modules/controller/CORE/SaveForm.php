@@ -93,7 +93,7 @@ class SaveForm extends utils {
         }
         $query = $this->fpdo->insertInto($this->db_table)->values($values);
 //print_r($_REQUEST);die();
-        // echo $query->getQuery();die();
+        //echo $query->getQuery();die();
         $exec = $this->InsertId = $query->execute();
 
 

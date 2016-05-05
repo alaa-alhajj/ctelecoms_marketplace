@@ -222,7 +222,7 @@ class ListTable extends utils {
     public function _PurchaseOrderSearch($PurchaseOrderSearch) {
         $this->purchaseOrderSearch = $PurchaseOrderSearch;
     }
-    
+
     public function _ReviewSearch($ReviewSearch) {
         $this->reviewSearch = $ReviewSearch;
     }
@@ -311,20 +311,24 @@ class ListTable extends utils {
         $this->_dublicate();
     }
 
-    function GetQueryForReview($customer) {
+    function GetQueryForReview($customer, $product) {
         $customer = trim($customer);
+        $product = trim($product);
         $where = "";
         if ($customer != "") {
             $where.=" and customers.`name` like '%$customer%'";
         }
-      
+        if ($product != "") {
+            $where.=" and products.`title` like '%$product%'";
+        }
         $query = $this->fpdo->from('customer_reviews')
                 ->leftJoin('customers on customers.id=customer_reviews.customer_id ')
+                ->leftJoin('products on products.id=customer_reviews.product_id ')
                 ->where("customer_reviews.id !='0' $where");
         $query->limit($this->limit);
         return $query;
     }
-    
+
     function GetQueryForSerachPurchaseOrder($customer, $date, $product, $from, $to, $pid) {
         $customer = trim($customer);
         $where = "";
@@ -358,8 +362,8 @@ class ListTable extends utils {
         $query = $this->fpdo->from($this->db_table)->where($this->where_str);
         if ($this->purchaseOrderSearch != "") {
             $query = $this->GetQueryForSerachPurchaseOrder($this->purchaseOrderSearch[0], $this->purchaseOrderSearch[1], $this->purchaseOrderSearch[2], $this->purchaseOrderSearch[3], $this->purchaseOrderSearch[4]);
-        }elseif($this->reviewSearch !=""){
-              $query = $this->GetQueryForReview($this->reviewSearch[0]);
+        } elseif ($this->reviewSearch != "") {
+            $query = $this->GetQueryForReview($this->reviewSearch[0], $this->reviewSearch[1]);
         }
         return count($query->fetchAll());
     }
@@ -566,8 +570,8 @@ class ListTable extends utils {
         $query = $this->fpdo->from($this->db_table)->where($this->where_str);
         if ($this->purchaseOrderSearch != "") {
             $query = $this->GetQueryForSerachPurchaseOrder($this->purchaseOrderSearch[0], $this->purchaseOrderSearch[1], $this->purchaseOrderSearch[2], $this->purchaseOrderSearch[3], $this->purchaseOrderSearch[4]);
-        }elseif($this->reviewSearch !=""){
-              $query = $this->GetQueryForReview($this->reviewSearch[0]);
+        } elseif ($this->reviewSearch != "") {
+            $query = $this->GetQueryForReview($this->reviewSearch[0], $this->reviewSearch[1]);
         }
 
         if ($this->orderBy != '') {
@@ -581,7 +585,7 @@ class ListTable extends utils {
         if ($this->debug == true) {
             echo $query->getQuery();
         }
-        //  echo $query->getQuery(); die();
+        // echo $query->getQuery(); die();
         $count = $query->execute();
         $countTable = count($query->execute());
         if ($_REQUEST['action'] == "add") {
@@ -636,9 +640,9 @@ class ListTable extends utils {
             if ($this->moreButton == true && count($this->extraLinks) > 0) {
                 $result.="<th width=30>" . $this->getConstant("More") . "</th>\n";
             } elseif ($this->moreButton == false && count($this->extraLinks) > 0) {
-                
-                foreach ( $this->extraLinks as $exlink) {
-                    
+
+                foreach ($this->extraLinks as $exlink) {
+
                     $result.="<th width=30>" . $exlink[0] . "</th>\n";
                 }
             }
@@ -836,7 +840,7 @@ class ListTable extends utils {
                     $ext = 0;
 
                     if ($this->moreButton == true && count($this->extraLinks) > 0) {
-                       $result.="<td></td>\n";
+                        $result.="<td></td>\n";
                     } elseif (count($this->extraLinks) > 0) {
                         foreach ($this->extraLinks as $exlink) {
                             $result.="<td></td>\n";
@@ -844,7 +848,7 @@ class ListTable extends utils {
                     }
 
 
-                    
+
                     if ($this->active == true) {
                         $result.="<td></td>\n";
                     }
@@ -902,8 +906,11 @@ class ListTable extends utils {
                         $value = stripcslashes($row[$column]);
 
                         if (isset($this->source[$column]) && $this->source[$column] != '') {
-
-                            $value = $this->lookupField($this->source[$column][0], $this->source[$column][1], $this->source[$column][2], $row[$column]);
+                          
+                            $v = $this->lookupField($this->source[$column][0], $this->source[$column][1], $this->source[$column][2], $row[$column]);
+                            if ($v != "") {
+                                $value = $v;
+                            }
                         }
 
                         if ($this->types[$column] == 'photos') {
@@ -921,38 +928,37 @@ class ListTable extends utils {
                         $result.="<td>" . $value . "</td>\n";
                     }
                     $ext = 0;
-                    
-                     if ($this->moreButton === true && count($this->extraLinks) > 0) {
-                          $result.='<td> <div class="btn-group"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> MORE  <span class="caret"></span></button><ul class="dropdown-menu ss" role="menu">';
-                      foreach ($this->extraLinks as $exlink) {
-                               $linkAttr = $exlink[3];
 
-                        $linkO = array();
-                        foreach ($linkAttr as $key => $attr) {
-                            array_push($linkO, "$key=" . $row[$attr]);
-                        }
-                        $linkO = implode('&', $linkO);
-                             $result.="<li><a title='" . $exlink[0] . "' data-toggle='tooltip' href='$exlink[2]?$linkO' target='$exlink[4]'>$exlink[1]$exlink[0]</a></li>\n";
-                            
-                        }
-                               $result.='</ul></div></td>';
-                    } elseif ($this->moreButton === false && count($this->extraLinks) > 0) {
-                        
+                    if ($this->moreButton === true && count($this->extraLinks) > 0) {
+                        $result.='<td> <div class="btn-group"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> MORE  <span class="caret"></span></button><ul class="dropdown-menu ss" role="menu">';
                         foreach ($this->extraLinks as $exlink) {
-                                 $linkAttr = $exlink[3];
+                            $linkAttr = $exlink[3];
 
-                        $linkO = array();
-                        foreach ($linkAttr as $key => $attr) {
-                            array_push($linkO, "$key=" . $row[$attr]);
+                            $linkO = array();
+                            foreach ($linkAttr as $key => $attr) {
+                                array_push($linkO, "$key=" . $row[$attr]);
+                            }
+                            $linkO = implode('&', $linkO);
+                            $result.="<li><a title='" . $exlink[0] . "' data-toggle='tooltip' href='$exlink[2]?$linkO' target='$exlink[4]'>$exlink[1]$exlink[0]</a></li>\n";
                         }
-                        $linkO = implode('&', $linkO);
+                        $result.='</ul></div></td>';
+                    } elseif ($this->moreButton === false && count($this->extraLinks) > 0) {
+
+                        foreach ($this->extraLinks as $exlink) {
+                            $linkAttr = $exlink[3];
+
+                            $linkO = array();
+                            foreach ($linkAttr as $key => $attr) {
+                                array_push($linkO, "$key=" . $row[$attr]);
+                            }
+                            $linkO = implode('&', $linkO);
                             $result.="<td><a title='" . $exlink[0] . "' data-toggle='tooltip' href='$exlink[2]?$linkO' target='$exlink[4]'>$exlink[1]</a></td>\n";
                         }
                     }
-                    
-                    
-                  
-             
+
+
+
+
                     if ($this->active == true) {
                         $result.="<td>" . $this->switcher($this->db_table, $row[$this->f_id], $this->f_active, $row[$this->f_active], "SwitcherV") . "</td>\n";
                     }

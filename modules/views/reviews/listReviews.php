@@ -12,9 +12,9 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Delete') {
 
 $listTable = $voiControl->ObListTable();
 $listTable->_table('customer_reviews');
-$listTable->_columns(array('customer_id', 'review'));
+$listTable->_columns(array('customer_id','product_id', 'review'));
 
-$listTable->_source(array('customer_id' => array('customers', 'id', 'name'),'payment_type' => array('payment_types', 'id', 'name')));
+$listTable->_source(array('customer_id' => array('customers', 'id', 'name'),'product_id' => array('products', 'id', 'title'),));
 $listTable->_class('table table-striped');
 //$listTable->_edit($pageUpdate, array("id"));
 $listTable->_delete(false);
@@ -25,10 +25,10 @@ $listTable->_special(false);
 $listTable->_active(true);
 
 $listTable->setFilter(array(
-    array("customer", "text")
+    array("customer", "text"), array("product", "text")
 ));
-if ($_REQUEST['customer'] != "") {
-    $listTable->_ReviewSearch(array(end(explode('.', $_REQUEST['customer']))));
+if ($_REQUEST['customer'] != "" || $_REQUEST['product'] != "") {
+    $listTable->_ReviewSearch(array(end(explode('.', $_REQUEST['customer'])),end(explode('.', $_REQUEST['product']))));
 }
 $listTable->setLimit("$start,$LPP");
 $listTable->_PageList($pageList);

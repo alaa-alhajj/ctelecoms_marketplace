@@ -1,5 +1,5 @@
 ﻿<?php
-include('../../../view/common/top_ajax.php');
+include('../../view/common/top.php');
 
 $product_id = $_REQUEST['product'];
 $customer_id = $_REQUEST['customer'];

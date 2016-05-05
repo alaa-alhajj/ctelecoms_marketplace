@@ -1,4 +1,6 @@
 $(document).ready(function() {
+
+
     $duration_id = $('#durations').val();
     $group_id = $('#groups').val();
     $dynamic_id = $('#dynamic_price_id').val();
@@ -7,11 +9,13 @@ $(document).ready(function() {
         url: _PREF + "GetProductPrice",
         type: 'post',
         data: {duration: $duration_id, group: $group_id, dynamic: $dynamic_id},
-        dataType: 'html',
+        dataType: 'json',
         success: function(data) {
-            $('#product_price').html(data);
 
-
+            $('#product_price').html(data[0]);
+        },
+        error: function(e, msg) {
+            console.log(e);
         }
     });
 
@@ -25,47 +29,62 @@ $(document).ready(function() {
             url: _PREF + "GetProductPrice",
             type: 'post',
             data: {duration: $duration_id, group: $group_id, dynamic: $dynamic_id},
-            dataType: 'html',
+            dataType: 'json',
             success: function(data) {
-                $('#product_price').html(data);
+                $('#product_price').html(data[0]);
 
 
             }
         });
     });
+    /* Get Tabs Details Ajax*/
+    $("body").on('click', '.GetProductDetails', function() {
+        $product_id = $(this).data('id');
+        $get_data = $(this).data('details');
+        $this = $(this);
+        $('#' + $get_data).children().show();
+        $this.removeClass('GetProductDetails');
+        $.ajax({
+            url: _PREF + "GetProductDetails",
+            data: {product: $product_id, get_data: $get_data},
+            success: function(data) {
 
+                $('#' + $get_data).find('p').append(data);
+                $this.removeClass('GetProductDetails');
+                displayRating();
+                LoadMoreReviews();
+            }
+        });
+    });
+    
+    path_hash = window.location.hash;
+    arr = path_hash.split('#Details');
+    $ReqId = arr[arr.length - 1];
+    $product_id = $('#product_id').val();
+    if(path_hash ===""){
+        $ReqId='1';
+    }
+    $get_data = $('.Details_' + $ReqId).attr('id');
+    
+    $.ajax({
+        url: _PREF + "GetProductDetails",
+        data: {product: $product_id, get_data: $get_data},
+        success: function(data) {
 
-    /*
-     $('#features').children().hide();
-     $('#resources').children().hide();
-     $('#review').children().hide();
-     $('#faq').children().hide();
-     $('#addons').children().hide();
-     
-     $("body").on('click', '.GetProductDetails', function() {
-     $product_id = $(this).data('id');
-     $get_data = $(this).data('details');
-     $this=$(this);
-     $('#'+$get_data).children().show();
-     $this.removeClass('GetProductDetails');
-     $.ajax({
-     url: _PREF + "GetProductDetails",
-     
-     data: {product: $product_id, get_data: $get_data},
-     
-     success: function(data) {
-     
-     $('#'+$get_data).find('p').append(data);
-     $this.removeClass('GetProductDetails');
-     
-     
-     }
-     });
-     
-     });
-     */
+            $('#' + $get_data).find('p').append(data);
+            $('.product_details li[data-request="Details_' + $ReqId + '"]').removeClass('GetProductDetails');
+
+            displayRating();
+            LoadMoreReviews();
+
+        }
+    });
+
     /*Rating*/
-
+    function displayRating() {
+        $('.rb-rating').rating({'showCaption': false, showClear: false,
+            'stars': '5', 'min': '0', 'max': '5', 'value': '2', 'step': '1', 'size': 'xs', 'starCaptions': {0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'}});
+    }
     $("body").on('click', '.rating-stars', function() {
         $this_val = $('.rb-rating').val();
         $product_id = $('#product_id').val();
@@ -80,15 +99,14 @@ $(document).ready(function() {
                 $('.rb-rating').rating('refresh', {
                     disabled: !$('.rb-rating').attr('disabled')
                 });
-                $('.count_' + $this_val).html(data);
+
 
 
             }
         });
 
     });
-    $('.rb-rating').rating({'showCaption': false, showClear: false,
-        'stars': '5', 'min': '0', 'max': '5', 'value': '2', 'step': '1', 'size': 'xs', 'starCaptions': {0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'}});
+
     /*Review*/
     $("body").on('click', '.write-review', function() {
         $product_id = $('#product_id').val();
@@ -112,6 +130,18 @@ $(document).ready(function() {
             }
         });
     });
+    /* Load more reviews*/
+    function LoadMoreReviews() {
+        size_li = $(".comments_review .comment_user").size();
+        x = 1;
+        $('.comments_review .comment_user:lt(' + x + ')').fadeIn();
+        $('#loadMore').click(function() {
+            x = (x + 5 <= size_li) ? x + 5 : size_li;
+            $('.comments_review .comment_user:lt(' + x + ')').fadeIn();
+        });
+    }
+
+
 
     function openAlert(message, title)
     {
@@ -135,4 +165,40 @@ $(document).ready(function() {
             $info.show();
         }
     });
+
+    /*Add To Cart*/
+    $("body").on('click', '.addToCart', function() {
+        $product_id = $('#product_id').val();
+        $duration_id = $('#durations').val();
+        $group_id = $('#groups').val();
+        $this = $(this);
+        $.ajax({
+            url: _PREF + "AddToCart",
+            type: 'post',
+            data: {pro_id: $product_id, duration_id: $duration_id, group_id: $group_id},
+            dataType: 'html',
+            success: function(data) {
+                $('.AddedToCart').hide();
+                $('.RemovedFromCart').show();
+            }
+        });
+    });
+
+
+    $("body").on('click', '.RemoveToCart', function() {
+        $product_id = $('#product_id').val();
+        $this = $(this);
+        $.ajax({
+            url: _PREF + "RemoveFromCart",
+            type: 'post',
+            data: {pro_id: $product_id},
+            dataType: 'html',
+            success: function(data) {
+                $('.RemovedFromCart').hide();
+                $('.AddedToCart').show();
+            }
+        });
+    });
+
+
 });

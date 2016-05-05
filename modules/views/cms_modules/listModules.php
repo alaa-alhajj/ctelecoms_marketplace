@@ -33,7 +33,9 @@ $listTable->setParentAttr(array('cmsMID'));
 
 if ($_REQUEST['cmsMID'] === '100' || $_SESSION['cmsMID']==='100') {
     $cols=array("name","password","customer_group");
-    $listTable->setExtraLinks(array(array('Purchase Orders', $utils->icons->ico['list'], '../purchase_orders/listPurchaseOrder.php', array('customer' => 'name'), '')));
+    $listTable->setExtraLinks(array(array('Purchase Orders', $utils->icons->ico['list'], '../purchase_orders/listPurchaseOrder.php', array('customer' => 'name'), '')
+        ,array('Reviews', $utils->icons->ico['list'], '../reviews/listReviews.php', array('customer' => 'name'), '')
+        ));
 }
 $listTable->_dublicate($db_table, 'id', $pageUpdate, $cols, $_SESSION['cmsMID'], 'true');
 if ($has_order) {
