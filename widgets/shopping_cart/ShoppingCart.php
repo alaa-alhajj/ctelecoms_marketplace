@@ -109,11 +109,12 @@
 
         </table>
         <div class="tableCartResponsive col-sm-12 nopadding">
-            <?= $res2; ?>
+            <?= $res2; 
+             ?>
 
             <div class="row row-nomargin">
                 <div class="col-sm-6 nopadding"><a href="#" class="btn btn-danger">Continue shopping</a></div>
-                <div class="col-sm-6 nopadding"><a href="#" class="btn btn-default right-button" >Checkout</a></div>
+                <div class="col-sm-6 nopadding"><a href="<?=_PREF.$_SESSION['pLang']."/page57/Checkout"?>" class="btn btn-default right-button" >Checkout</a></div>
             </div>
         </div>
 
