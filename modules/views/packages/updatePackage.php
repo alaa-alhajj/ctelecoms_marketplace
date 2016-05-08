@@ -12,6 +12,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
     $utils->redirect($pageInsertPackageProducts."?id=".$_REQUEST['id']);
     }
 }
+$values = $fpdo->from($db_table)->where('id', $_REQUEST['id'])->fetch();
 echo $path = '<ul id="breadcrumbs-one">
     <li class="active-menue"><a href="#">Package Data</a></li>
     <li><a href="#">Package Products</a></li>
@@ -23,9 +24,9 @@ echo $path = '<ul id="breadcrumbs-one">
     <li><a href="#">Required Fields</a></li>
     <li><a href="#">FAQ</a></li>
     <li><a href="#">SEO</a></li>
-</ul>';
+</ul><input type="hidden" id="request_cat_id" value="'.$values['sub_cat_id'].'">';
 $form = new GenerateFormField();
-$values = $fpdo->from($db_table)->where('id', $_REQUEST['id'])->fetch();
+
 $form->setColumns($cols);
 $form->setTypes($types);
 $form->setValues($values);

@@ -74,7 +74,7 @@ $durations_select.="</select>";
         </h1>
         <p> <?= $get_product_details['brief']; ?></p>
        
-            <div class="RemovedFromCart <?=$show_remove?>">
+            <div class="RemovedFromCart <?=$show_remove?> loadImgAdd">
                 <div class='row row-nomargin product-price'>
                     <div class="col-sm-12 cart-button"><a href='javascript:;' class="RemovefromCart" data-id="<?=$product_id?>"><i class="fa fa-cart-plus" aria-hidden="true"></i><span> Remove From Cart</span></a></div>
                 </div>
@@ -86,7 +86,7 @@ $durations_select.="</select>";
                     <div class="col-sm-6 nopadding"><span class='fontsize'>Number of users &nbsp;</span> <?= $groups_select; ?></div>
                 </div>
 
-                <div class='row row-nomargin product-price'>
+                <div class='row row-nomargin product-price loadImgAdd'>
 
                     <div class="col-sm-6">Price <span id="product_price"> </span></div>
                     <div class="col-sm-6 cart-button"><a href='javascript:;' class="addToCart"><i class="fa fa-cart-plus" aria-hidden="true"></i><span> Add to Cart</span></a></div>
@@ -156,7 +156,7 @@ $durations_select.="</select>";
                                        ' . $product_photo . '
                                         <div class="caption">
                                        <h3>' . $get_pro['title'] . '</h3>
-                                           <p>test</p>
+                                       <p style="min-height:41px">' .strip_tags($get_pro['brief']) . '</p>
                                        <p> <a href="#" class="btn btn-default" role="button">MORE</a></p>
                                       </div>
                                            </div>

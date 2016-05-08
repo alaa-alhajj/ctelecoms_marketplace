@@ -30,7 +30,7 @@ $form->setColumns($cols);
 $form->setTypes($types);
 $form->setExtendTables($source);
 $form->setRequireds($required);
-
+$form->setIdForm("Products");
 $form->setCountCell(1);
 $form->setSubmit(true);
 $form->setSubmitName('Save & Continue');

@@ -22,11 +22,12 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
       
 
         $save_ob = new saveform($db_product_price_value, $_REQUEST, $saveCols_product_price_values,'id','','','',false);
-          if ($_REQUEST['saveClose'] != "") {
+      
+    }
+        if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
         $utils->redirect($pageProductAddOns . "?id=" . $_REQUEST['id']);
-    }
     }
 }
 echo $path = '<ul id="breadcrumbs-one">

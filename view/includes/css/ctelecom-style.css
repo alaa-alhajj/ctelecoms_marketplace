@@ -147,7 +147,7 @@
   top: 30%;
   left: 0;
   bottom: 0;
-  right: 0;
+  right: 0;color:#000 !important
 }
 .loading span{margin-left: -14px}
 /* Transparent Overlay */
@@ -164,3 +164,25 @@
 
 .rel-div{position: relative}
 .right-button{float: right}
+.colorWhite{color:#fff}
+.loadingPrice {
+    padding:0px;
+  position: absolute;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  margin: auto;
+  top: -7%;
+  left: 0;
+  bottom: 0;
+  right: 0;color:#000 !important
+}
+.loadingPrice:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 25%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

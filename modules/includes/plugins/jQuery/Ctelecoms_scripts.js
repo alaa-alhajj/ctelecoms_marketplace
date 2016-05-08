@@ -709,5 +709,35 @@ $(document).ready(function() {
             $(".table-fileds-costum .TagsInput").attr('name', "");
         }
     });
+    /* sub category*/
+    $('body').on('change', '#Products #cat_id', function() {
+        $this = $(this).val();
+
+        $.ajax({url: "../ajax/GetSubCategories.php"
+            , type: 'post'
+            , data: {cat: $this}
+            , dataType: 'json'
+            , success: function(data) {
+
+                $('#Products #sub_cat_id').html(data[0]);
+            }});
+    });
+     
+    $this = $('#Products #cat_id').val();
+
+    $.ajax({url: "../ajax/GetSubCategories.php"
+        , type: 'post'
+        , data: {cat: $this}
+        , dataType: 'json'
+        , success: function(data) {
+
+            $('#Products #sub_cat_id').html(data[0]);
+            $subCat_value = $('#request_cat_id ').val();
+    
+    $('#Products #sub_cat_id option').removeAttr('selected');
+    $('#Products #sub_cat_id option[value="' + $subCat_value + '"]').attr('selected', 'selected');
+    $('#Products #sub_cat_id option[value="' + $subCat_value + '"]').prop('selected', 'selected');
+        }});
+ 
 
 });

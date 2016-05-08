@@ -74,8 +74,8 @@
                     echo "<td>" . $product_photo . "</td>";
                     echo "<td><a href='$link23'>" . $get_pro_name['title'] . "</a></td>";
                     echo "<td>$groups_select</td>";
-                    echo "<td id='price2_" . $product_id . "'>" .number_format( $get_price['value'],2,'.',',') . "</td>";
-                    echo "<td id='price_" . $product_id . "' data-offer='" . $check_offers['discount_percentage'] . "' data-promo='".$get_promo_discount['discount_percentage']."'>" .number_format($price_after_promo,2,'.',',') . "</td>";
+                    echo "<td id='price2_" . $product_id . "' class='rel-div'>" .number_format( $get_price['value'],2,'.',',') . "</td>";
+                    echo "<td class='rel-div' id='price_" . $product_id . "' data-offer='" . $check_offers['discount_percentage'] . "' data-promo='".$get_promo_discount['discount_percentage']."'>" .number_format($price_after_promo,2,'.',',') . "</td>";
                     echo "<td><a href='javascript:void(0);' class='RemovefromCart' data-id='$product_id' data-remove='tr'><span class='fa fa-remove' ></span></a></td>";
                     echo "</tr>";
                     $total_price+=$price_after_promo;
@@ -89,11 +89,13 @@
                 }
 
                 echo "</tbody>";
-                echo "<tfoot>"
-                . "<tr class='thanksPromoMsg $class_promo'><td colspan='6' >Thanks. Your promo code has been added successfully </td></tr>"
+                echo "<tfoot>";
+                if($_SESSION['CUSTOMER_ID'] !=""){
+                echo "<tr class='thanksPromoMsg $class_promo'><td colspan='6' >Thanks. Your promo code has been added successfully </td></tr>"
                 . "<tr class='promoCodeTr $class_add_promo'><td></td><td>Promocode<br>If you have promocode please enter it here</td><td></td>"
                 . "<td ><input type='text' id='promoCode-value' class='form-control'></td><td><button class='btn btn-default' id='applay_promocode'>applay</button></td>"
                 . "</tr>";
+                }
 
 
                 echo "<tr><td colspan='6' ><b>Total Discount:</b> $<span class='DiscountOrderCart'>".number_format($total_discount,2,'.',',')."<span></td></tr>"

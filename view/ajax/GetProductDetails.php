@@ -210,7 +210,7 @@ if ($get_data === "overview") {
                                        ' . $addOn_photo . '
                                         <div class="caption">
                                        <h3>' . $get_pro['title'] . '</h3>
-                                           <p>test</p>
+                                        <p style="min-height:41px">' .strip_tags($get_pro['brief']) . '</p>
                                        <p> <a href="#" class="btn btn-default" role="button">MORE</a></p>
                                       </div>
                                            </div>

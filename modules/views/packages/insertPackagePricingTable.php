@@ -20,12 +20,13 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
         $_REQUEST['group_id'] = $group_id = $get_ids[2];
 
         $save_ob = new saveform($db_product_price_value, $_REQUEST, $saveCols_product_price_values,'id','','','',false);
-        if ($_REQUEST['saveClose'] != "") {
+       
+    }
+     if ($_REQUEST['saveClose'] != "") {
             $utils->redirect($pageList);
         } else {
             $utils->redirect($pageProductAddOns . "?id=" . $_REQUEST['id']);
         }
-    }
 }
 echo $path = '<ul id="breadcrumbs-one">
     <li><a href="#">Package Data</a></li>

@@ -8,16 +8,18 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     $insert_id = $save_ob->getInsertId();
   
     if ($_REQUEST['feature_type'][0] === 1 || $_REQUEST['feature_type'][0] === '1') {
-      $get_features=$fpdo->from("product_features")->where("cat_id='".$_REQUEST['cat_id']."' and sub_cat_id='0'")->fetchALL();
+     /* $get_features=$fpdo->from("product_features")->where("cat_id='".$_REQUEST['cat_id']."' and sub_cat_id='0'")->fetchALL();
       foreach($get_features as $sub_features){
           $get_maxOrder=$fpdo->from("product_features")->select("max(item_order) as max")->fetch();
           $order=$get_maxOrder['max']+1;
             $fpdo->insertInto('product_features')->values(array('`item_order`' => $order, '`title`' => $sub_features['title'],'`type`'=>$sub_features['type'],'`plus`'=>$sub_features['plus'],'`is_main`'=>$sub_features['is_main'],'`sub_cat_id`'=>$insert_id))->execute();
       }
+      
+      */
         $utils->redirect($pageList);
     } elseif ($_REQUEST['feature_type'][0] === 2 || $_REQUEST['feature_type'][0] === '2') {
       
-        $utils->redirect($pageInsertFeature . "?id=" . $insert_id);
+        $utils->redirect($pageInsertFeature . "?sub_cat_id=" . $insert_id);
     }
 }
 echo $path = '<ul id="breadcrumbs-one">

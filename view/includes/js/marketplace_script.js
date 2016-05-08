@@ -174,13 +174,16 @@ $(document).ready(function() {
         $product_id = $('#product_id').val();
         $duration_id = $('#durations').val();
         $group_id = $('#groups').val();
+        $('.loadImgAdd').append('   <div class="loading"><span>Loading&#8230;</span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
         $this = $(this);
+         $this.hide();
         $.ajax({
             url: _PREF + "AddToCart",
             type: 'post',
             data: {pro_id: $product_id, duration_id: $duration_id, group_id: $group_id},
             dataType: 'html',
             success: function(data) {
+                  $this.parents().find('.loading').remove();
                 $('.AddedToCart').hide();
                 $('.RemovedFromCart').show();
             }
@@ -191,8 +194,10 @@ $(document).ready(function() {
     $("body").on('click', '.RemovefromCart', function() {
         $product_id = $(this).data('id');
         $this_tr = $(this).data('remove');
-        alert($product_id);
+       $('.loadImgAdd').append('   <div class="loading"><span>Loading&#8230;</span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
+      
         $this = $(this);
+         $this.hide();
         $.ajax({
             url: _PREF + "RemoveFromCart",
             type: 'post',
@@ -201,6 +206,9 @@ $(document).ready(function() {
             success: function(data) {
                 if ($this_tr !== "") {
                     $this.parents().find('#' + $product_id).fadeOut();
+                      $('.RemovedFromCart').hide();
+                    $('.AddedToCart').show();
+                     $this.parents().find('.loading').remove();
                 } else {
                     $('.RemovedFromCart').hide();
                     $('.AddedToCart').show();
@@ -215,6 +223,11 @@ $(document).ready(function() {
         $dynamic_id = $(this).data('dynamic');
         $product_id = $(this).data('product');
         $promo_discount = $(this).data('promo');
+           $('#price2_' + $product_id).addClass("colorWhite");
+           $('#price2_' + $product_id).append('<div class="loadingPrice"><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
+           
+            $('#price_' + $product_id).addClass("colorWhite");
+           $('#price_' + $product_id).append('<div class="loadingPrice"><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
         $.ajax({
             url: _PREF + "GetPriceForShoppingCart",
             type: 'post',
@@ -226,8 +239,11 @@ $(document).ready(function() {
                 $price = data[0] - ($offer_val / 100);
                 
                 $tot_price_after_discount= $price - ($promo_discount / 100);
+                  $('#price2_' + $product_id).find('.loadingPrice').remove();
+                  $('#price_' + $product_id).find('.loadingPrice').remove();
+                  $('#price2_' + $product_id).removeClass("colorWhite");
+                  $('#price_' + $product_id).removeClass("colorWhite");
                 $('#price_' + $product_id).html(parseFloat($tot_price_after_discount).toFixed(2));
-
                 $('#price2_' + $product_id).html(data[0]);
                 $tot_price = 0;
                 $tot_price_before_discount = 0;
@@ -237,7 +253,7 @@ $(document).ready(function() {
                     $tot_price += Number($("#" + $this_tr + " #price_" + $this_tr).html());
                     $tot_price_before_discount += Number($("#" + $this_tr + " #price2_" + $this_tr).html());
                 });
-                $(".TotalPriceCart").html(parseFloat($tot_price).toFixed(2));parseFloat($tot_price_before_discount).toFixed(2)
+                $(".TotalPriceCart").html(parseFloat($tot_price).toFixed(2));parseFloat($tot_price_before_discount).toFixed(2);
                 $(".TotalPriceBeforeDiscount").html(parseFloat($tot_price_before_discount).toFixed(2));
             }
         });
@@ -245,6 +261,7 @@ $(document).ready(function() {
 
     $("body").on('click', '#applay_promocode', function() {
         $code = $('#promoCode-value').val();
+        alert($code);
         $this = $(this);
         $.ajax({
             url: _PREF + "ApplayPromoCode",
@@ -252,8 +269,10 @@ $(document).ready(function() {
             data: {code: $code},
             dataType: 'json',
             success: function(data) {
+              
                 if (data[0] === 1 || data[0] === '1') {
                     $products = data[2].split(",");
+                  
                     for (var i = 0; i < $products.length; i++) {
 
                         $old_price = parseFloat($("#price_" + $products[i]).html());

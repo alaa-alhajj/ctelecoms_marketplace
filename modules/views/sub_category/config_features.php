@@ -46,5 +46,7 @@ $order_field="item_order";
 $table_id = $_REQUEST['table_id'];
 $order_condition=" table_id='$table_id' ";
 $classSubMain = array('col-xs-2', 'pull-left', 'col-xs-9');
-$pageList="insertSubCategoryFeature.php";
+$pageListF="insertSubCategoryFeature.php";
+$pageList="listSubCategories.php";
+$pageListHref="'".$pageList."'";
 ?>

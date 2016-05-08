@@ -14,7 +14,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-        $utils->redirect($pageCongrats);
+        $utils->redirect($pageList);
     }
 }
 echo $path = '<ul id="breadcrumbs-one">
