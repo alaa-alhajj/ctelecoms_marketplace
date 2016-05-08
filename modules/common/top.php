@@ -1,5 +1,6 @@
 <?php
 session_start();
+error_reporting(0);
 ini_set('short_open_tag', '1');
 include_once ("../../../config.php");
 include_once '../../controller/include.inc.php';
