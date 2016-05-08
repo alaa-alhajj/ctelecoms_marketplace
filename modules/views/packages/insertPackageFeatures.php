@@ -45,7 +45,7 @@ echo $path = '<ul id="breadcrumbs-one">
     <li><a href="#">SEO</a></li>
 </ul>';
 
-$get_features = $fpdo->from($db_pro_features)->where("cat_id='" . $get_Cat['cat_id'] . "'")->fetchAll();
+$get_features = $fpdo->from($db_pro_features)->where("cat_id='" . $get_Cat['cat_id'] . "' or sub_cat_id='" . $get_Cat['sub_cat_id'] . "'")->fetchAll();
 $row_id = explode('_', $db_pro_Type);
 $add_feature = '';
 $add_feature.='

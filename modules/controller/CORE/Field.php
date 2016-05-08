@@ -230,7 +230,12 @@ class field extends utils {
 
             case "id": {
 
-                    $res = $this->getInputHiddenField($this->name, $this->value, "hidden");
+                    $res =  $res = $this->getInputList();
+                    break;
+                }
+                 case "code": {
+
+                     $res = $this->getInputTextFieldCode();
                     break;
                 }
             case "checkbox":case "radio": {
@@ -305,6 +310,11 @@ class field extends utils {
 
     function getInputTextField() {
         $res = '<input id="' . $this->id . '" name="' . $this->name . '" value="' . $this->value . '" type="' . $this->type . '" ' . $this->required . ' size="' . $this->length . '" class="' . $this->css_class . '" placeholder="' . $this->placeholder . '">';
+        return $res;
+    }
+    
+     function getInputTextFieldCode() {
+        $res = '<input id="' . $this->id . '" name="' . $this->name . '" value="' . $this->value . '" type="' . $this->type . '" ' . $this->required . ' size="' . $this->length . '" class="' . $this->css_class . ' code-style" placeholder="' . $this->placeholder . '"><a href="javascript:;" class="btn-generate-code" id="GenerateCode">Generate Code</a>';
         return $res;
     }
 

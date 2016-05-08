@@ -137,21 +137,30 @@
     top: 0px;
 }
 
-.overlay {
-    background: #e9e9e9; 
-    display: none;        
-    position: absolute; 
-    top: 0;               
-    right: 0;              
-    bottom: 0;
-    left: 0;
-    opacity: 0.5;
+.loading {
+    padding:10px;
+  position: absolute;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  margin: auto;
+  top: 30%;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
-.loading-effect{padding-top: 50px;
-    font-size: 35px;
-    position: absolute;
-    z-index: 1;
-    margin: auto;
-    width: 100%;
-    text-align: center;}
+.loading span{margin-left: -14px}
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 25%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
 .rel-div{position: relative}
+.right-button{float: right}

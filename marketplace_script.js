@@ -39,12 +39,12 @@ $(document).ready(function() {
     });
     /* Get Tabs Details Ajax*/
     $("body").on('click', '.GetProductDetails', function() {
-        $("#Details").append('   <div class="loading"><span>Loading&#8230;</span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
-
+           $("#Details").append('   <div class="loading"><span>Loading&#8230;</span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
+        
         $product_id = $(this).data('id');
         $get_data = $(this).data('details');
         $this = $(this);
-
+        
         $this.removeClass('GetProductDetails');
         $.ajax({
             url: _PREF + "GetProductDetails",
@@ -53,7 +53,7 @@ $(document).ready(function() {
 
                 $('#' + $get_data).find('p').append(data);
                 $this.removeClass('GetProductDetails');
-                $("#Details").find('.loading').remove();
+                 $("#Details").find('.loading').remove();
                 displayRating();
                 LoadMoreReviews();
             }
@@ -214,64 +214,16 @@ $(document).ready(function() {
         $group_id = $(this).val();
         $dynamic_id = $(this).data('dynamic');
         $product_id = $(this).data('product');
-        $promo_discount = $(this).data('promo');
         $.ajax({
-            url: _PREF + "GetPriceForShoppingCart",
+            url: _PREF + "GetProductPrice",
             type: 'post',
-            data: {duration: $duration_id, group: $group_id, dynamic: $dynamic_id, product_id: $product_id},
+            data: {duration: $duration_id, group: $group_id, dynamic: $dynamic_id},
             dataType: 'json',
             success: function(data) {
-                $offer_val = $('#price_' + $product_id).data('offer');
-                 $promo_discount =  $('#price_' + $product_id).data('promo');
-                $price = data[0] - ($offer_val / 100);
-                
-                $tot_price_after_discount= $price - ($promo_discount / 100);
-                $('#price_' + $product_id).html(parseFloat($tot_price_after_discount).toFixed(2));
 
-                $('#price2_' + $product_id).html(data[0]);
-                $tot_price = 0;
-                $tot_price_before_discount = 0;
-                $('.ShoppingCartTable tbody tr').each(function()
-                {
-                    $this_tr = $(this).attr("id");
-                    $tot_price += Number($("#" + $this_tr + " #price_" + $this_tr).html());
-                    $tot_price_before_discount += Number($("#" + $this_tr + " #price2_" + $this_tr).html());
-                });
-                $(".TotalPriceCart").html(parseFloat($tot_price).toFixed(2));parseFloat($tot_price_before_discount).toFixed(2)
-                $(".TotalPriceBeforeDiscount").html(parseFloat($tot_price_before_discount).toFixed(2));
-            }
-        });
-    });
+                $('#price_'+$product_id).html(data[0]);
 
-    $("body").on('click', '#applay_promocode', function() {
-        $code = $('#promoCode-value').val();
-        $this = $(this);
-        $.ajax({
-            url: _PREF + "ApplayPromoCode",
-            type: 'post',
-            data: {code: $code},
-            dataType: 'json',
-            success: function(data) {
-                if (data[0] === 1 || data[0] === '1') {
-                    $products = data[2].split(",");
-                    for (var i = 0; i < $products.length; i++) {
 
-                        $old_price = parseFloat($("#price_" + $products[i]).html());
-                        $new_price = $old_price - (data[1] / 100);
-                        $(".ShoppingCartTable #price_" + $products[i]).html(parseFloat($new_price).toFixed(2));
-                    }
-                    $tot_price = 0;
-                    $('.ShoppingCartTable tbody tr').each(function()
-                    {
-                        $this_tr = $(this).attr("id");
-                        $tot_price += Number($("#" + $this_tr + " #price_" + $this_tr).html());
-                    });
-                    $(".TotalPriceCart").html(parseFloat($tot_price).toFixed(2));
-                    $this.parents().find('.promoCodeTr').fadeOut();
-                    $('.thanksPromoMsg').fadeIn();
-                } else {
-                    openAlert(data[1]);
-                }
             }
         });
     });

@@ -36,6 +36,7 @@ include_once 'view/common/langsLabel.php';
 	
                                 <div class='site-wrapper nopadding container'>
 			<div class='site-con'>
+                            <a href="<?  _PREF . $pLang . "/page56/Logout"?>">logout</a>
                             <div class="row row-nomargin">
 				<div class=' col-sm-12 site-path'><?php echo $path->getPath();?></div>
                             </div>

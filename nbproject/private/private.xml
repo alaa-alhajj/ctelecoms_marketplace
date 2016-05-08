@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/xampp/htdocs/ctelecoms_marketplace/view/includes/js/marketplace_script.js</file>
+            <file>file:/D:/xampp/htdocs/ctelecoms_marketplace/modules/views/sub_category/insertSubCategory.php</file>
+            <file>file:/D:/xampp/htdocs/ctelecoms_marketplace/modules/views/sub_category/insertSubCategoryFeature.php</file>
+            <file>file:/D:/xampp/htdocs/ctelecoms_marketplace/modules/views/packages/insertPackageFeatures.php</file>
+            <file>file:/D:/xampp/htdocs/ctelecoms_marketplace/modules/views/sub_category/updateSubCategory.php</file>
+            <file>file:/D:/xampp/htdocs/ctelecoms_marketplace/modules/views/products/insertProductFeatures.php</file>
         </group>
     </open-files>
 </project-private>

@@ -29,8 +29,8 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Delete') {
 
 $listTable = $voiControl->ObListTable();
 $listTable->_table($db_table);
-$listTable->_columns(array('title', 'cat_id','special','add_ons_only'));
-$listTable->_Types(array('special'=>'flag','add_ons_only'=>'flag'));
+$listTable->_columns(array('title', 'cat_id','add_ons_only'));
+$listTable->_Types(array('add_ons_only'=>'flag'));
 $listTable->_source(array('cat_id' => array('product_category', 'id', 'title')));
 $listTable->_class('table table-striped');
 $listTable->_edit($pageUpdate, array("id"));
@@ -45,10 +45,12 @@ $listTable->setExtraLinks(array(array('Features', $utils->icons->ico['list'], 'i
      , array('Purchase Order', $utils->icons->ico['list'], '../purchase_orders/listPurchaseOrder.php', array('product' => 'title','pid'=>'id'), '')
          , array('Reviews', $utils->icons->ico['list'], '../reviews/listReviews.php', array('product' => 'title'), '')
 ),true);
-$listTable->_special(false);
-$listTable->_active(false);
+
+$listTable->_active(true);
 $listTable->_seo_page('page_id');
+
 $listTable->_dublicate($db_table, 'id', $pageUpdate, $dublicated_cols, $_REQUEST['cmsMID'], 'true', '../../views/ajax/SaveDublicatedProduct.php');
+$listTable->_special(true);
 $listTable->setFilter(array(
     array("title", "text")
 ));

@@ -626,7 +626,7 @@ class ListTable extends utils {
             $result.="<tr>\n";
 
             foreach ($this->columns as $column) {
-                $result.="<th>";
+                $result.="<th >";
                 if (constant($column)) {
                     $result.=constant($column);
                 } else {
@@ -638,7 +638,7 @@ class ListTable extends utils {
             $ext = 0;
 
             if ($this->moreButton == true && count($this->extraLinks) > 0) {
-                $result.="<th width=30>" . $this->getConstant("More") . "</th>\n";
+                $result.="<th width=30 align='center'>" . $this->getConstant("More") . "</th>\n";
             } elseif ($this->moreButton == false && count($this->extraLinks) > 0) {
 
                 foreach ($this->extraLinks as $exlink) {
@@ -651,7 +651,13 @@ class ListTable extends utils {
 
 
             if ($this->active == true) {
-                $result.="<th width=30>" . active . "</th>\n";
+                $result.="<th width=30 align='center'>" . active . "</th>\n";
+            }
+             if ($this->special == true) {
+                $result.="<th width=30>" . special . "</th>\n";
+            }
+            if ($this->static != '') {
+                $result.="<th width=30>" . _static . "</th>\n";
             }
             $i_page = 0;
             foreach ($query as $row_seo) {
@@ -664,6 +670,11 @@ class ListTable extends utils {
                 }
             }
 
+
+           
+            if ($this->seo == true) {
+                $result.="<th width=30>" . seo . "</th>\n";
+            }
             $i_dublicate = 0;
             foreach ($query as $row_dublicate) {
                 if ($i_dublicate < 1) {
@@ -672,15 +683,6 @@ class ListTable extends utils {
                         $i_dublicate++;
                     }
                 }
-            }
-            if ($this->special == true) {
-                $result.="<th width=30>" . special . "</th>\n";
-            }
-            if ($this->static != '') {
-                $result.="<th width=30>" . _static . "</th>\n";
-            }
-            if ($this->seo == true) {
-                $result.="<th width=30>" . seo . "</th>\n";
             }
             if ($this->widget == true) {
                 $result.="<th width=30>" . widget . "</th>\n";
@@ -745,7 +747,9 @@ class ListTable extends utils {
                     if ($this->active == true) {
                         $result.="<td></td>\n";
                     }
-
+                    if ($this->special == true) {
+                        $result.="<td></td>\n";
+                    }
                     $i_page = 0;
                     foreach ($query as $row_seo) {
                         if ($i_page < 1) {
@@ -765,9 +769,7 @@ class ListTable extends utils {
                             }
                         }
                     }
-                    if ($this->special == true) {
-                        $result.="<td></td>\n";
-                    }
+
                     if ($this->static != '') {
                         $result.="<td></td>\n";
                     }
@@ -781,7 +783,7 @@ class ListTable extends utils {
                         $result.="<td></td>\n";
                     }
                     if ($this->edit != '') {
-                        $result.="<td><button type='submit'>" . $this->icons->ico['save'] . "</button></td>\n";
+                        $result.="<td><button type='submit' class='btn-e-r btn btn-danger btn-sm'>" . $this->icons->ico['save'] . "</button></td>\n";
                     }
                     if ($this->delete == true) {
                         $result.="<td></td>\n";
@@ -852,7 +854,12 @@ class ListTable extends utils {
                     if ($this->active == true) {
                         $result.="<td></td>\n";
                     }
-
+                    if ($this->special == true) {
+                        $result.="<td></td>\n";
+                    }
+                      if ($this->static != '') {
+                        $result.="<td></td>\n";
+                    }
                     $i_page = 0;
                     foreach ($query as $row_seo) {
                         if ($i_page < 1) {
@@ -863,7 +870,11 @@ class ListTable extends utils {
                             }
                         }
                     }
-                    $i_dublicate = 0;
+                  
+                    if ($this->seo == true) {
+                        $result.="<td></td>\n";
+                    }
+                      $i_dublicate = 0;
                     foreach ($query as $row_dublicate) {
                         if ($i_dublicate < 1) {
                             if ($this->display == true) {
@@ -873,15 +884,6 @@ class ListTable extends utils {
                             }
                         }
                     }
-                    if ($this->special == true) {
-                        $result.="<td></td>\n";
-                    }
-                    if ($this->static != '') {
-                        $result.="<td></td>\n";
-                    }
-                    if ($this->seo == true) {
-                        $result.="<td></td>\n";
-                    }
                     if ($this->widget == true) {
                         $result.="<td></td>\n";
                     }
@@ -889,7 +891,7 @@ class ListTable extends utils {
                         $result.="<td></td>\n";
                     }
                     if ($this->edit != '') {
-                        $result.="<td><button type='submit'>" . $this->icons->ico['save'] . "</button></td>\n";
+                        $result.="<td><button type='submit' class='btn-e-r btn btn-danger btn-sm'>" . $this->icons->ico['save'] . "</button></td>\n";
                     }
                     if ($this->delete == true) {
                         $result.="<td></td>\n";
@@ -906,7 +908,7 @@ class ListTable extends utils {
                         $value = stripcslashes($row[$column]);
 
                         if (isset($this->source[$column]) && $this->source[$column] != '') {
-                          
+
                             $v = $this->lookupField($this->source[$column][0], $this->source[$column][1], $this->source[$column][2], $row[$column]);
                             if ($v != "") {
                                 $value = $v;
@@ -917,15 +919,17 @@ class ListTable extends utils {
 
                             $value = $this->ViewPhotos($value, 1, 1, 50, 50);
                         }
+                        $align = "";
                         if ($this->types[$column] == 'flag') {
                             $value = "" . $this->switcher($this->db_table, $row[$this->f_id], $column, $row[$column], "SwitcherV") . "";
+                            $align = "align='center'";
                         }
 
                         if ($this->types[$column] == 'checkbox' && $this->source[$column][0] != "") {
 
                             $value = $this->getValuesImplode($this->source[$column][0], $this->source[$column][1], $this->source[$column][2], stripcslashes($row[$column]));
                         }
-                        $result.="<td>" . $value . "</td>\n";
+                        $result.="<td $align>" . $value . "</td>\n";
                     }
                     $ext = 0;
 
@@ -952,7 +956,7 @@ class ListTable extends utils {
                                 array_push($linkO, "$key=" . $row[$attr]);
                             }
                             $linkO = implode('&', $linkO);
-                            $result.="<td><a title='" . $exlink[0] . "' data-toggle='tooltip' href='$exlink[2]?$linkO' target='$exlink[4]'>$exlink[1]</a></td>\n";
+                            $result.="<td align='center'><a title='" . $exlink[0] . "' data-toggle='tooltip' href='$exlink[2]?$linkO' target='$exlink[4]'>$exlink[1]</a></td>\n";
                         }
                     }
 
@@ -960,19 +964,19 @@ class ListTable extends utils {
 
 
                     if ($this->active == true) {
-                        $result.="<td>" . $this->switcher($this->db_table, $row[$this->f_id], $this->f_active, $row[$this->f_active], "SwitcherV") . "</td>\n";
+                        $result.="<td align='center'>" . $this->switcher($this->db_table, $row[$this->f_id], $this->f_active, $row[$this->f_active], "SwitcherV") . "</td>\n";
                     }
                     if ($this->special == true) {
-                        $result.="<td>" . $this->switcher($this->db_table, $row[$this->f_id], $this->f_special, $row[$this->f_special], "SwitcherV") . "</td>\n";
+                        $result.="<td align='center'>" . $this->switcher($this->db_table, $row[$this->f_id], $this->f_special, $row[$this->f_special], "SwitcherV") . "</td>\n";
                     }
                     if ($this->static != '') {
-                        $result.="<td>" . $this->switcher($this->db_table, $row[$this->f_id], $this->f_static, $row[$this->f_static], "SwitcherV") . "</td>\n";
+                        $result.="<td align='center'>" . $this->switcher($this->db_table, $row[$this->f_id], $this->f_static, $row[$this->f_static], "SwitcherV") . "</td>\n";
                     }
 
 
                     if ($row_seo[$this->page_id] > 0) {
                         $id_seo = $row[$this->page_id];
-                        $result.="<td><a href='javascript:;' data-id='$id_seo' class='seoModal'>" . $this->icons->ico['seo'] . "</a></td>\n";
+                        $result.="<td align='center'><a href='javascript:;' data-id='$id_seo' class='seoModal'>" . $this->icons->ico['seo'] . "</a></td>\n";
                         $i_page++;
                     }
                     if ($this->display == true) {
@@ -981,21 +985,21 @@ class ListTable extends utils {
                         foreach ($this->cols_insert as $col_insert) {
                             $cols_pass.=$col_insert . ",";
                         }
-                        $result.="<td><a href='javascript:;' data-id='" . $row[$this->record_id] . "' data-redirect='" . $this->redirect . "' data-table='" . $this->table_name . "' data-cols='" . $cols_pass . "' data-module='" . $_SESSION['cmsMID'] . "' data-ajax='" . $this->ajaxFile . "' class='dublicate-button'>" . $this->icons->ico['dublicate'] . "</a></td>\n";
+                        $result.="<td align='center'><a href='javascript:;' data-id='" . $row[$this->record_id] . "' data-redirect='" . $this->redirect . "' data-table='" . $this->table_name . "' data-cols='" . $cols_pass . "' data-module='" . $_SESSION['cmsMID'] . "' data-ajax='" . $this->ajaxFile . "' class='dublicate-button'>" . $this->icons->ico['dublicate'] . "</a></td>\n";
                     }
 
                     if ($this->seo == true) {
-                        $result.="<td><a href='$this->seo'>" . $this->icons->ico['seo'] . "</a></td>\n";
+                        $result.="<td align='center'><a href='$this->seo'>" . $this->icons->ico['seo'] . "</a></td>\n";
                     }
                     if ($this->widget == true) {
-                        $result.="<td><a href='$this->widget'>" . $this->icons->ico['widget'] . "</a></td>\n";
+                        $result.="<td align='center'><a href='$this->widget'>" . $this->icons->ico['widget'] . "</a></td>\n";
                     }
 
                     if ($this->view_page == true) {
                         $get_page_title = $this->fpdo->from('cms_pages')->where("id='$id'")->fetch();
 
                         $link_page = $this->view_page . "page" . $id . '/' . $this->rewriteFilter($get_page_title['title']);
-                        $result.="<td><a href='$link_page' target='_blank'>" . $this->icons->ico['view'] . "</a></td>\n";
+                        $result.="<td align='center'><a href='$link_page' target='_blank'>" . $this->icons->ico['view'] . "</a></td>\n";
                     }
                     if ($this->edit != '') {
                         $editLink = $this->edit;
@@ -1020,7 +1024,7 @@ class ListTable extends utils {
 
                             $editLink = $_SERVER['PHP_SELF'] . "?action=_edit&$this->f_id=$id" . $con;
                         }
-                        $result.="<td><a href='$editLink' title='" . $this->getConstant("edit") . "' data-toggle='tooltip'>" . $this->icons->ico['edit'] . "</a></td>\n";
+                        $result.="<td align='center'><a href='$editLink' title='" . $this->getConstant("edit") . "' data-toggle='tooltip'>" . $this->icons->ico['edit'] . "</a></td>\n";
                     }
                     if ($this->delete == true) {
                         $result.="<td><input type='checkbox' name='DeleteRow[]' value='$id' class='checkbox'></td>\n";

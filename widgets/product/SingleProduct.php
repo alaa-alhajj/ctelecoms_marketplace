@@ -108,7 +108,7 @@ $durations_select.="</select>";
                 <li data-id="<?= $product_id ?>" data-details='addons' data-request="Details_6" class='GetProductDetails'>Add-ons</li>
             </ul>
             
-     <div class="overlay"></div>
+
             <div class="resp-tabs-container hor_1 ">
        
 
@@ -149,12 +149,18 @@ $durations_select.="</select>";
                     $get_pro = $this->fpdo->from('products')->where("id='$products_related'")->fetch();
                     $photos = explode(',', $get_pro['photos']);
                     $product_photo = $this->viewPhoto($photos[0], 'crop', 200, 200, 'img', 1, $_SESSION['dots'], 1, '', 'img-responsive width100');
-                    $product_details.="<div class='col-sm-4 '>" . $product_photo . ""
-                            . "<div>" . $get_pro['title'] . "</div>"
-                            . "<div>aaaaaa</div>"
-                            . "<div class='col-sm-12 nopadding'>"
-                            . "<a href='' class='more-button'>MORE</a></div>"
-                            . "</div>";
+                 
+                    $product_details.= '
+                                       <div class="col-sm-6 col-md-3">
+                                       <div class="thumbnail">
+                                       ' . $product_photo . '
+                                        <div class="caption">
+                                       <h3>' . $get_pro['title'] . '</h3>
+                                           <p>test</p>
+                                       <p> <a href="#" class="btn btn-default" role="button">MORE</a></p>
+                                      </div>
+                                           </div>
+                                               </div>';
                 }
             }
             $product_details.="</div>";

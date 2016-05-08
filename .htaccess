@@ -322,3 +322,7 @@ RewriteRule ^AddToCart$  view/ajax/ajax_addToCart.php [L]
 RewriteRule ^RemoveFromCart$  view/ajax/ajax_removeFromCart.php [L]
 #------------------- Market Place 5/5/2016 -----------alaa-----------------------
 RewriteRule ^GetPriceForShoppingCart$  view/ajax/GetPriceForShoppingCart.php [L]
+
+#------------------- Market Place 8/5/2016 -----------alaa-----------------------
+RewriteRule ^ApplayPromoCode$  view/ajax/ApplayPromoCode.php [L]
+RewriteRule ^returnPricesAfterPromoCode$  view/ajax/returnPricesAfterPromoCode.php [L]

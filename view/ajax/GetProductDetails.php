@@ -23,7 +23,7 @@ if ($get_data === "overview") {
     foreach ($get_features as $pro_features) {
         $get_feature_name = $fpdo->from("product_features")->where("id", $pro_features['feature_id'])->fetch();
         $table_features.="<tr>";
-        $table_features.="<td>" . $get_feature_name['title'] . "</td>"
+        $table_features.="<td><b>" . $get_feature_name['title'] . "</b></td>"
                 . "<td>" . $pro_features['value'] . "</td>";
         $table_features.="</tr>";
     }
@@ -38,7 +38,7 @@ if ($get_data === "overview") {
     $faq = "";
     $faq.=" <div class='col-sm-12 nopadding'>";
     $faq.="<h4 class='color-faq pull-left'>Frequently asked questions</h4>";
-    $faq.='<a href="#" class="pull-right "><i class="fa fa-plus  "></i> Show All</a>';
+ //   $faq.='<a href="#" class="pull-right "><i class="fa fa-plus  "></i> Show All</a>';
     $faq.= '</div>';
     $faq.= '<div class="panel-group" id="accordion">';
 
@@ -67,7 +67,7 @@ if ($get_data === "overview") {
                 . '</div></div></div>';
     }
     $faq.="<div class='row row-nomargin allfaq-button'>";
-    $faq.="<a href='' class='btn btn-default'>SEE ALL FAQs</a>";
+  //  $faq.="<a href='' class='btn btn-default'>SEE ALL FAQs</a>";
     $faq.="</div>";
     $faq.="</div>";
     echo $faq;
@@ -205,7 +205,7 @@ if ($get_data === "overview") {
            $addOn_photo = $utils->viewPhoto($photos[0], 'crop', 200, 200, 'img', 1, $_SESSION['dots'], 1, 0, 'img-responsive width100');
 
             $addon_details.= '
-                                       <div class="col-sm-6 col-md-4">
+                                       <div class="col-sm-6 col-md-3">
                                        <div class="thumbnail">
                                        ' . $addOn_photo . '
                                         <div class="caption">

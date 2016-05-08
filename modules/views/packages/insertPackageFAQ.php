@@ -40,7 +40,7 @@ $form = new GenerateFormField();
 $form->setColumns($cols_faq);
 $form->setTypes($types_faq);
 $form->setExtendTables($source);
-$form->setRequireds($required);
+$form->setRequireds($required_faq);
 //$form->setSkipBtn(true, $pageProductSEO . "?pro_id=" . $_REQUEST['pro_id']);
 $form->setAddBtn(true, "", "Save & Insert New", "btn btn-new");
 $form->setBackBtn(true);
