@@ -14,7 +14,8 @@
 <script src="<?php echo _Include ?>js/proj-script.js" type="text/javascript"></script>   
 <script src="<?php echo _Include ?>js/marketplace_script.min.js" type="text/javascript"></script>   
 <script src="<?php echo _Include ?>libs/html5lightbox/html5lightbox.js" type="text/javascript"></script>
-   <script src="<?php echo _Include?>js/easyResponsiveTabs.js" type="text/javascript"></script>
-        <script src="<?php echo _Include?>js/star-rating.min.js" type="text/javascript"></script>
+<script src="<?php echo _Include?>js/easyResponsiveTabs.js" type="text/javascript"></script>
+<script src="<?php echo _Include?>js/star-rating.min.js" type="text/javascript"></script>
+<script src="<?php echo _Include?>js/ctelecoms.script_haider.js" type="text/javascript"></script>
   </body>
 </html>
