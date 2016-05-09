@@ -5,9 +5,9 @@
         $title=$_REQUEST['title'];
         $link=_PREF.$_REQUEST['pLang'].'/page'.$id.'/'.$title;
         
-        if(isset($_REQUEST['submit'],$_REQUEST['full_name'],$_REQUEST['email'],$_REQUEST['password'],$_REQUEST['repeat_password']) && $_REQUEST['submit']=='submit'){
+        if(isset($_REQUEST['SignUp'],$_REQUEST['full_name'],$_REQUEST['email'],$_REQUEST['password'],$_REQUEST['repeat_password']) && $_REQUEST['SignUp']=='signup'){
             
-            $_REQUEST['submit']='submited';       
+            $_REQUEST['SignUp']='signed';       
             $full_name=  addslashes($_REQUEST['full_name']);
             $email=addslashes($_REQUEST['email']);
             $company=addslashes($_REQUEST['company']);
@@ -42,64 +42,21 @@
         }
     }
     
-    
 ?>
-<div class="col-sm-12">
-    <form class="form-horizontal" role="form" method="post" action="">
-        <div class="form-group">
-          <label class=" col-sm-2"></label>
-          <div class="col-sm-10">
-            <?=$successMSG?>
-            <?=$ErrorMSG?>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="fullname">Full Name:</label>
-          <div class="col-sm-10">
-              <input type="text" class="form-control" name='full_name' id="full_name" placeholder="Enter full name" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="company">Company:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" name='company' id="company" placeholder="Enter company">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="city">City:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" name='city' id="city" placeholder="Enter city">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="adress">Adress:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" name='adress' id="adress" placeholder="Enter adress">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="email">Email:</label>
-          <div class="col-sm-10">
-              <input type="email" class="form-control" name='email' id="email" placeholder="Enter Email" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="password">Password:</label>
-          <div class="col-sm-10"> 
-              <input type="password" class="form-control" name='password' id="password" placeholder="Enter password" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="repeat_password">Repeat Password:</label>
-          <div class="col-sm-10"> 
-              <input type="password" class="form-control" name='repeat_password' id="repeat_password" placeholder="Enter password again" required>
-          </div>
-        </div>
-        <div class="form-group"> 
-          <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default" id="submit" name='submit' value="submit">Submit</button>
-          </div>
-        </div>
-    </form>
-</div>
 
+
+                <div class="login-block sign-up-block">
+                        <h1>Sign up</h1>
+                        <form class="form-horizontal" role="form" method="post" action="">
+                            <?=$successMSG?>
+                            <?=$ErrorMSG?>
+                            <input type="text"  name='full_name' id="full_name" placeholder="Full name" required>
+                            <input type="text"  name='company' id="company" placeholder="Company">
+                            <input type="text"  name='city' id="city" placeholder="City">
+                            <input type="text"  name='adress' id="adress" placeholder="Adress">
+                            <input type="email"  name='email' id="email" placeholder="Email" required>
+                            <input type="password"  name='password' id="password" placeholder="Password" required>
+                            <input type="password"  name='repeat_password' id="repeat_password" placeholder="Re-password" required>
+                            <button type="submit"  id="submit" name='SignUp' value="signup">Sign Up</button>
+                        </form>
+                </div>
