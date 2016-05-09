@@ -18,7 +18,7 @@ if ($_POST['LoginC'] === 'login' && $_REQUEST['username'] != "" && $_REQUEST['pa
 
 if(isset($_REQUEST['SignUp'],$_REQUEST['full_name'],$_REQUEST['email'],$_REQUEST['password'],$_REQUEST['repeat_password']) && $_REQUEST['SignUp']=='signup'){
             
-            $_REQUEST['submit']='submited';       
+            $_REQUEST['SignUp']='signed';       
             $full_name=  addslashes($_REQUEST['full_name']);
             $email=addslashes($_REQUEST['email']);
             $company=addslashes($_REQUEST['company']);
@@ -39,13 +39,11 @@ if(isset($_REQUEST['SignUp'],$_REQUEST['full_name'],$_REQUEST['email'],$_REQUEST
                     @session_start();
                     $_SESSION['CUSTOMER_Name'] = $full_name;
                     $_SESSION['CUSTOMER_ID'] = $insert_id;
-                    $utils->redirect(_PREF.$pLang."/page49/My-Account");
+                    $utils->redirect(_PREF.$pLang."/page58/My-Account");
                     
                 }else{
                     $ErrorMSG="<div class='alert alert-danger'>Error, this Email is aleady exist.</div>"; 
                 }
-                
-                
             }else{
                $ErrorMSG="<div class='alert alert-danger'>Error, password don't match repeat password. Enter password again.</div>"; 
             }
