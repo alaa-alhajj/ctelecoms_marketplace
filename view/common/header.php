@@ -25,6 +25,7 @@ include_once 'view/common/langsLabel.php';
 		
 		<link href="<?php echo _Include?>css/rtl.css" rel="stylesheet" type="text/css"/>
 		<link href="<?php echo _Include?>css/ctelecom-style.css" rel="stylesheet" type="text/css"/>
+                <link href="<?php echo _Include?>css/ctelecom-style_haider.css" rel="stylesheet" type="text/css"/>
 		<script src="<?php echo _Include?>js/jquery.min.1.11.0.js" type="text/javascript"></script>
 		<script src="<?php echo _Include?>js/jquery-ui.min.js" type="text/javascript"></script>
 
