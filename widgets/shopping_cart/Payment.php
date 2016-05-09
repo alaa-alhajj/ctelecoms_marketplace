@@ -36,26 +36,32 @@ if (isset($_REQUEST,$_REQUEST['payment_type'])){
         $price_offer = ((($get_price['value']) - ($get_price['value']*($check_offers['discount_percentage'] / 100)) ));
         $real_price=$get_price['value'];//product price with discount
        // echo "<br/>after offer = $price_offer  ";
-        $product_discount=0;
-        $product_discount+=$check_offers['discount_percentage']; 
-        
+        $offer_discount=0;
+        $offer_discount+=$check_offers['discount_percentage']; 
+        $promo_discount=0;
         // $price_after_promo is final product 
         if ($_SESSION['PROMO_CODE'] != "") {
             $get_promo_discount = $this->fpdo->from('promo_codes')->where("id='" . $_SESSION['PROMO_CODE'] . "'")->fetch();
             $price_after_promo = ((($price_offer) - ($price_offer*($get_promo_discount['discount_percentage'] / 100)) ));
-             $product_discount+=$get_promo_discount['discount_percentage'];
+            $promo_discount+=$get_promo_discount['discount_percentage'];
         } else {
             $price_after_promo = $price_offer;
         }
         //echo "<br/> price after offer and promo = $price_after_promo <br/> ";
         //save products in purchase order
-        $insert_id = $this->fpdo->insertInto('purchase_order_products')->values(array('purchase_order_id'=>$order_insert_id,'product_id'=>$product_id,'product_price_id'=>$product_price_id,'product_price'=>$real_price,'total_discount'=>$product_discount))->execute(); 
+        $insert_id = $this->fpdo->insertInto('purchase_order_products')->values(array('purchase_order_id'=>$order_insert_id,'product_id'=>$product_id,'product_price_id'=>$product_price_id,'product_price'=>$real_price,'offer_discount'=>$offer_discount,'promo_discount'=>$promo_discount))->execute();
+        
     }
     
+    //generate page related with this purchase order.
+    $static_widget_id= 21;
+    $page_id = $this->fpdo->insertInto('cms_pages')->values(array('html'=>"##wid_start## ##wid_id_start##$static_widget_id##wid_id_end## ##wid_end##",'type'=>"generated",'lang'=>$pLang,'hidden'=>'1'))->execute();
+    //add generate page_id to purchase order 
+    $query = $this->fpdo->update("purchase_order")->set(array('page_id' =>$page_id))->where('id', $order_insert_id)->execute();
+        
      $_SESSION['OrderID']=$order_insert_id;
      $_SESSION['Shopping_Cart']='';
      $utils->redirect(_PREF.$pLang."/page68/OrderDetails");
-    
 }
          
 ?>
