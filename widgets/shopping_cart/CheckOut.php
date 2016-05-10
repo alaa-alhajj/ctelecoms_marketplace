@@ -14,7 +14,7 @@ if ($_POST['LoginC'] === 'login' && $_REQUEST['username'] != "" && $_REQUEST['pa
         $_SESSION['CUSTOMER_ID'] = $query['id'];
 
         // echo $pLang;
-        $utils->redirect(_PREF . $pLang . "/page49/My-Account");
+        $utils->redirect(_PREF . $pLang . "/page58/Payment");
     } else {
         $_SESSION['error_login'] = 'error';
     }

@@ -212,7 +212,7 @@
     height: 100%;
 }
 .error-login{margin-top: 20px}
-.pointer_events{pointer-events: none}
+.pointerEvents{pointer-events: none}
 
 
 .loadingAdd {
@@ -248,3 +248,15 @@
     font-size: 26px;}
 
 .added{color:#ccc !important}
+.SelectAddons{color:blue;font-size: 14px}
+
+
+.Removing{
+    background: #fff;
+    opacity: 0.5;}
+.span-removing{position: absolute;
+    bottom: 0px;
+    left: 20px;
+    text-align: center;
+}
+.ShoppingCartTable tr td:nth(3){position: relative}

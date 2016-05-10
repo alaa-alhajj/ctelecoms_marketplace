@@ -250,3 +250,13 @@ a[data-switcher="SwitcherV"] .fa.fa-check{color:#00A65A}
 .nonedisplay{display: none}
 .pointer_events{pointer-events: none}
 
+.dashboard-box{clear:both;min-height: 264px;border:1px solid #dd4b39}
+
+.dashboard-box > .panel-heading {
+    color: #fff;
+    background-color: #dd4b39;
+    border-color: #DDD;
+    border-radius: 0px;
+    font-size:13px;clear:both
+}
+.dashboard-box > .panel-heading a{color:#fff}

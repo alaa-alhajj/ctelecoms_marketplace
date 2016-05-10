@@ -16,7 +16,7 @@ class utils {
     protected $fpdo;
     var $icon;
     var $field;
-
+var $val;
     function __construct() {
 
         global $fpdo;
@@ -25,7 +25,23 @@ class utils {
         $this->icons = new Icons();
         //$this->field = new field();
     }
+  public function rewriteFilter($val) {
+        $chrs = array('/', '&', '$', '_', ' ');
 
+        for ($i = 0; $i < count($chrs); $i++) {
+
+            $val = str_replace($chrs[$i], '-', $val);
+        }
+
+        $chrs2 = array(':', '?', '^', '%', '(', ')', '"', "'");
+
+        for ($i = 0; $i < count($chrs2); $i++) {
+
+            $val = str_replace($chrs2[$i], '', $val);
+        }
+
+        return $val;
+    }
     public function back($link, $classCss = "") {
         if (is_string($link)) {
             return "<a href='$link' class='btn btn-back $classCss'>" . $this->getConstant("Back") . "</a>&nbsp;";

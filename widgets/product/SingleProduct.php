@@ -8,7 +8,7 @@ $category_name = $this->fpdo->from('product_category')->where("id", $get_product
 $get_dynamic_price = $this->fpdo->from('product_dynamic_price')->where("product_id='$product_id'")->fetch();
 $dynamic_price_id = $get_dynamic_price['id'];
 $get_groups = explode(',', rtrim($get_dynamic_price['group_ids'], ','));
-$groups_select = "<select name='groups' id='groups' >";
+$groups_select = "<select name='groups' id='groups' class='ProductGroups ProductGroups_$product_id' data-dynamic='".$dynamic_price_id."' data-product='".$product_id."'>";
 foreach ($get_groups as $groups) {
     $get_title_g = $this->fpdo->from('pro_price_groups')->where("id='$groups'")->fetch();
     $get_unit_name = $this->fpdo->from('pro_price_units')->where("id", $get_dynamic_price['unit_id'])->fetch();
@@ -17,7 +17,7 @@ foreach ($get_groups as $groups) {
 $groups_select.="</select>";
 
 $get_durations = explode(',', rtrim($get_dynamic_price['duration_ids'], ','));
-$durations_select = "<select name='durations' id='durations'>";
+$durations_select = "<select name='durations' id='durations' class='ProductDurations ProductDurations_$product_id' data-dynamic='".$dynamic_price_id."' data-product='".$product_id."'>";
 foreach ($get_durations as $duration) {
     $get_title_du = $this->fpdo->from('pro_price_duration')->where("id='$duration'")->fetch();
     $durations_select.="<option value='" . $duration . "'>" . $get_title_du['title'] . "</option>";
@@ -50,7 +50,7 @@ $durations_select.="</select>";
             $showAddToCompare = '';
             $removeFromCompare = 'display-none';
         }
-        print_r($_SESSION['compareIDs']);
+       // print_r($_SESSION['compareIDs']);
         $photos = explode(',', $get_product_details['photos']);
         $images = "";
         $i = 0;
@@ -96,7 +96,7 @@ $durations_select.="</select>";
 
             <div class='row row-nomargin product-price loadImgAdd rel-div'>
 
-                <div class="col-sm-6">Price <span id="product_price"> </span></div>
+                <div class="col-sm-6">Price <span class="product_price_<?=$product_id?> rel-div"> </span></div>
                 <div class="col-sm-6 cart-button"><a href='javascript:;' class="addToCart"><i class="fa fa-cart-plus" aria-hidden="true"></i><span> Add to Cart</span></a></div>
 
             </div>

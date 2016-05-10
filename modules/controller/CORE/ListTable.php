@@ -66,23 +66,7 @@ class ListTable extends utils {
     var $moreButton = false;
     var $ReviewSearch;
 
-    public function rewriteFilter($val) {
-        $chrs = array('/', '&', '$', '_', ' ');
-
-        for ($i = 0; $i < count($chrs); $i++) {
-
-            $val = str_replace($chrs[$i], '-', $val);
-        }
-
-        $chrs2 = array(':', '?', '^', '%', '(', ')', '"', "'");
-
-        for ($i = 0; $i < count($chrs2); $i++) {
-
-            $val = str_replace($chrs2[$i], '', $val);
-        }
-
-        return $val;
-    }
+  
 
     public function setRequireds($requireds) {
         $this->requireds = $requireds;
@@ -997,8 +981,8 @@ class ListTable extends utils {
 
                     if ($this->view_page == true) {
                         $get_page_title = $this->fpdo->from('cms_pages')->where("id='$id'")->fetch();
-
-                        $link_page = $this->view_page . "page" . $id . '/' . $this->rewriteFilter($get_page_title['title']);
+global $utils;
+                        $link_page = $this->view_page . "page" . $id . '/' . $utils->rewriteFilter($get_page_title['title']);
                         $result.="<td align='center'><a href='$link_page' target='_blank'>" . $this->icons->ico['view'] . "</a></td>\n";
                     }
                     if ($this->edit != '') {

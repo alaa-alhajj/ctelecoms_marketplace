@@ -1,37 +1,66 @@
 $(document).ready(function() {
 
+    function ChangePrices() {
 
-    $duration_id = $('#durations').val();
-    $group_id = $('#groups').val();
-    $dynamic_id = $('#dynamic_price_id').val();
-
-    $.ajax({
-        url: _PREF + "GetProductPrice",
-        type: 'post',
-        data: {duration: $duration_id, group: $group_id, dynamic: $dynamic_id},
-        dataType: 'json',
-        success: function(data) {
-
-            $('#product_price').html(data[0]);
-        },
-        error: function(e, msg) {
-            console.log(e);
-        }
-    });
+        $('.ProductDurations').each(function() {
+            $dynamic_id = $(this).data('dynamic');
+            $product_id = $(this).data('product');
+            $duration_id = $('.ProductDurations_' + $product_id).val();
+            $group_id = $('.ProductGroups_' + $product_id).val();
+            $('.product_price_' + $product_id).addClass("colorWhite");
+            $('.product_price_' + $product_id).append('<div class="loadingPrice"><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
+            $.ajax({
+                url: _PREF + "GetProductPrice",
+                type: 'post',
+                data: {duration: $duration_id, group: $group_id, dynamic: $dynamic_id, product: $product_id},
+                dataType: 'json',
+                success: function(data) {
+                    $('.product_price_' + data[1]).removeClass("colorWhite");
+                    $('.product_price_' + data[1]).html(parseFloat(data[0]).toFixed(2)+"$");
 
 
-    $('body').on('change', '#groups,#durations', function() {
-        $duration_id = $('#durations').val();
-        $group_id = $('#groups').val();
-        $dynamic_id = $('#dynamic_price_id').val();
 
+                }
+            });
+        });
+
+
+    }
+    function sumPrices() {
+        $tot_price = 0;
+        $tot_price_before_discount = 0;
+        $discount = 0;
+        $('.ShoppingCartTable tbody tr').each(function()
+        {
+            $this_tr = $(this).attr("id");
+            $tot_price += Number($("#" + $this_tr + " #price_" + $this_tr).html());
+            $tot_price_before_discount += Number($("#" + $this_tr + " #price2_" + $this_tr).html());
+            $discount += Number($("#" + $this_tr + " #price_" + $this_tr).data('offer'));
+            $discount += Number($("#" + $this_tr + " #price_" + $this_tr).data('promo'));
+        });
+        $(".TotalPriceCart").html(parseFloat($tot_price).toFixed(2));
+        parseFloat($tot_price_before_discount).toFixed(2);
+        $(".TotalPriceBeforeDiscount").html(parseFloat($tot_price_before_discount).toFixed(2));
+        $(".DiscountOrderCart").html(parseFloat($discount).toFixed(2));
+    }
+
+    ChangePrices();
+    $('body').on('change', '.ProductGroups,.ProductDurations', function() {
+        $dynamic_id = $(this).data('dynamic');
+        $product_id = $(this).data('product');
+        $duration_id = $('.ProductDurations_' + $product_id).val();
+        $group_id = $('.ProductGroups_' + $product_id).val();
+         $('.product_price_' + $product_id).addClass("colorWhite");
+            $('.product_price_' + $product_id).append('<div class="loadingPrice"><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
         $.ajax({
             url: _PREF + "GetProductPrice",
             type: 'post',
-            data: {duration: $duration_id, group: $group_id, dynamic: $dynamic_id},
+            data: {duration: $duration_id, group: $group_id, dynamic: $dynamic_id, product: $product_id},
             dataType: 'json',
             success: function(data) {
-                $('#product_price').html(data[0]);
+
+                 $('.product_price_' + data[1]).removeClass("colorWhite");
+                    $('.product_price_' + data[1]).html(parseFloat(data[0]).toFixed(2)+"$");
 
 
             }
@@ -176,7 +205,7 @@ $(document).ready(function() {
         $group_id = $('#groups').val();
         $('.loadImgAdd').append('   <div class="loadingAdd"><span>Adding To Cart&#8230;</span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
         $this = $(this);
-        $this.addClass("pointer_events");
+        $this.addClass("pointerEvents");
         $.ajax({
             url: _PREF + "AddToCart",
             type: 'post',
@@ -186,7 +215,7 @@ $(document).ready(function() {
                 $this.parents().find('.loadingAdd').remove();
                 $('.AddedToCart').hide();
                 $('.RemovedFromCart').show();
-                $this.removeClass("pointer_events");
+                $this.removeClass("pointerEvents");
             }
         });
     });
@@ -195,10 +224,16 @@ $(document).ready(function() {
     $("body").on('click', '.RemovefromCart', function() {
         $product_id = $(this).data('id');
         $this_tr = $(this).data('remove');
-        $('.loadImgAdd').append('   <div class="loadingAdd"><span>Removing From Cart&#8230;</span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
-
         $this = $(this);
-        $this.addClass("pointer_events");
+        $this.addClass("pointerEvents");
+        $('.loadImgAdd').append('<div class="loadingAdd"><span>Removing From Cart&#8230;</span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
+        if ($this_tr !== "") {
+            $this.parents().find('#' + $product_id).addClass('Removing');
+            $this.parents().find('#' + $product_id).children('td:nth(3)').append('<span class="span-removing">Deleting&#8230; <i class="fa fa-spinner fa-spin spinner-style" ></i></span>');
+
+        }
+
+
         $.ajax({
             url: _PREF + "RemoveFromCart",
             type: 'post',
@@ -207,28 +242,56 @@ $(document).ready(function() {
             success: function(data) {
                 if ($this_tr !== "") {
                     $this.parents().find('#' + $product_id).fadeOut();
-                    $('.RemovedFromCart').hide();
-                    $('.AddedToCart').show();
+                    $this.parents().find('#' + $product_id).remove();
                     $this.parents().find('.loadingAdd').remove();
                 } else {
                     $('.RemovedFromCart').hide();
                     $('.AddedToCart').show();
                 }
-                $this.removeClass("pointer_events");
+$('.RemovedFromCart').hide();
+                    $('.AddedToCart').show();
+                $this.removeClass("pointerEvents");
+                sumPrices();
             }
         });
     });
+
+    /* Add to cart from modal*/
+    $("body").on('click', '.addToCartSmall', function() {
+        $product_id = $(this).data('id');
+        $duration_id = $('.ProductDurations_' + $product_id).val();
+        $group_id = $('.ProductGroups_' + $product_id).val();
+        $add_Row = "add";
+        $this = $(this);
+        $this.addClass("pointerEvents");
+        $this.addClass('added');
+        $.ajax({
+            url: _PREF + "AddToCart",
+            type: 'post',
+            data: {pro_id: $product_id, duration_id: $duration_id, group_id: $group_id, add: $add_Row},
+            dataType: 'json',
+            success: function(data) {
+                $this.addClass('added');
+                $('.ShoppingCartTable').append(data);
+                $('#selected_' + $product_id).fadeOut();
+                sumPrices();
+                $this.removeClass("pointerEvents");
+            }
+        });
+    });
+
+
     /*Add To Compare*/
     $("body").on('click', '.addToCompare', function() {
         $product_id = $(this).data('id');
         $small_btn = $(this).data('small');
         $this = $(this);
         if ($small_btn !== "") {
-            $this.addClass("pointer_events");
+            $this.addClass("pointerEvents");
             $this.addClass('added');
         } else {
             $('.loadImgAdd').append('   <div class="loadingAdd"><span>Adding To Compare&#8230;</span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
-            $this.addClass("pointer_events");
+            $this.addClass("pointerEvents");
         }
 
 
@@ -241,12 +304,12 @@ $(document).ready(function() {
                 if ($small_btn !== "") {
                     $this.addClass("removeFromCompare");
                     $this.removeClass("addToCompare");
-                    $this.removeClass("pointer_events");
+                    $this.removeClass("pointerEvents");
                 } else {
                     $this.parents().find('.loadingAdd').remove();
                     $('.AddedToCompare').hide();
                     $('.RemovedToCompare').show();
-                    $this.removeClass("pointer_events");
+                    $this.removeClass("pointerEvents");
                 }
             }
         });
@@ -262,7 +325,7 @@ $(document).ready(function() {
             $('.loadImgAdd').append('   <div class="loadingAdd"><span>Removing From Compare&#8230;</span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
         }
 
-        $this.addClass("pointer_events");
+        $this.addClass("pointerEvents");
         $.ajax({
             url: _PREF + "RemoveFromCompare",
             type: 'post',
@@ -277,9 +340,9 @@ $(document).ready(function() {
                     $this.parents().find('.loadingAdd').remove();
                     $('.RemovedToCompare').hide();
                     $('.AddedToCompare').show();
-                    $this.removeClass("pointer_events");
+                    $this.removeClass("pointerEvents");
                 }
-                $this.removeClass("pointer_events");
+                $this.removeClass("pointerEvents");
             }
         });
     });
@@ -316,17 +379,7 @@ $(document).ready(function() {
                     $('#price_' + $product_id).removeClass("colorWhite");
                     $('#price_' + $product_id).html(parseFloat($tot_price_after_discount).toFixed(2));
                     $('#price2_' + $product_id).html(parseFloat(data[0]).toFixed(2));
-                    $tot_price = 0;
-                    $tot_price_before_discount = 0;
-                    $('.ShoppingCartTable tbody tr').each(function()
-                    {
-                        $this_tr = $(this).attr("id");
-                        $tot_price += Number($("#" + $this_tr + " #price_" + $this_tr).html());
-                        $tot_price_before_discount += Number($("#" + $this_tr + " #price2_" + $this_tr).html());
-                    });
-                    $(".TotalPriceCart").html(parseFloat($tot_price).toFixed(2));
-                    parseFloat($tot_price_before_discount).toFixed(2);
-                    $(".TotalPriceBeforeDiscount").html(parseFloat($tot_price_before_discount).toFixed(2));
+                    sumPrices();
                 }
             });
         }
@@ -361,17 +414,7 @@ $(document).ready(function() {
                 $('#price_' + $product_id).removeClass("colorWhite");
                 $('#price_' + $product_id).html(parseFloat($tot_price_after_discount).toFixed(2));
                 $('#price2_' + $product_id).html(parseFloat(data[0]).toFixed(2));
-                $tot_price = 0;
-                $tot_price_before_discount = 0;
-                $('.ShoppingCartTable tbody tr').each(function()
-                {
-                    $this_tr = $(this).attr("id");
-                    $tot_price += Number($("#" + $this_tr + " #price_" + $this_tr).html());
-                    $tot_price_before_discount += Number($("#" + $this_tr + " #price2_" + $this_tr).html());
-                });
-                $(".TotalPriceCart").html(parseFloat($tot_price).toFixed(2));
-                parseFloat($tot_price_before_discount).toFixed(2);
-                $(".TotalPriceBeforeDiscount").html(parseFloat($tot_price_before_discount).toFixed(2));
+                sumPrices();
             }
         });
     });
@@ -381,7 +424,7 @@ $(document).ready(function() {
         $('.promoCodeTr ').append('   <div class="loadingPromo"><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
 
         $this = $(this);
-        $this.addClass("pointer_events");
+        $this.addClass("pointerEvents");
         $.ajax({
             url: _PREF + "ApplayPromoCode",
             type: 'post',
@@ -399,16 +442,10 @@ $(document).ready(function() {
                         $new_price = $old_price - ($old_price * (data[1] / 100));
                         $tot_dis += Number(data[1]);
                         $(".ShoppingCartTable #price_" + $products[i]).data('promo', data[1]);
+
                         $(".ShoppingCartTable #price_" + $products[i]).html(parseFloat($new_price).toFixed(2));
                     }
-                    $tot_price = 0;
-                    $('.ShoppingCartTable tbody tr').each(function()
-                    {
-                        $this_tr = $(this).attr("id");
-                        $tot_price += Number($("#" + $this_tr + " #price_" + $this_tr).html());
-                    });
-                    $(".TotalPriceCart").html(parseFloat($tot_price).toFixed(2));
-                    $(".DiscountOrderCart").html(parseFloat($tot_dis).toFixed(2));
+                    sumPrices();
                     $this.parents().find('.promoCodeTr').fadeOut();
                     $('.thanksPromoMsg').fadeIn();
                     $('.promoCodeTr ').find('.loadingPromo').remove();
@@ -416,9 +453,28 @@ $(document).ready(function() {
                     $('.ErrorPromoMsg').fadeIn();
                     $('.promoCodeTr ').find('.loadingPromo').remove();
                 }
-                $this.removeClass("pointer_events");
+                $this.removeClass("pointerEvents");
             }
         });
+    });
+
+    /*select addons in shopping cart*/
+    $("body").on('click', '.SelectAddons', function() {
+        $product_id = $(this).data('id');
+        $('#SelectAddoOns #productID').val($product_id);
+        $.ajax({
+            url: _PREF + "GetProductAddOns",
+            type: "post",
+            data: {product_id: $product_id},
+            dataType: "json",
+            success: function(data) {
+                $('#SelectAddoOns .productAddons').html(data);
+                ChangePrices();
+                $('#SelectAddoOns').modal('show');
+
+            }
+        });
+
     });
 
 

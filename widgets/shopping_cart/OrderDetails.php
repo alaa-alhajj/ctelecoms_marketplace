@@ -2,7 +2,9 @@
     <div class="col-xs-3">
         <ul id="shopping-cart">
             <li ><a href="#">Shopping Cart</a></li>
+            <?   if ($_SESSION['CUSTOMER_ID'] == "") {?>
             <li><a href="#">Checkout</a></li>
+            <?}?>
             <li><a href="#">Payment</a></li>
             <li class="active-shopping"><a href="#">Order Details</a></li>
         </ul>
@@ -40,8 +42,8 @@
                     <th width='60%'>Item</th>
                     <th>Price</th>
                     <th>Price after discount</th>
-                    <th>Users</th>
-                    <th>Quality</th>
+                    <th>Group</th>
+                   
                     <th>Total</th> 
                     <th>Discount value</th>
                     <th>Total after discount</th> 
@@ -91,8 +93,8 @@
                           </td>";
                     echo "<td>" .number_format( $get_price['value'],2,'.',',') . "$</td>";
                     echo "<td>" .number_format($price_after_discount,2,'.',',') . " $</td>";
-                    echo "<td>$group_title</td>";
-                    echo "<td>$qty</td>";
+                    echo "<td>".$group_title." ".$units_title."</td>";
+                 
                     echo "<td>" .number_format($total_withOutDiscount,2,'.',',') . "$</td>";
                     echo "<td>$pro_Discount_val$</td>";
                     echo "<td>" .number_format($total_withDiscount,2,'.',',') . "$</td>";

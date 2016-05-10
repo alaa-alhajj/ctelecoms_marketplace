@@ -30,7 +30,7 @@ $details.="<table class='table table-bordered po-table'>"
         . "<tbody>";
 
 $get_products = $fpdo->from('purchase_order_products')
-        ->select("products.title as prtitle,purchase_order_products.product_price as price,purchase_order_products.discount as discount,products.id as prid,purchase_order.promo_code as promo_id")
+        ->select("products.title as prtitle,purchase_order_products.product_price as price,purchase_order_products.promo_discount as promo_discount,purchase_order_products.offer_discount as offer_discount,products.id as prid,purchase_order.promo_code as promo_id")
         ->leftJoin("purchase_order on purchase_order.id = purchase_order_products.purchase_order_id")
         ->leftJoin("products on products.id=purchase_order_products.product_id")
         ->leftJoin("product_price_values on product_price_values.id=purchase_order_products.product_price_id")
@@ -53,19 +53,20 @@ foreach ($get_products as $products) {
       $price = ((($total_price) - ($check_offers['discount_percentage'] / 100) ));
       $discount+=$check_offers['discount_percentage'];
      * */
-
-    $dis = 100 - $products['discount'];
-    $price_before = ($products['price'] / $dis) * 100;
+$tot_disc_per_product=$products['promo_discount']+$products['offer_discount'];
+     $price_after_offer=$products['price']-($products['price']*$products['offer_discount']/100);
+                    $price_after_offer_and_promo= $price_after_offer - ($price_after_offer * $products['promo_discount']/100);
+                    $price_after_discount= $price_after_offer_and_promo;
     $details.="<tr>";
     $details.="<td>" . $products['prtitle'] . "</td>";
 
-    $details.="<td>" . number_format($price_before, 2, '.', ',') . "</td>";
-    $details.="<td>" . $products['discount'] . "</td>";
     $details.="<td>" . number_format($products['price'], 2, '.', ',') . "</td>";
+    $details.="<td>" . $tot_disc_per_product . "</td>";
+    $details.="<td>" . number_format($price_after_discount, 2, '.', ',') . "</td>";
     $details.="</tr>";
-    $total_before_discounts+=$price_before;
-    $total_after_discounts+=$products['price'];
-    $total_discounts+=$products['discount'];
+    $total_before_discounts+=$products['price'];
+    $total_after_discounts+=$price_after_discount;
+    $total_discounts+=$tot_disc_per_product;
 }
 $details.="<tr><td colspan='3' style='text-align:right'><b>Total Price</b></td><td>" . number_format($total_before_discounts, 2, '.', ',') . "</td></tr>";
 $details.="<tr><td colspan='3' style='text-align:right'><b>Discount</b></td><td>" . number_format($total_discounts, 2, '.', ',') . "</td></tr>";

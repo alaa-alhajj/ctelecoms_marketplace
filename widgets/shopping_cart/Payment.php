@@ -1,5 +1,4 @@
 <?php session_start();
- 
 
 $shopping_cart = $_SESSION['Shopping_Cart'];
 
@@ -16,13 +15,15 @@ if (isset($_REQUEST,$_REQUEST['payment_type'])){
     
     //create purchase order
     $order_insert_id = $this->fpdo->insertInto('purchase_order')->values(array('customer_id'=>$_SESSION['CUSTOMER_ID'],'order_date'=>date('Y-m-d'),'payment_type'=>$payment_type,'promo_code'=>$_SESSION['PROMO_CODE']))->execute(); 
-     
+    
     foreach ($shopping_cart as $key => $product) {
         //print_r($product);
 
         $product_id = $product['pro_id'];
         $duration_id = $product['duration_id'];
         $group_id = $product['group_id'];
+        $qty = $product['qty'];
+        
         $get_pro_name = $this->fpdo->from("products")->where("id='$product_id'")->fetch();
 
         $get_dynamic_id = $this->fpdo->from('product_dynamic_price')->where("product_id='$product_id'")->fetch();
@@ -31,27 +32,36 @@ if (isset($_REQUEST,$_REQUEST['payment_type'])){
         $product_price_id=$get_price['id']; //product_price_id
         //echo "product price info : <br/>";
         
-
         $check_offers = $this->fpdo->from('offers')->where("product_ids like '%" . $product_id . ",%'")->fetch();
         $price_offer = ((($get_price['value']) - ($get_price['value']*($check_offers['discount_percentage'] / 100)) ));
+        $real_price=$get_price['value'];//product price with discount
        // echo "<br/>after offer = $price_offer  ";
-
-          // $price_after_promo is final product 
+        $offer_discount=0;
+        $offer_discount+=$check_offers['discount_percentage']; 
+        $promo_discount=0;
+        // $price_after_promo is final product 
         if ($_SESSION['PROMO_CODE'] != "") {
             $get_promo_discount = $this->fpdo->from('promo_codes')->where("id='" . $_SESSION['PROMO_CODE'] . "'")->fetch();
             $price_after_promo = ((($price_offer) - ($price_offer*($get_promo_discount['discount_percentage'] / 100)) ));
+            $promo_discount+=$get_promo_discount['discount_percentage'];
         } else {
             $price_after_promo = $price_offer;
         }
-        //echo "<br/>after offer and promo = $price_after_promo <br/> ";
-
-        
+        //echo "<br/> price after offer and promo = $price_after_promo <br/> ";
         //save products in purchase order
-        $insert_id = $this->fpdo->insertInto('purchase_order_products')->values(array('purchase_order_id'=>$order_insert_id,'product_id'=>$product_id,'product_price_id'=>$product_price_id,'product_price'=>$price_after_promo))->execute(); 
+        $insert_id = $this->fpdo->insertInto('purchase_order_products')->values(array('purchase_order_id'=>$order_insert_id,'product_id'=>$product_id,'product_price_id'=>$product_price_id,'product_price'=>$real_price,'offer_discount'=>$offer_discount,'promo_discount'=>$promo_discount))->execute();
+        
     }
     
-     $utils->redirect(_PREF.$pLang."/page67/OrderDetails");
-    
+    //generate page related with this purchase order.
+    $static_widget_id= 21;
+    $page_id = $this->fpdo->insertInto('cms_pages')->values(array('html'=>"##wid_start## ##wid_id_start##$static_widget_id##wid_id_end## ##wid_end##",'type'=>"generated",'lang'=>$pLang,'hidden'=>'1'))->execute();
+    //add generate page_id to purchase order 
+    $query = $this->fpdo->update("purchase_order")->set(array('page_id' =>$page_id))->where('id', $order_insert_id)->execute();
+        
+     $_SESSION['OrderID']=$order_insert_id;
+     $_SESSION['Shopping_Cart']='';
+     $utils->redirect(_PREF.$pLang."/page68/OrderDetails");
 }
          
 ?>
@@ -61,7 +71,9 @@ if (isset($_REQUEST,$_REQUEST['payment_type'])){
     <div class="col-xs-3">
         <ul id="shopping-cart">
             <li><a href="#">Shopping Cart</a></li>
+            <?   if ($_SESSION['CUSTOMER_ID'] == "") {?>
             <li><a href="#">Checkout</a></li>
+            <?}?>
             <li class="active-shopping"><a href="#">Payment</a></li>
             <li><a href="#">Order Details</a></li>
 

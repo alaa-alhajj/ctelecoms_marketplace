@@ -4,10 +4,12 @@ include('../../view/common/top.php');
 $duration = $_REQUEST['duration'];
 $group=$_REQUEST['group'];
 $dynamic_id=$_REQUEST['dynamic'];
+$product_id=$_REQUEST['product'];
 $get_price=$fpdo->from('product_price_values')->where("`dynamic_price_id`='$dynamic_id' and `duration_id`='$duration' and `group_id`='$group'")->fetch();
+
 $value=$get_price['value'].' $';
 
-echo json_encode(array($value));
+echo json_encode(array($value,$product_id));
 
 
 ?>
