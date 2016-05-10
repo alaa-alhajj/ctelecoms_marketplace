@@ -35,16 +35,8 @@ include_once 'view/common/langsLabel.php';
 	   
 	</head>
 	<body>  
-
-		<?php $widgets->printWidget(22);?>
-		<?php $widgets->printWidget(23);?>
-		<?php $widgets->printWidget(24);?>
-		<?php $widgets->printWidget(25);?>
-		<?php $widgets->printWidget(26);?>
-		<?php $widgets->printWidget(27);?>
-		<?php $widgets->printWidget(30);?>
-		<?php $widgets->printWidget(34);?>
-
+                
+		<!--?php $widgets->printWidget(22);?-->
 			
 
 		<script src="<?php echo _Include?>dist/js/bootstrap.min.js" type="text/javascript"></script>

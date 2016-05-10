@@ -82,7 +82,7 @@ if ($_SESSION['CUSTOMER_ID'] != "") {
                             <input type="text"  name='adress' id="adress" placeholder="Adress">
                             <input type="email"  name='email' id="email" placeholder="Email" required>
                             <input type="password"  name='password' id="password" placeholder="Password" required>
-                            <input type="password"  name='repeat_password' id="repeat_password" placeholder="Password again" required>
+                            <input type="password"  name='repeat_password' id="repeat_password" placeholder="Re-password" required>
                             <button type="submit"  id="submit" name='SignUp' value="signup">Sign Up</button>
                         </form>
                     </div>

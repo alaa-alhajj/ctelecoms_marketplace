@@ -764,4 +764,11 @@ class utils {
         return $result;
     }
 
+    function checkLogin() {
+        if(!isset($_SESSION['CUSTOMER_ID']) || (isset($_SESSION['CUSTOMER_ID']) && $_SESSION['CUSTOMER_ID']=='' )){
+             $this->redirect(_PREF);
+        }else{
+            return $_SESSION['CUSTOMER_ID'];
+        }
+    }
 }

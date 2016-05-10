@@ -1,21 +1,14 @@
-<div class="row row-nomargin">
-    <div class="col-xs-3">
-        <ul id="shopping-cart">
-            <li ><a href="#">Shopping Cart</a></li>
-            <li><a href="#">Checkout</a></li>
-            <li><a href="#">Payment</a></li>
-            <li class="active-shopping"><a href="#">Order Details</a></li>
-
-        </ul>
-    </div>
-    <div class="col-xs-9">
+<div class="col-xs-12">
         <?
-       $order_id=$_SESSION['OrderID'];
+        
+       $page_id=$_REQUEST['id'];
+       
        $customer_id=$_SESSION['CUSTOMER_ID'];
         global $utils;
         $customer_info = $this->fpdo->from("customers")->where("id='$customer_id'")->fetch();
          //get order details 
-        $order_info = $this->fpdo->from("purchase_order")->where("id='$order_id'")->fetch();
+        $order_info = $this->fpdo->from("purchase_order")->where("page_id='$page_id'")->fetch();
+        $order_id=$order_info['id'];
         $order_products_info = $this->fpdo->from("purchase_order_products")->where("purchase_order_id='$order_id'")->fetchAll();
         $payment_type_id=$order_info['payment_type'];
         $payment_type_info=$this->fpdo->from("payment_types")->where("id='$payment_type_id'")->fetch();
@@ -121,4 +114,9 @@
         </table>
 
     </div>
+<div class="col-sm-12">
+    <hr>
+</div>
+<div class="col-sm-12">
+    <button class="btn btn-default" onclick="history.back();"> Back </button>
 </div>

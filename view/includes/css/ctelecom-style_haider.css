@@ -1,4 +1,27 @@
 
-.sign-up-block{
-    
+.sign-up-block input#full_name {
+    background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px top no-repeat;
+    background-size: 16px 80px;
+}
+
+.sign-up-block input#full_name:focus {
+    background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px bottom no-repeat;
+    background-size: 16px 80px;
+}
+
+.sign-up-block input#repeat_password {
+    background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px top no-repeat;
+    background-size: 16px 80px;
+}
+
+.sign-up-block input#repeat_password:focus {
+    background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px bottom no-repeat;
+    background-size: 16px 80px;
+}
+
+.purchase-orders-container a{
+    color:#005299 !important;
+}
+.purchase-orders-container a:hover{
+    color:#F58120  !important;
 }
