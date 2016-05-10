@@ -5,7 +5,6 @@
             <li><a href="#">Checkout</a></li>
             <li><a href="#">Payment</a></li>
             <li class="active-shopping"><a href="#">Order Details</a></li>
-
         </ul>
     </div>
     <div class="col-xs-9">
