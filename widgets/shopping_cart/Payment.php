@@ -49,7 +49,7 @@ if (isset($_REQUEST,$_REQUEST['payment_type'])){
         $insert_id = $this->fpdo->insertInto('purchase_order_products')->values(array('purchase_order_id'=>$order_insert_id,'product_id'=>$product_id,'product_price_id'=>$product_price_id,'product_price'=>$price_after_promo))->execute(); 
     }
     
-     $utils->redirect(_PREF.$pLang."/page68/OrderDetails");
+     $utils->redirect(_PREF.$pLang."/page67/OrderDetails");
     
 }
          

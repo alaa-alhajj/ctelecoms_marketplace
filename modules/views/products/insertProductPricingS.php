@@ -28,15 +28,16 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
     }
 }
 echo $path = '<ul id="breadcrumbs-one">
-    <li><a href="' . $pageInsertProduct . '">Product Data</a></li>
-    <li><a href="' . $pageProductPhotos . "?id=" . $_REQUEST['id'] . '">Features</a></li>
-    <li><a href="' . $pageProductPhotos . "?id=" . $_REQUEST['id'] . '">Photos</a></li>
-    <li class="active-menue"><a href="' . $pageInsertProduct . '">Pricing</a></li>
-    <li><a href="' . $pageInsertProduct . '">Add-ons</a></li>
-    <li><a href="' . $pageInsertProduct . '">Related Products</a></li>
-    <li><a href="' . $pageInsertProduct . '">Required Fields</a></li>
-    <li><a href="' . $pageInsertProduct . '">FAQ</a></li>
-    <li><a href="' . $pageInsertProduct . '">SEO</a></li>
+    <li><a href="#">Product Data</a></li>
+         <li><a href="#">Resources</a></li>
+    <li><a href="#">Features</a></li>
+    <li><a href="#">Photos</a></li>
+    <li class="active-menue"><a href="#">Pricing</a></li>
+    <li><a href="#">Add-ons</a></li>
+    <li><a href="#">Related Products</a></li>
+    <li><a href="#">Required Fields</a></li>
+    <li><a href="#">FAQ</a></li>
+    <li><a href="#">SEO</a></li>
 </ul>';
 $get = $fpdo->from('product_dynamic_price')
                 ->select('pro_price_units.title as unit_title')

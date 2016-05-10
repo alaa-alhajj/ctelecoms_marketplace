@@ -10,11 +10,12 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
     if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-        $utils->redirect($pageInsertPackageProducts . "?id=" . $insert_id);
+        $utils->redirect($pageInsertResources . "?id=" . $insert_id);
     }
 }
 echo $path = '<ul id="breadcrumbs-one">
     <li class="active-menue"><a href="#">Package Data</a></li>
+        <li><a href="">Resources</a></li>
     <li><a href="#">Package Products</a></li>
     <li><a href="#">Features</a></li>
     <li><a href="">Photos</a></li>

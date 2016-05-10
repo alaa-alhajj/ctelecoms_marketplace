@@ -29,6 +29,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
 }
 echo $path = '<ul id="breadcrumbs-one">
     <li><a href="#">Package Data</a></li>
+     <li><a href="">Resources</a></li>
     <li><a href="#">Package Products</a></li>
     <li><a href="#">Features</a></li>
     <li><a href="">Photos</a></li>

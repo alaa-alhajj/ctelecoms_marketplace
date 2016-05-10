@@ -32,6 +32,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
 }
 echo $path = '<ul id="breadcrumbs-one">
     <li><a href="#">Product Data</a></li>
+     <li><a href="">Resources</a></li>
     <li  class="active-menue"><a href="#">Features</a></li>
     <li><a href="">Photos</a></li>
     <li><a href="#">Pricing</a></li>

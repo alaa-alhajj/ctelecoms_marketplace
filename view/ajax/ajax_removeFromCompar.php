@@ -1,5 +1,5 @@
 <?php  include('../../view/common/top.php');
-
+@session_start();
 $compare_id=$_REQUEST['compare_id'];
 
 //remove compare id  to compareIDs session

@@ -712,6 +712,8 @@ $(document).ready(function() {
     /* sub category*/
     $('body').on('change', '#Products #cat_id', function() {
         $this = $(this).val();
+        $('#Products #sub_cat_id').addClass("pointer_events");
+        $('#Products #sub_cat_id').parent().append('<div id="loading-img"></div><div class="center-text loadingA" style="padding-top: 0px;font-size: 13px; position: absolute;z-index: 1; margin: auto;width: 100%;top:21%;color: grey;"><span>Getting Data... </span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
 
         $.ajax({url: "../ajax/GetSubCategories.php"
             , type: 'post'
@@ -720,11 +722,14 @@ $(document).ready(function() {
             , success: function(data) {
 
                 $('#Products #sub_cat_id').html(data[0]);
+                $('#Products #sub_cat_id').parent().find(".loadingA").remove();
+                 $('#Products #sub_cat_id').removeClass("pointer_events");
             }});
     });
-     
-    $this = $('#Products #cat_id').val();
 
+    $this = $('#Products #cat_id').val();
+     $('#Products #sub_cat_id').addClass("pointer_events");
+    $('#Products #sub_cat_id').parent().append('<div id="loading-img"></div><div class="center-text loadingA" style="padding-top: 0px;font-size: 13px; position: absolute;z-index: 1; margin: auto;width: 100%;top:21%;color: grey;"><span>Getting Data... </span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
     $.ajax({url: "../ajax/GetSubCategories.php"
         , type: 'post'
         , data: {cat: $this}
@@ -733,11 +738,13 @@ $(document).ready(function() {
 
             $('#Products #sub_cat_id').html(data[0]);
             $subCat_value = $('#request_cat_id ').val();
-    
-    $('#Products #sub_cat_id option').removeAttr('selected');
-    $('#Products #sub_cat_id option[value="' + $subCat_value + '"]').attr('selected', 'selected');
-    $('#Products #sub_cat_id option[value="' + $subCat_value + '"]').prop('selected', 'selected');
+
+            $('#Products #sub_cat_id option').removeAttr('selected');
+            $('#Products #sub_cat_id option[value="' + $subCat_value + '"]').attr('selected', 'selected');
+            $('#Products #sub_cat_id option[value="' + $subCat_value + '"]').prop('selected', 'selected');
+             $('#Products #sub_cat_id').parent().find(".loadingA").remove();
+              $('#Products #sub_cat_id').removeClass("pointer_events");
         }});
- 
+
 
 });

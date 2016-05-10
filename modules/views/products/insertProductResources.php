@@ -9,20 +9,20 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
   //  $query = $fpdo->update($db_table)->set(array('photos' => $_REQUEST['photos']))->where("id='$id'");
   //  $exec = $query->execute();
     
-    $save_ob = new saveform($db_table, $_REQUEST, $cols_photo, "id", $order_field, $map_field, '', false);
+    $save_ob = new saveform($db_table, $_REQUEST, $cols_resources, "id", $order_field, $map_field, '', false);
 
   
          if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-           $utils->redirect($pageProductPricing1 . "?id=" . $_REQUEST['id']);
+           $utils->redirect($pageProductFeatures . "?id=" . $_REQUEST['id']);
     }
     }
    echo $path = '<ul id="breadcrumbs-one">
     <li><a href="#">Product Data</a></li>
-     <li><a href="">Resources</a></li>
+     <li  class="active-menue"><a href="">Resources</a></li>
     <li><a href="#">Features</a></li>
-    <li class="active-menue"><a href="">Photos</a></li>
+    <li><a href="">Photos</a></li>
     <li><a href="#">Pricing</a></li>
     <li><a href="#">Add-ons</a></li>
     <li><a href="#">Related Products</a></li>
@@ -32,8 +32,8 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
 </ul>';
     $form = new GenerateFormField();
     $values = $fpdo->from($db_table)->where('id', $_REQUEST['id'])->fetch();
-    $form->setColumns($cols_photo);
-    $form->setTypes($types_photo);
+    $form->setColumns($cols_resources);
+    $form->setTypes($types_resources);
     $form->setValues($values);
     $form->setRequireds();
     $form->setExtendTables($source);

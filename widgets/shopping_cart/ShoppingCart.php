@@ -2,7 +2,11 @@
     <div class="col-xs-3">
         <ul id="shopping-cart">
             <li class="active-shopping"><a href="#">Shopping Cart</a></li>
+            <?
+            if($_SESSION['CUSTOMER_ID'] == ""){
+            ?>
             <li><a href="#">Checkout</a></li>
+            <?}?>
             <li><a href="#">Payment</a></li>
             <li><a href="#">Order Details</a></li>
 
@@ -11,7 +15,7 @@
     <div class="col-xs-9">
         <?
         $shopping_cart = $_SESSION['Shopping_Cart'];
-       // print_r($shopping_cart);
+       //print_r($shopping_cart);
       
         global $utils;
         ?>
@@ -43,7 +47,8 @@
                     $dynamic_id = $get_dynamic_id['id'];
                     $get_price = $this->fpdo->from('product_price_values')->where("`dynamic_price_id`='$dynamic_id' and `duration_id`='$duration_id' and `group_id`='$group_id'")->fetch();
                     $get_groups = explode(',', rtrim($get_dynamic_id['group_ids'], ','));
-                    $groups_select = "<select name='groups_cart' id='groups_cart' data-duration='$duration_id' data-dynamic='$dynamic_id' data-product='$product_id'>";
+                    if($get_dynamic_id['type_id']==='2'){
+                    $groups_select = "<select name='groups_cart' id='groups_cart' data-duration='$duration_id' data-dynamic='$dynamic_id' data-product='$product_id' data-type='group'>";
                     foreach ($get_groups as $groups) {
                         $get_title_g = $this->fpdo->from('pro_price_groups')->where("id='$groups'")->fetch();
                         $get_unit_name = $this->fpdo->from('pro_price_units')->where("id", $get_dynamic_price['unit_id'])->fetch();
@@ -55,16 +60,23 @@
                         $groups_select.="<option value='" . $groups . "' $selected>" . $get_title_g['title'] . "</option>";
                     }
                     $groups_select.="</select>";
+                    }elseif($get_dynamic_id['type_id']==='1'){
+                         $get_groupName = $this->fpdo->from('pro_price_groups')->where("id='$group_id'")->fetch();
+                        $groups_select="<input type='text' value='".$get_groupName['title']."' name='groups_cart' id='groups_cart' data-duration='$duration_id' data-dynamic='$dynamic_id' data-product='$product_id' data-type='unit'>";
+                    }
                     //print_r($product);
 
                     $check_offers = $this->fpdo->from('offers')->where("product_ids like '%" . $product_id . ",%'")->fetch();
-                    $price_offer = ((($get_price['value']) - ($check_offers['discount_percentage'] / 100) ));
+                    $price_offer = ($get_price['value'])-((($get_price['value']) * ($check_offers['discount_percentage'] / 100) ));
                     $total_discount+=$check_offers['discount_percentage'];
 
                     if ($_SESSION['PROMO_CODE'] != "") {
-                        $get_promo_discount = $this->fpdo->from('promo_codes')->where("id='" . $_SESSION['PROMO_CODE'] . "'")->fetch();
-                        $price_after_promo = ((($price_offer) - ($get_promo_discount['discount_percentage'] / 100) ));
+                    //    unset($_SESSION['PROMO_CODE']);
+                        $get_promo_discount = $this->fpdo->from('promo_codes')->where("id='" . $_SESSION['PROMO_CODE'] . "' and product_ids like '%" . $product_id . ",%'")->fetch();
+                       
+                        $price_after_promo = ($price_offer)-((($price_offer) *($get_promo_discount['discount_percentage'] / 100) ));
                         $discount_promo = $get_promo_discount['discount_percentage'];
+                         $total_discount+=$discount_promo;
                     } else {
                         $price_after_promo = $price_offer;
                     }
@@ -83,7 +95,7 @@
                 }
                 if ($_SESSION['PROMO_CODE'] != "") {
                     $class_add_promo = 'display-none';
-                    $total_discount+=$discount_promo;
+                   
                 } else {
                     $class_promo = 'display-none';
                 }
@@ -91,8 +103,9 @@
                 echo "</tbody>";
                 echo "<tfoot>";
                 if($_SESSION['CUSTOMER_ID'] !=""){
-                echo "<tr class='thanksPromoMsg $class_promo'><td colspan='6' >Thanks. Your promo code has been added successfully </td></tr>"
-                . "<tr class='promoCodeTr $class_add_promo'><td></td><td>Promocode<br>If you have promocode please enter it here</td><td></td>"
+                echo "<tr class='thanksPromoMsg $class_promo alert alert-success'><td colspan='6' >Thanks. Your promo code has been added successfully </td></tr>"
+                        . "<tr class='ErrorPromoMsg display-none alert alert-danger'><td colspan='6' >Sorry, Your code is incorrect. </td></tr>"
+                . "<tr class='promoCodeTr $class_add_promo rel-div'><td></td><td>Promocode<br>If you have promocode please enter it here</td><td></td>"
                 . "<td ><input type='text' id='promoCode-value' class='form-control'></td><td><button class='btn btn-default' id='applay_promocode'>applay</button></td>"
                 . "</tr>";
                 }

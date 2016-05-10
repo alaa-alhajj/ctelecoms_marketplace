@@ -8,10 +8,11 @@ $category_name = $fpdo->from('product_category')->where("id", $get_details['cat_
 if ($get_data === "overview") {
     $over_view = "<div><p>";
 
-    $over_view.="product Category: " . $category_name['title'];
-    $over_view.="</p></div>";
-    $over_view .= "<div><p>";
-    $over_view.="Product Brief: " . strip_tags($get_details['brief']);
+    // $over_view.="product Category: " . $category_name['title'];
+    //$over_view.="</p></div>";
+    // $over_view .= "<div><p>";
+    // $over_view.="Product Brief: " . strip_tags($get_details['brief']);
+    $over_view.=strip_tags($get_details['overview']);
     $over_view.="</p></div>";
     echo $over_view;
 } elseif ($get_data === "features") {
@@ -38,7 +39,7 @@ if ($get_data === "overview") {
     $faq = "";
     $faq.=" <div class='col-sm-12 nopadding'>";
     $faq.="<h4 class='color-faq pull-left'>Frequently asked questions</h4>";
- //   $faq.='<a href="#" class="pull-right "><i class="fa fa-plus  "></i> Show All</a>';
+    //   $faq.='<a href="#" class="pull-right "><i class="fa fa-plus  "></i> Show All</a>';
     $faq.= '</div>';
     $faq.= '<div class="panel-group" id="accordion">';
 
@@ -67,7 +68,7 @@ if ($get_data === "overview") {
                 . '</div></div></div>';
     }
     $faq.="<div class='row row-nomargin allfaq-button'>";
-  //  $faq.="<a href='' class='btn btn-default'>SEE ALL FAQs</a>";
+    //  $faq.="<a href='' class='btn btn-default'>SEE ALL FAQs</a>";
     $faq.="</div>";
     $faq.="</div>";
     echo $faq;
@@ -202,20 +203,40 @@ if ($get_data === "overview") {
 
             $get_pro = $fpdo->from('products')->where("id='$product_addOn'")->fetch();
             $photos = explode(',', $get_pro['photos']);
-           $addOn_photo = $utils->viewPhoto($photos[0], 'crop', 200, 200, 'img', 1, $_SESSION['dots'], 1, 0, 'img-responsive width100');
-
+            $addOn_photo = $utils->viewPhoto($photos[0], 'crop', 200, 200, 'img', 1, $_SESSION['dots'], 1, 0, 'img-responsive width100');
+            $link = _PREF . $_SESSION['pLang'] . "/page" . $product_addOn['page_id'] . "/" . $utils->rewriteFilter($product_addOn['title']);
+            $check_session_compare = $_SESSION['compareIDs'];
+            if ($check_session_compare[$product_addOn] != "") {
+                $class = 'removeFromCompare added';
+            } else {
+                $class = "addToCompare";
+            }
             $addon_details.= '
                                        <div class="col-sm-6 col-md-3">
                                        <div class="thumbnail">
                                        ' . $addOn_photo . '
                                         <div class="caption">
                                        <h3>' . $get_pro['title'] . '</h3>
-                                        <p style="min-height:41px">' .strip_tags($get_pro['brief']) . '</p>
-                                       <p> <a href="#" class="btn btn-default" role="button">MORE</a></p>
-                                      </div>
+                                        <p style="min-height:41px">' . strip_tags($get_pro['brief']) . '</p>
+                                         <div class="row row-margin">
+                                        <div class="col-xs-6 nopadding">                                       
+                                       <a href="' . $link . '" class="btn btn-default" role="button">MORE</a> 
+                                          </div>
+                                          <div class="col-xs-6 nopadding">
+                                 <a href="javascript:;" class="addToCartSmall small-addToCart">
+                                 <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                 </a>     
+                                 <a href="javascript:;" class="' . $class . ' small-addToCart" data-id="' . $product_addOn . '" data-small="small">
+                                 <i class="fa fa-refresh" aria-hidden="true"></i>
+                                 </a>
+                                  </div>
+                                          </div>
+                                     
+
+</div>
+                                      
                                            </div>
                                                </div>';
-            
         }
         $add++;
     }

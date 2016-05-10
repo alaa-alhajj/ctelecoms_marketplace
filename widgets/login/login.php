@@ -1,17 +1,21 @@
 <?php
+  @session_start();
 if ($_POST['LoginC'] === 'login' && $_REQUEST['username'] != "" && $_REQUEST['password'] != "") {
     global $utils;
     global $pLang;
     $uname = ($_REQUEST['username']);
     $passwd = md5($_REQUEST['password']);
     $query = $this->fpdo->from('customers')->where(array('email' => $uname, 'password' => $passwd))->fetch();
-    if (count($query) >= 0) {
-        @session_start();
+    
+    if ($query['id'] !="") {
+      
         $_SESSION['CUSTOMER_Name'] = $query['name'];
         $_SESSION['CUSTOMER_ID'] = $query['id'];
 
        // echo $pLang;
           $utils->redirect(_PREF.$pLang."/page49/My-Account");
+    }else{
+        $_SESSION['error_login']='error';
     }
 }
 ?>
@@ -23,6 +27,12 @@ if ($_POST['LoginC'] === 'login' && $_REQUEST['username'] != "" && $_REQUEST['pa
         <input type="password" value="" placeholder="Password" id="password" name="password" />
         <button type="submit">Login</button><input type='hidden' name='LoginC' value='login'>
     </form>
+    <?if( $_SESSION['error_login'] !=""){?>
+    <div class="alert alert-danger error-login">incorrect email or password</div>
+    <?
+    }
+    unset( $_SESSION['error_login']);
+    ?>
 </div>
 <?
 

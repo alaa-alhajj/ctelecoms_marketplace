@@ -76,22 +76,22 @@
 }
 
 .login-block input#username {
-    background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px top no-repeat;
+ 
     background-size: 16px 80px;
 }
 
 .login-block input#username:focus {
-    background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px bottom no-repeat;
+ 
     background-size: 16px 80px;
 }
 
 .login-block input#password {
-    background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px top no-repeat;
+  
     background-size: 16px 80px;
 }
 
 .login-block input#password:focus {
-    background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px bottom no-repeat;
+  
     background-size: 16px 80px;
 }
 
@@ -119,17 +119,17 @@
     background: #f58120;
 }
 #shopping-cart{    border: 1px solid #f58120;
-    padding: 0px;
-    text-indent: 16px;}
+                   padding: 0px;
+                   text-indent: 16px;}
 #shopping-cart li{list-style: none;    padding: 10px 0px;
-    border-bottom: 1px solid #f58120;position: relative}
+                  border-bottom: 1px solid #f58120;position: relative}
 #shopping-cart li.active-shopping{background: #f58120;color:#fff !important}
 #shopping-cart li.active-shopping a{color:#fff !important}
 
 #shopping-cart li.active-shopping::after {
-   content: "";
-   position: absolute;
-   width:0;
+    content: "";
+    position: absolute;
+    width:0;
     height:0;
     border-top:20px solid transparent;
     border-bottom:20px solid transparent;
@@ -139,26 +139,26 @@
 
 .loading {
     padding:10px;
-  position: absolute;
-  z-index: 999;
-  height: 2em;
-  width: 2em;
-  margin: auto;
-  top: 30%;
-  left: 0;
-  bottom: 0;
-  right: 0;color:#000 !important
+    position: absolute;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    margin: auto;
+    top: 30%;
+    left: 0;
+    bottom: 0;
+    right: 0;color:#000 !important
 }
 .loading span{margin-left: -14px}
 /* Transparent Overlay */
 .loading:before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 25%;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 25%;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 
@@ -167,22 +167,84 @@
 .colorWhite{color:#fff}
 .loadingPrice {
     padding:0px;
-  position: absolute;
-  z-index: 999;
-  height: 2em;
-  width: 2em;
-  margin: auto;
-  top: -7%;
-  left: 0;
-  bottom: 0;
-  right: 0;color:#000 !important
+    position: absolute;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    margin: auto;
+    top: -7%;
+    left: 0;
+    bottom: 0;
+    right: 0;color:#000 !important
 }
 .loadingPrice:before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 25%;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 25%;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
+
+.loadingPromo {
+    padding:0px;
+    position: absolute;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    margin: auto;
+    top: 5%;
+    left: 0;
+    bottom: 0;
+    right: 0;color:#000 !important;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 99999999;
+}
+.loadingPromo:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 25%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.error-login{margin-top: 20px}
+.pointer_events{pointer-events: none}
+
+
+.loadingAdd {
+ padding: 25px;
+    position: absolute;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    color: #000 !important;
+    text-align: center;
+    background: #fff;
+    opacity: 0.5;
+}
+
+/* Transparent Overlay */
+.loadingAdd:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 25%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.Compare-btn{float:right;font-size: 14px}
+.small-addToCart{float: right;
+    padding-right: 5px;
+    font-size: 26px;}
+
+.added{color:#ccc !important}

@@ -32,17 +32,25 @@ $durations_select.="</select>";
 
     <div class="col-sm-6">
         <?
-       // print_r($_SESSION['Shopping_Cart']);
+        // print_r($_SESSION['Shopping_Cart']);
         $Check_product = $_SESSION['Shopping_Cart'];
         // print_r( $Check_product[$product_id]) ;
-          if ($Check_product[$product_id] != "") {
-                $show_add='display-none';
-              $show_remove='';
-             
-          }else{
-               $show_add='';
-              $show_remove='display-none';
-          }
+        if ($Check_product[$product_id] != "") {
+            $show_add = 'display-none';
+            $show_remove = '';
+        } else {
+            $show_add = '';
+            $show_remove = 'display-none';
+        }
+        $compare_session = $_SESSION['compareIDs'];
+        if ($compare_session[$product_id] != "") {
+            $showAddToCompare = 'display-none';
+            $removeFromCompare = "";
+        } else {
+            $showAddToCompare = '';
+            $removeFromCompare = 'display-none';
+        }
+        print_r($_SESSION['compareIDs']);
         $photos = explode(',', $get_product_details['photos']);
         $images = "";
         $i = 0;
@@ -73,27 +81,36 @@ $durations_select.="</select>";
             <?= $get_product_details['title']; ?>
         </h1>
         <p> <?= $get_product_details['brief']; ?></p>
-       
-            <div class="RemovedFromCart <?=$show_remove?> loadImgAdd">
-                <div class='row row-nomargin product-price'>
-                    <div class="col-sm-12 cart-button"><a href='javascript:;' class="RemovefromCart" data-id="<?=$product_id?>"><i class="fa fa-cart-plus" aria-hidden="true"></i><span> Remove From Cart</span></a></div>
-                </div>
+
+        <div class="RemovedFromCart <?= $show_remove ?> loadImgAdd rel-div">
+            <div class='row row-nomargin product-price'>
+                <div class="col-sm-12 cart-button"><a href='javascript:;' class="RemovefromCart" data-id="<?= $product_id ?>"><i class="fa fa-cart-plus" aria-hidden="true"></i><span> Remove From Cart</span></a></div>
             </div>
-      
-            <div class="AddedToCart <?=$show_add?>">
-                <div class='row row-nomargin'>
-                    <div class="col-sm-6 nopadding"><span class='fontsize'>Duration &nbsp;</span><?= $durations_select; ?></div>
-                    <div class="col-sm-6 nopadding"><span class='fontsize'>Number of users &nbsp;</span> <?= $groups_select; ?></div>
-                </div>
+        </div>
 
-                <div class='row row-nomargin product-price loadImgAdd'>
-
-                    <div class="col-sm-6">Price <span id="product_price"> </span></div>
-                    <div class="col-sm-6 cart-button"><a href='javascript:;' class="addToCart"><i class="fa fa-cart-plus" aria-hidden="true"></i><span> Add to Cart</span></a></div>
-
-                </div>
+        <div class="AddedToCart <?= $show_add ?>">
+            <div class='row row-nomargin'>
+                <div class="col-sm-6 nopadding"><span class='fontsize'>Duration &nbsp;</span><?= $durations_select; ?></div>
+                <div class="col-sm-6 nopadding"><span class='fontsize'>Number of users &nbsp;</span> <?= $groups_select; ?></div>
             </div>
-     
+
+            <div class='row row-nomargin product-price loadImgAdd rel-div'>
+
+                <div class="col-sm-6">Price <span id="product_price"> </span></div>
+                <div class="col-sm-6 cart-button"><a href='javascript:;' class="addToCart"><i class="fa fa-cart-plus" aria-hidden="true"></i><span> Add to Cart</span></a></div>
+
+            </div>
+        </div>
+        <div class="row row-margin AddedToCompare <?= $showAddToCompare ?>">
+            <div class="col-sm-12">
+                <a href='javascript:;' class="addToCompare Compare-btn" data-id="<?= $product_id ?>"><i class="fa fa-refresh" aria-hidden="true"></i><span> Add to Compare</span></a>
+            </div>
+        </div>
+        <div class="row row-margin RemovedToCompare <?= $removeFromCompare ?>">
+            <div class="col-sm-12">
+                <a href='javascript:;' class="removeFromCompare Compare-btn" data-id="<?= $product_id ?>"><i class="fa fa-refresh" aria-hidden="true"></i><span> Remove From Compare</span></a>
+            </div>
+        </div>
         <div class="col-sm-12 margTop20 freeTrial-button"><a href=''>Free Trial</a></div>
     </div>
     <div class='clear'></div>
@@ -107,10 +124,10 @@ $durations_select.="</select>";
                 <li data-id="<?= $product_id ?>" data-details='review' data-request="Details_5" class='GetProductDetails'>Review</li>
                 <li data-id="<?= $product_id ?>" data-details='addons' data-request="Details_6" class='GetProductDetails'>Add-ons</li>
             </ul>
-            
+
 
             <div class="resp-tabs-container hor_1 ">
-       
+
 
                 <div id='overview' class="Details_1"> <!-- Features -->
                     <p></p>
@@ -138,7 +155,7 @@ $durations_select.="</select>";
     <?
     if ($get_product_details['related_pro_ids'] != "") {
         ?>
-        <div class='col-sm-12'>
+        <div class='col-sm-12 nopadding'>
             <h1>Related Products</h1>
             <?
             $product_details = "<div class='row row-nomargin nopadding'>";
@@ -149,15 +166,35 @@ $durations_select.="</select>";
                     $get_pro = $this->fpdo->from('products')->where("id='$products_related'")->fetch();
                     $photos = explode(',', $get_pro['photos']);
                     $product_photo = $this->viewPhoto($photos[0], 'crop', 200, 200, 'img', 1, $_SESSION['dots'], 1, '', 'img-responsive width100');
-                 
+                    $link = _PREF . $_SESSION['pLang'] . "/page" . $products_related['page_id'] . "/" . $this->rewriteFilter($products_related['title']);
+                    $check_session_compare = $_SESSION['compareIDs'];
+                    if ($check_session_compare[$products_related] != "") {
+                        $class = 'removeFromCompare added';
+                    } else {
+                        $class = "addToCompare";
+                    }
+
+
                     $product_details.= '
-                                       <div class="col-sm-6 col-md-3">
+                                       <div class="col-sm-6 col-md-3 ">
                                        <div class="thumbnail">
                                        ' . $product_photo . '
                                         <div class="caption">
                                        <h3>' . $get_pro['title'] . '</h3>
-                                       <p style="min-height:41px">' .strip_tags($get_pro['brief']) . '</p>
-                                       <p> <a href="#" class="btn btn-default" role="button">MORE</a></p>
+                                       <p style="min-height:41px">' . strip_tags($get_pro['brief']) . '</p>
+                                       <div class="row row-margin">
+                                        <div class="col-xs-6 nopadding">                                       
+                                       <a href="' . $link . '" class="btn btn-default" role="button">MORE</a> 
+                                          </div>
+                                          <div class="col-xs-6 nopadding">
+                                 <a href="javascript:;" class="addToCartSmall small-addToCart">
+                                 <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                 </a>     
+                                 <a href="javascript:;" class="' . $class . ' small-addToCart" data-id="' . $products_related . '" data-small="small">
+                                 <i class="fa fa-refresh" aria-hidden="true"></i>
+                                 </a>
+                                  </div>
+                                          </div>
                                       </div>
                                            </div>
                                                </div>';

@@ -9,16 +9,20 @@ $db_pro_Units = "pro_price_units";
 $db_pro_Groups = "pro_price_groups";
 $db_pro_FAQ = "product_faq";
 $LPP = 8;
-$dublicated_cols=array('title', 'cat_id', 'brief', 'resources','photos','add_ons_pro_ids','package_pro_ids','related_pro_ids','customer_req_fields','is_package');
-$cols = array('title', 'cat_id','sub_cat_id', 'brief', 'resources');
-$Savecols =array('title', 'cat_id','sub_cat_id', 'brief', 'resources');
-$colsUpdate = array('title', 'cat_id','sub_cat_id', 'brief', 'resources');
-$types = array('title' => "text", 'cat_id' => 'select+', 'sub_cat_id' => 'select+', 'brief' => 'SimpleTextEditor', 'resources' => 'SimpleTextEditor');
+$dublicated_cols=array('title', 'cat_id','sub_cat_id', 'brief', 'overview','resources','photos','add_ons_pro_ids','package_pro_ids','related_pro_ids','customer_req_fields','is_package');
+$cols = array('title', 'cat_id','sub_cat_id', 'brief', 'overview');
+$Savecols =array('title', 'cat_id','sub_cat_id', 'brief', 'overview');
+$colsUpdate = array('title', 'cat_id','sub_cat_id', 'brief', 'overview');
+$types = array('title' => "text", 'cat_id' => 'select+', 'sub_cat_id' => 'select+', 'brief' => 'SimpleTextEditor', 'overview' => 'SimpleTextEditor');
 $source = array('cat_id' => array('product_category', 'title', 'id'),'sub_cat_id' => array('product_sub_category', 'title', 'id'));
 $required = array("title" => "required", "cat_id" => "required");
 $cols_photo = array('photos');
 $types_photo = array('photos' => 'photos');
 $Savecols_photo = array('photos');
+$cols_resources=array('resources');
+$types_resources=array('resources'=>'SimpleTextEditor');
+
+
 $cols_check = array('title_duration');
 $types_check = array('title_duration' => 'checkbox');
 $sourc_check = array('title_duration' => array('pro_price_duration', 'title', 'id'));
@@ -48,6 +52,7 @@ $types_seo = array('title' => "text",'html' => "FullTextEditor",'seo_title' => "
 $pageList = "listProducts.php";
 $pageInsertProduct = "insertProduct.php";
 $pageProductFeatures = "insertProductFeatures.php";
+$pageInsertResources="insertProductResources.php";
 $pageProductPhotos = "insertProductPhotos.php";
 $pageProductPricing1 = "insertProductPricingf.php";
 $pageProductPricing2 = "insertProductPricingS.php";

@@ -5,6 +5,14 @@ define("customer_code","Customer");
 $textjs = new textext_js();
 echo $textjs->get_header();
 if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
+       $vals = explode(',', $textjs->getForma('customers', 'id', 'name', $_REQUEST['customer_code']));
+    $customer = "";
+    if (count($vals) > 0) {
+        foreach ($vals as $v) {
+            $customer.=$v . ",";
+        }
+    }
+    $_REQUEST['customer_id'] = $customer;
     $save_ob = new saveform($db_table, $_REQUEST, $Savecols, 'id');
     
     $utils->redirect($pagePromoOfferProducts."?promo=".$_REQUEST['id']);

@@ -9,12 +9,13 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Edit') {
       if ($_REQUEST['saveClose'] != "") {
         $utils->redirect($pageList);
     } else {
-    $utils->redirect($pageInsertPackageProducts."?id=".$_REQUEST['id']);
+    $utils->redirect($pageInsertResources."?id=".$_REQUEST['id']);
     }
 }
 $values = $fpdo->from($db_table)->where('id', $_REQUEST['id'])->fetch();
 echo $path = '<ul id="breadcrumbs-one">
     <li class="active-menue"><a href="#">Package Data</a></li>
+     <li><a href="">Resources</a></li>
     <li><a href="#">Package Products</a></li>
     <li><a href="#">Features</a></li>
     <li><a href="">Photos</a></li>

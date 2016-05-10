@@ -24,13 +24,13 @@ $details.="<table class='table table-bordered po-table'>"
         . "<thead>"
         . "<th>Product Name</th>"
         . "<th>Price</th>"
-         . "<th>Discount</th>"
+        . "<th>Discount</th>"
         . "<th>Price after discount</th>"
         . "</thead>"
         . "<tbody>";
 
 $get_products = $fpdo->from('purchase_order_products')
-        ->select("products.title as prtitle,purchase_order_products.product_price as price,products.id as prid,purchase_order.promo_code as promo_id")
+        ->select("products.title as prtitle,purchase_order_products.product_price as price,purchase_order_products.discount as discount,products.id as prid,purchase_order.promo_code as promo_id")
         ->leftJoin("purchase_order on purchase_order.id = purchase_order_products.purchase_order_id")
         ->leftJoin("products on products.id=purchase_order_products.product_id")
         ->leftJoin("product_price_values on product_price_values.id=purchase_order_products.product_price_id")
@@ -38,30 +38,34 @@ $get_products = $fpdo->from('purchase_order_products')
         ->fetchAll();
 $total_before_discounts = 0;
 $total_after_discounts = 0;
-$total_discounts=0;
+$total_discounts = 0;
 foreach ($get_products as $products) {
     $discount = 0;
-    // promo code
-    $get_promo_discount = $fpdo->from('promo_codes')
-            ->where("id='" . $products['promo_id'] . "'")
-            ->fetch();
-    $total_price = ((($products['price']) - ($get_promo_discount['discount_percentage'] / 100) ));
-    $discount+=$get_promo_discount['discount_percentage'];
-//offer
-    $check_offers = $fpdo->from('offers')->where("product_ids like '%" . $products['prid'] . ",%'")->fetch();
-    $price = ((($total_price) - ($check_offers['discount_percentage'] / 100) ));
-    $discount+=$check_offers['discount_percentage'];
+    /*
+      // promo code
+      $get_promo_discount = $fpdo->from('promo_codes')
+      ->where("id='" . $products['promo_id'] . "'")
+      ->fetch();
+      $total_price = ((($products['price']) - ($get_promo_discount['discount_percentage'] / 100) ));
+      $discount+=$get_promo_discount['discount_percentage'];
+      //offer
+      $check_offers = $fpdo->from('offers')->where("product_ids like '%" . $products['prid'] . ",%'")->fetch();
+      $price = ((($total_price) - ($check_offers['discount_percentage'] / 100) ));
+      $discount+=$check_offers['discount_percentage'];
+     * */
+
+    $dis = 100 - $products['discount'];
+    $price_before = ($products['price'] / $dis) * 100;
     $details.="<tr>";
     $details.="<td>" . $products['prtitle'] . "</td>";
 
+    $details.="<td>" . number_format($price_before, 2, '.', ',') . "</td>";
+    $details.="<td>" . $products['discount'] . "</td>";
     $details.="<td>" . number_format($products['price'], 2, '.', ',') . "</td>";
-    $details.="<td>" . $discount . "</td>";
-    $details.="<td>" . number_format($price, 2, '.', ',') . "</td>";
     $details.="</tr>";
-    $total_before_discounts+=$products['price'];
-    $total_after_discounts+=$price;
-    $total_discounts+=$discount;
-   
+    $total_before_discounts+=$price_before;
+    $total_after_discounts+=$products['price'];
+    $total_discounts+=$products['discount'];
 }
 $details.="<tr><td colspan='3' style='text-align:right'><b>Total Price</b></td><td>" . number_format($total_before_discounts, 2, '.', ',') . "</td></tr>";
 $details.="<tr><td colspan='3' style='text-align:right'><b>Discount</b></td><td>" . number_format($total_discounts, 2, '.', ',') . "</td></tr>";

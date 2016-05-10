@@ -16,11 +16,30 @@ class utils {
     protected $fpdo;
     var $icon;
     var $field;
+    var $val;
 
     function __construct() {
 
         global $fpdo;
         $this->fpdo = & $fpdo;
+    }
+
+    public function rewriteFilter($val) {
+        $chrs = array('/', '&', '$', '_', ' ');
+
+        for ($i = 0; $i < count($chrs); $i++) {
+
+            $val = str_replace($chrs[$i], '-', $val);
+        }
+
+        $chrs2 = array(':', '?', '^', '%', '(', ')', '"', "'");
+
+        for ($i = 0; $i < count($chrs2); $i++) {
+
+            $val = str_replace($chrs2[$i], '', $val);
+        }
+
+        return $val;
     }
 
     public function back($link) {
@@ -239,8 +258,8 @@ class utils {
         return $str;
     }
 
-    function resizeToFile($img, $w, $h, $newfilename,$rewrite = '') {
-        
+    function resizeToFile($img, $w, $h, $newfilename, $rewrite = '') {
+
         if (file_exists($newfilename)) {
             return $newfilename;
         }
@@ -484,7 +503,7 @@ class utils {
         } else {
             $res = $this->Crop($img, $w, $h, $newfilename, $rewrite);
         }
-        
+
         return $res;
     }
 
@@ -592,7 +611,7 @@ class utils {
 
     function viewPhoto($photos, $resizeType, $width, $height, $outType, $firstPhotoOnly = 1, $path = '../../', $withLink = 1, $withTitle = 0, $class = '', $settings = "") {
         global $pLang;
-        
+
         if ($settings['withLink'] != "") {
             $withLink = $settings['withLink'];
         }
@@ -653,10 +672,10 @@ class utils {
                     if (exif_imagetype($photo)) {
                         if ($resizeType == 'resize') {
                             $reStr = 'R';
-                            $imgResize = $this->resizeToFile($photo, $width, $height, $path . 'uploads/cash/' . $reStr . $width . $height . $file, _PREF . 'ui/cash/' . $reStr . $width . $height . $file);                            
+                            $imgResize = $this->resizeToFile($photo, $width, $height, $path . 'uploads/cash/' . $reStr . $width . $height . $file, _PREF . 'ui/cash/' . $reStr . $width . $height . $file);
                         } elseif ($resizeType == 'crop') {
                             $reStr = 'C';
-                            $imgResize = $this->forceCrop($photo, $width, $height, $path . 'uploads/cash/' . $reStr . $width . $height . $file, _PREF . 'ui/cash/' . $reStr . $width . $height . $file);                           
+                            $imgResize = $this->forceCrop($photo, $width, $height, $path . 'uploads/cash/' . $reStr . $width . $height . $file, _PREF . 'ui/cash/' . $reStr . $width . $height . $file);
                         } elseif ($resizeType == 'full') {
                             $imgResize = $photo;
                         } elseif ($settings['type'] == 'manualCrop' && $settings != "") {

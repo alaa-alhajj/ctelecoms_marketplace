@@ -30,6 +30,7 @@ if (isset($_REQUEST) && $_REQUEST['action'] == 'Insert') {
 }
 echo $path = '<ul id="breadcrumbs-one">
     <li><a href="#">Package Data</a></li>
+     <li><a href="">Resources</a></li>
     <li><a href="#">Package Products</a></li>
     <li><a href="#">Features</a></li>
     <li><a href="">Photos</a></li>
@@ -51,10 +52,14 @@ $groups = explode(",", rtrim($get_pricing['group_ids'], ","));
 $unit_id = $get_pricing['unit_id'];
 $unit_name = $fpdo->from('pro_price_units')->where("id='$unit_id'")->fetch();
 $gr = 0;
+$per_unit="";
+if($get_pricing['type_id']==='1'){
+    $per_unit="> ";
+}
 foreach ($groups as $group_id) {
     $get_group_name = $fpdo->from('pro_price_groups')->where("id='$group_id'")->fetch();
 
-    $table.="<th data-id='" . $get_group_name['id'] . "'>" . $get_group_name['title'] . " " . $unit_name['title'] . "</th>";
+    $table.="<th data-id='" . $get_group_name['id'] . "'> $per_unit" . $get_group_name['title'] . " " . $unit_name['title'] . "</th>";
 
     $gr++;
 }

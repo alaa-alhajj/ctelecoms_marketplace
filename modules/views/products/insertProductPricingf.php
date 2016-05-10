@@ -55,8 +55,9 @@ if (isset($_REQUEST) && $_REQUEST['action'] == $action) {
 }
 echo $path = '<ul id="breadcrumbs-one">
     <li><a href="#">Product Data</a></li>
+         <li><a href="#">Resources</a></li>
     <li><a href="#">Features</a></li>
-    <li><a href="">Photos</a></li>
+    <li><a href="#">Photos</a></li>
     <li class="active-menue"><a href="#">Pricing</a></li>
     <li><a href="#">Add-ons</a></li>
     <li><a href="#">Related Products</a></li>
