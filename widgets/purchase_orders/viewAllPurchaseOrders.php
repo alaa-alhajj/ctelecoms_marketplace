@@ -1,6 +1,8 @@
 <?php
-    $customer_id=$_SESSION['CUSTOMER_ID'];
+    global $utils;
+    global $pLang;
    
+    $customer_id=$_SESSION['CUSTOMER_ID'];
 ?>
 
 <div class="purchase-orders-container">
@@ -29,8 +31,7 @@
         </thead>
         <tbody>
             <?php
-            global $utils;
-            global $pLang;
+            
              $cond="customer_id='$customer_id'";
             if(isset($_REQUEST,$_REQUEST['from']) && $_REQUEST['from']!=''){
                  $from=$_REQUEST['from'];
