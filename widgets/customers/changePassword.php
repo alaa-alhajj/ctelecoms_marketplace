@@ -8,9 +8,9 @@
         //print_r($_REQUEST);
         if(isset($_REQUEST['submit'],$_REQUEST['oldpassword'],$_REQUEST['newpassword'],$_REQUEST['repeat_newpassword'])){
 
-            echo $oldPassword=addslashes($_REQUEST['oldpassword']);
-            echo $newpassword=$_REQUEST['newpassword'];
-            echo $repeat_newpassword=$_REQUEST['repeat_newpassword'];
+            $oldPassword=addslashes($_REQUEST['oldpassword']);
+            $newpassword=$_REQUEST['newpassword'];
+            $repeat_newpassword=$_REQUEST['repeat_newpassword'];
             $successMSG='';
             $ErrorMSG='';
             //check if old password is correct
