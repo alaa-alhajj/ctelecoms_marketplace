@@ -44,9 +44,11 @@
      </div>
 <?php
  }else{
-  ?>
-    <div class="alert alert-danger">Sorry, You can't compare products because these products have different categories.</div>
-<?php
+     if(count($compareIDs) > 0){
+         echo '<div class="alert alert-danger">Sorry, You can\'t compare products because these products have different categories.</div>';
+     }else{
+        echo '<div class="alert alert-danger">Sorry, There aren\'t any products to compare them.</div>'; 
+     }
  }
  ?>
 
