@@ -1,7 +1,7 @@
 ﻿<?php
 include('../../view/common/top.php');
 include '../livezilla/api/v2/api.php';
-include '../../view/controller/CORE/SendMail.php';
+//include '../../view/controller/CORE/SendMail.php';
 $customer = $_REQUEST['customer'];
 $title = $_REQUEST['subject'];
 $brief = $_REQUEST['text'];
@@ -96,9 +96,14 @@ $title_mail = "New Ticket has been opened";
 $message = "Ticket Details:<br>Ticket id:" . $insert_id . "<br> Ticket Subject:" . $title . "<br> Ticket Message:" . $brief;
 
 $get_email_pass=$fpdo->from('mails')->where('id',1)->fetch();
-$mailer = new SendMail(mail_host, $get_email_pass['username'], $get_email_pass['password'], mail_port, mail_auth);
-//$attach = array($_SERVER['DOCUMENT_ROOT'] . _PREF . "view/ajax/price_query.txt");
+//$mailer = new SendMail(mail_host, $get_email_pass['username'], $get_email_pass['password'], mail_port, mail_auth);
+$attach = array($_SERVER['DOCUMENT_ROOT'] . _PREF . "view/ajax/price_query.txt");
 $email_support=$fpdo->from('lz_groups')->where('id','support')->fetch();
-$mailer->sendMail("info@voitest.com", $email_support['email'], $title_mail, $message, $attach, 1);
+//$mailer->sendMail("info@voitest.com", $email_support['email'], $title_mail, $message, $attach, 1);
+
+global $utils;
+$tags2 = array("{full-name}" => $get_cu_name['name'], '{ticket-id}' => '11', '{body}' => $brief);
+$utils->sendMailC("info@voitest.com", $email_support['email'], $subject, "", 1, $tags2,$attach);
+
 
 echo json_encode(1);

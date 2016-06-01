@@ -88,3 +88,20 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade TemplateModal" id="TemplateModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Message template</h4>
+                  <p>Please Use  {body} tag to put your email in this template </p>
+            </div>
+          
+            <div class="modal-body">
+             
+            </div>           
+        </div>
+    </div>
+</div>

@@ -27,17 +27,7 @@
 
 
 
-                                <div class="col-sm-12 nopadding">
-                                    <div id="queue1"></div>
-                                    <div class='col-sm-4 uploadLabel color_ct'><?= UploadYourPhotos ?>&nbsp;</div>
-                                    <div class='col-sm-8'>
-                                        <input id="attach_upload" name="attach_upload" type="file" >
-                                    </div>
-
-                                    <script type="text/javascript">
-
-                                    </script>
-                                </div>
+                                
                                 <span class="help-block"></span>
 
 

@@ -830,7 +830,7 @@ if ($duration === "") {
 
         $.ajax({
             url: _PREF + "AddTicket",
-            type: "get",
+            type: "Post",
             data: {customer: $customer_id, subject: $subject, text: $text},
             dataType: "json",
             success: function(data) {

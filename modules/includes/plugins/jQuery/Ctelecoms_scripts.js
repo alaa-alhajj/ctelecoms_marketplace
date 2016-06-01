@@ -983,5 +983,40 @@ $(document).ready(function() {
                     }
                 });
     });
+    
+     $('.emailTemplate').click(function() {
+   
+        $.ajax({
+            url: '../../views/mails/updateMail_Template.php',
+            type: 'post',
+            data: {id: '1'},
+            async: false,
+            success: function(data) {
+                $('.TemplateModal .modal-body').html(data);
+                $('.TemplateModal').modal();
+                TineMceLoadCMS();
+               
+            }
+        });
+    });
+    
+     $(document).on('submit', '#Templatesave', function(e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax(
+                {
+                    type: 'post',
+                    url: '../../views/mails/SaveTemplateAjax.php',
+                    data: formData,
+                    dataType: 'json', async: false,
+                    success: function(data)
+                    {
+                      notificationMessage(true);
+                        $('.TemplateModal').modal('toggle');
+location.reload();
+                    }
+                });
+    });
+    
 
 });
