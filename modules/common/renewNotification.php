@@ -50,7 +50,7 @@ foreach ($r as $row) {
             global $utils;
             $tags = array("{customer_name}" => $customer_name, '{product_name}' => $product_name, '{remin_time_str}' => $remin_time_str);
             //$msg.="customer_name=$customer_name,product_name=$product_name,remin_time_str=$remin_time_str \r\n";
-            $status=$utils->sendMailC("info@voitest.com", $email, $subject, "", 1, $tags);
+            $status=$utils->sendMailC("info@voitest.com", $email, $subject, "", 3, $tags);
             /************************************************************/
             $status='1';
             if($status){

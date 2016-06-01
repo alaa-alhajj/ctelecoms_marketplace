@@ -103,9 +103,9 @@ var $val;
         $mail->IsHTML(true); // send as HTML
 
         if ($mail->Send()) {
-           // return 1;
+            //return 1;
         } else {
-          //  return 0;
+            //return 0;
         }
     }
     

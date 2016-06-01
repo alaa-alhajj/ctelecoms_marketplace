@@ -50,7 +50,7 @@
                     if($insert_id!=''){
                         //send activation email
                         $tags = array("{full-name}" => $full_name, '{activation-link}' => $active_link);
-                        $utils->sendMailC("info@voitest.com", $email, "Activation Email", "", 1, $tags);
+                        $utils->sendMailC("info@voitest.com", $email, "Activation Email", "", 2, $tags);
                         
                         $successMSG="<div class='alert alert-success'>Successful, welcome <strong>$full_name</strong> in our site. Check your Email for Activation email.  </div>"; 
                     }else{
