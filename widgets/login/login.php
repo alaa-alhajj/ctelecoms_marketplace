@@ -5,7 +5,7 @@ if ($_POST['LoginC'] === 'login' && $_REQUEST['username'] != "" && $_REQUEST['pa
     global $pLang;
     $uname = ($_REQUEST['username']);
     $passwd = md5($_REQUEST['password']);
-    $query = $this->fpdo->from('customers')->where(array('email' => $uname, 'password' => $passwd))->fetch();
+    $query = $this->fpdo->from('customers')->where(array('email' => $uname, 'password' => $passwd,'active' => 1))->fetch();
     
     if ($query['id'] !="") {
       

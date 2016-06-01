@@ -312,6 +312,7 @@ RewriteRule ^([^/]+)/page([0-9]+)/pn([0-9]+)/([^/]+)$  view/pages/viewPage.php?p
 RewriteRule ^([^/]+)/page([0-9]+)/pn([0-9]+)/ext_param([^/]+)/([^/]+)$  view/pages/viewPage.php?pLang=$1&id=$2&pn=$3&extra_param=$4&title=$5 [L]
 RewriteRule ^([^/]+)/page([0-9]+)/pn([0-9]+)/g([0-9]+)/c([0-9]+)/sc([0-9]+)/([^/]+)$  view/pages/viewPage.php?pLang=$1&id=$2&pn=$3&gov_id=$4&cat_id=$5&subCat_id=$6&title=$7 [L]
 
+RewriteRule ^([^/]+)/page([0-9]+)/cust([0-9]+)/code([0-9]+)/([^/]+)$  view/pages/viewPage.php?pLang=$1&id=$2&cust=$3&code=$4 [L]
 #------------------- Market Place 2/5/2016 -----------alaa-----------------------
 RewriteRule ^GetProductPrice$  view/ajax/GetProductPrice.php [L]
 RewriteRule ^GetProductDetails$  view/ajax/GetProductDetails.php [L]

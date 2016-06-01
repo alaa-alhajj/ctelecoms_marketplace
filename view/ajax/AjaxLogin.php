@@ -5,7 +5,7 @@ $uname = ($_REQUEST['username']);
 $passwd = md5($_REQUEST['password']);
 
 
-$query = $fpdo->from('customers')->where(array('email' => $uname, 'password' => $passwd))->fetch();
+$query = $fpdo->from('customers')->where(array('email' => $uname, 'password' => $passwd,'active' => 1))->fetch();
 
 if ($query['id'] != "") {
 

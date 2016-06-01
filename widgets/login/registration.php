@@ -1,4 +1,26 @@
 <?php
+     global $utils;
+     global $pLang;
+    if(isset($_REQUEST,$_REQUEST['cust'],$_REQUEST['code'])){
+        $code=$_REQUEST['code'];
+        $cid=$_REQUEST['cust'];
+        $cust_info=$this->fpdo->from('customers')->where('id='.$cid)->fetch();
+        $activation_code=$cust_info['activation_code'];
+        $full_name=$cust_info['name'];
+        if($code==$activation_code){
+            //make customer account active
+            $this->fpdo->update('customers')->set(array('active' =>1))->where("id=$cid")->execute();
+            $successMSG="<div class='alert alert-success'>Your Account was activated Successfully, welcome <strong>$full_name<strong> in our site  </div>"; 
+            @session_start();
+            $_SESSION['CUSTOMER_Name'] = $full_name;
+            $_SESSION['CUSTOMER_ID'] =$cid ;
+            $utils->redirect(_PREF.$pLang."/page49/My-Account");
+        }else{
+            $ErrorMSG="<div class='alert alert-danger'>Sorry Your Account isn't activated, check your email and try again.</div>"; 
+        }
+    }    
+
+
     if(isset($_REQUEST,$_REQUEST['id'])){
         //print_r($_REQUEST);
         $id=$_REQUEST['id'];
@@ -18,20 +40,20 @@
             $successMSG='';
             $ErrorMSG='';
             if($password===$repeat_password){
-                global $utils;
-                global $pLang;
-                
-                $insert_id = $this->fpdo->insertInto('customers')->values(array('name'=>$full_name,'email'=>$email,'password'=>md5($password),'company'=>$company,'city'=>$city,'adress'=>$adress))->execute(); 
-                if($insert_id!=''){
-                    
-                    $successMSG="<div class='alert alert-success'>Successful, welcome <strong>$full_name<strong> in our site  </div>"; 
-                    @session_start();
-                    $_SESSION['CUSTOMER_Name'] = $full_name;
-                    $_SESSION['CUSTOMER_ID'] = $insert_id;
-                    $utils->redirect(_PREF.$pLang."/page49/My-Account");
-                    
-                }else{
-                    $ErrorMSG="<div class='alert alert-danger'>Error, this Email is aleady exist.</div>"; 
+                //check if email already exist
+                $cust_info=$this->fpdo->from('customers')->where(array('email' => $email))->fetch();
+                if(count($cust_info) <= 1){ // email not exist
+                    $activation_code=  rand(10000, 99999);
+                    $insert_id = $this->fpdo->insertInto('customers')->values(array('name'=>$full_name,'email'=>$email,'password'=>md5($password),'company'=>$company,'city'=>$city,'adress'=>$adress,'activation_code'=>$activation_code))->execute(); 
+                    echo $active_link="http://"._SITE._PREF.$_SESSION['pLang']."/page69/cust$insert_id/code$activation_code/activation";
+                    //send activiation mail
+                    if($insert_id!=''){
+                        $successMSG="<div class='alert alert-success'>Successful, welcome <strong>$full_name</strong> in our site. Check your Email for Activation email.  </div>"; 
+                    }else{
+                        $ErrorMSG="<div class='alert alert-danger'>Error,Please, try again later.</div>";
+                    }
+                }else{ // email already exist
+                     $ErrorMSG="<div class='alert alert-danger'>Error, this Email <$email> is aleady exist.</div>"; 
                 }
                 
                 
