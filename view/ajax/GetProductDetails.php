@@ -37,10 +37,10 @@ if ($get_data === "overview") {
     echo strip_tags($get_details['resources']);
 } elseif ($get_data === "faq") {
     $faq = "";
-    $faq.=" <div class='col-sm-12 nopadding'>";
+    $faq.=" <div class='row'><div class='col-sm-12 '>";
     $faq.="<h4 class='color-faq pull-left'>Frequently asked questions</h4>";
     //   $faq.='<a href="#" class="pull-right "><i class="fa fa-plus  "></i> Show All</a>';
-    $faq.= '</div>';
+    $faq.= '</div></div>';
     $faq.= '<div class="panel-group" id="accordion">';
 
     $get_Faqs = $fpdo->from('product_faq')->where("product_id='$product_id'")->fetchAll();
@@ -73,7 +73,10 @@ if ($get_data === "overview") {
     $faq.="</div>";
     echo $faq;
 } elseif ($get_data === "review") {
-
+    $rating_div="";
+if($_SESSION['CUSTOMER_ID']!=""){
+    $rating_div="<div class = 'over-rating'> Overall</div><div><input class = 'rb-rating '></div>";
+}
     $reviews_det = "";
     $reviews_det.='<div class="row row-nomargin margbtm20">';
     $reviews_det.='<div class="col-sm-6">';
@@ -85,8 +88,9 @@ if ($get_data === "overview") {
             . " Select a row below to filter reviews."
             . "</div>"
             . "<div class = 'col-sm-6 row-stars'>"
-            . " <div class = 'over-rating'> Overall</div> <div>"
-            . "<input class = 'rb-rating'></div>"
+            . "  "
+            . ""
+            . $rating_div
             . "</div></div>"
             . " <div class = 'rating-bars'>";
 
@@ -193,56 +197,10 @@ if ($get_data === "overview") {
             . '</div>';
     echo $reviews_det;
 } elseif ($get_data === "addons") {
-    $addon_details = "";
-    $addon_details.="<div class='row row-nomargin nopadding'>";
-    $addons_products = explode(',', rtrim($get_details['add_ons_pro_ids'], ','));
-    $add = 0;
-    $addOn_photo = "";
-    foreach ($addons_products as $product_addOn) {
-        if ($add <= 6 && $product_addOn != "") {
-
-            $get_pro = $fpdo->from('products')->where("id='$product_addOn'")->fetch();
-            $photos = explode(',', $get_pro['photos']);
-            $addOn_photo = $utils->viewPhoto($photos[0], 'crop', 200, 200, 'img', 1, $_SESSION['dots'], 1, 0, 'img-responsive width100');
-            $link = _PREF . $_SESSION['pLang'] . "/page" . $product_addOn['page_id'] . "/" . $utils->rewriteFilter($product_addOn['title']);
-            $check_session_compare = $_SESSION['compareIDs'];
-            if ($check_session_compare[$product_addOn] != "") {
-                $class = 'removeFromCompare added';
-            } else {
-                $class = "addToCompare";
-            }
-            $addon_details.= '
-                                       <div class="col-sm-6 col-md-3">
-                                       <div class="thumbnail">
-                                       ' . $addOn_photo . '
-                                        <div class="caption">
-                                       <h3>' . $get_pro['title'] . '</h3>
-                                        <p style="min-height:41px">' . strip_tags($get_pro['brief']) . '</p>
-                                         <div class="row row-margin">
-                                        <div class="col-xs-6 nopadding">                                       
-                                       <a href="' . $link . '" class="btn btn-default" role="button">MORE</a> 
-                                          </div>
-                                          <div class="col-xs-6 nopadding">
-                                 <a href="javascript:;" class="addToCartSmall small-addToCart">
-                                 <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                                 </a>     
-                                 <a href="javascript:;" class="' . $class . ' small-addToCart" data-id="' . $product_addOn . '" data-small="small">
-                                 <i class="fa fa-refresh" aria-hidden="true"></i>
-                                 </a>
-                                  </div>
-                                          </div>
-                                     
-
-</div>
-                                      
-                                           </div>
-                                               </div>';
-        }
-        $add++;
-    }
-
-
-    $addon_details.="</div>";
+   
+   
+    $addons_products = rtrim($get_details['add_ons_pro_ids'],',');
+      $addon_details =  $utils->getProductsBoxes("id in($addons_products)", 3,'col-sm-6' );
     echo $addon_details;
 }
 ?>

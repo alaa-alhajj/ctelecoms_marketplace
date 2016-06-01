@@ -15,7 +15,7 @@
     <div class="col-xs-9">
         <?
         $shopping_cart = $_SESSION['Shopping_Cart'];
-        //print_r($shopping_cart);
+      //  print_r($shopping_cart);
 
         global $utils;
         ?>
@@ -39,6 +39,7 @@
                 foreach ($shopping_cart as $key => $product) {
                     $product_id = $product['pro_id'];
                     $duration_id = $product['duration_id'];
+                    $type_unit_val = $product['unit_value'];
                     $duration_name = $this->fpdo->from("pro_price_duration")->where("id='$duration_id'")->fetch();
                     $group_id = $product['group_id'];
                     $get_pro_name = $this->fpdo->from("products")->where("id='$product_id'")->fetch();
@@ -49,23 +50,26 @@
                     $dynamic_id = $get_dynamic_id['id'];
                     $get_price = $this->fpdo->from('product_price_values')->where("`dynamic_price_id`='$dynamic_id' and `duration_id`='$duration_id' and `group_id`='$group_id'")->fetch();
                     $get_groups = explode(',', rtrim($get_dynamic_id['group_ids'], ','));
+
                     if ($get_dynamic_id['type_id'] === '2') {
-                        $groups_select = "<select name='groups_cart' id='groups_cart' data-duration='$duration_id' data-dynamic='$dynamic_id' data-product='$product_id' data-type='group'>";
+                        $groups_select = "<select style='width:65%;float:left;margin-bottom: 10px;' name='groups' id='groups' class='form-control ProductGroups groups_cart_$product_id ProductGroups_$product_id' data-type='group'  data-dynamic='$dynamic_id' data-product='" . $product_id . "'>";
                         foreach ($get_groups as $groups) {
                             $get_title_g = $this->fpdo->from('pro_price_groups')->where("id='$groups'")->fetch();
                             $get_unit_name = $this->fpdo->from('pro_price_units')->where("id", $get_dynamic_id['unit_id'])->fetch();
-                            $selected = "";
-                            if ($shopping_cart[$product_id]['group_id'] === $groups) {
-                                $selected = "selected='selected'";
-                            }
-                            $groups_select.="<option value='" . $groups . "' $selected>" . $get_title_g['title'] ." ".$get_unit_name['title']. "</option>";
+                            $groups_select.="<option value='" . $groups . "'>" . $get_title_g['title'] . "</option>";
                         }
-                        $groups_select.="</select>";
+                        $groups_select.="</select> <span style='float:right;margin-top:6px'>" . $get_unit_name['title'] . "</span>";
                     } elseif ($get_dynamic_id['type_id'] === '1') {
-                        $get_groupName = $this->fpdo->from('pro_price_groups')->where("id='$group_id'")->fetch();
-                         $get_unit_name = $this->fpdo->from('pro_price_units')->where("id", $get_dynamic_id['unit_id'])->fetch();
-                        $groups_select = "<input type='text' value='" . $get_groupName['title'] . "' name='groups_cart' id='groups_cart' data-duration='$duration_id' data-dynamic='$dynamic_id' data-product='$product_id' data-type='unit' style='width:50%'> ".$get_unit_name['title'];
+                        foreach ($get_groups as $groups) {
+                            $get_groupName = $this->fpdo->from('pro_price_groups')->where("id='$groups'")->fetch();
+                            $get_unit_name = $this->fpdo->from('pro_price_units')->where("id", $get_dynamic_id['unit_id'])->fetch();
+                            $get_max_min = $this->fpdo->from('pro_price_groups')
+                                            ->select("max(title) as maxval,min(title) as minval")->where('id in (' . rtrim($get_dynamic_price['group_ids'], ',') . ')')->fetch();
+                            $groups_select = "<input type='number' max='" . $get_max_min['maxval'] . "' min='0' value='" . $get_groupName['title'] . "' name='groups_cart' class='form-control  groups_cart groups_cart_" . $product_id . "' data-duration='$duration_id' data-dynamic='$dynamic_id' data-product='$product_id' data-type='unit' data-offer='" . $check_offers['discount_percentage'] . "' data-promo='" . $get_promo_discount['discount_percentage'] . "' style='width:65%;float:left;margin-bottom: 10px;'> <span style='float:right;margin-top:6px'>" . $get_unit_name['title'] . "</span>";
+                        }
                     }
+                    $groups_select.="<input type='hidden' class='ProductDurations ProductDurations_$product_id'  data-dynamic='" . $dynamic_id . "' data-product='" . $product_id . "' value='$duration_id'>";
+
                     //print_r($product);
 
                     $check_offers = $this->fpdo->from('offers')->where("product_ids like '%" . $product_id . ",%'")->fetch();
@@ -82,23 +86,24 @@
                     } else {
                         $price_after_promo = $price_offer;
                     }
-                  
+
                     $Check_AddOns_for_button = explode(',', rtrim($get_pro_name['add_ons_pro_ids'], ','));
-                    $show_button=0;
+                    $show_button = 0;
                     foreach ($Check_AddOns_for_button as $checkA) {
-                         if($_SESSION['Shopping_Cart'][$checkA]!=""){}
-                         else{
+                        if ($_SESSION['Shopping_Cart'][$checkA] != "") {
+                            
+                        } else {
                             $show_button++;
                         }
                     }
-                   
+
                     $add_ons = "";
-                    if ($get_pro_name['add_ons_pro_ids'] != "" && $show_button>0) {
+                    if ($get_pro_name['add_ons_pro_ids'] != "" && $show_button > 0) {
 
                         $add_ons = "<a href='javascript:;' class='SelectAddons' data-id='" . $product_id . "'>Select Add-ons</a>";
                     }
 
-                  
+
                     echo "<tr id='$product_id'>";
                     echo "<td>" . $product_photo . "</td>";
                     echo "<td><a href='$link23'>" . $get_pro_name['title'] . " - " . $duration_name['title'] . "</a></td>";

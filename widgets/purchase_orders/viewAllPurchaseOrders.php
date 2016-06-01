@@ -50,7 +50,7 @@
                 $payment_type_id=$order['payment_type'];
                 $payment_type_info=$this->fpdo->from("payment_types")->where("id='$payment_type_id'")->fetch();
                 $payment_type_name=$payment_type_info['name'];
-                $link=_PREF.$pLang."/page$page_id/OrderDetails";
+                $link=_PREF.$_SESSION['pLang']."/page$page_id/OrderDetails";
                 echo "
                     <tr>
                         <td>$order_id</td>

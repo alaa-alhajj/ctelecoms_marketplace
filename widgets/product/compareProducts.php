@@ -81,9 +81,10 @@
                 $photos = explode(',', $get_product_details['photos']);
                 $pro_photo=$photos[0];
                 if($pro_photo && $pro_photo!='' ){
-                    //global $utils;
-                    //$product_photo = $utils->viewPhoto($pro_photo, 'crop', 200, 200, 'img', 1, $_SESSION['dots'], 0, 0, 'img-responsive');
-                    $product_photo = "<img src='"._Include."css/images/no_photo.png' width='200px' heigh='300px'>";
+                    global $utils;
+                  
+                    $product_photo = $utils->viewPhoto($pro_photo, 'crop', 200, 200, 'img', 1, $_SESSION['dots'],1, '', 'img-responsive');
+                    //$product_photo = "<img src='"._Include."css/images/no_photo.png' width='200px' heigh='300px'>";
                 }
 
                 //generate compare table head 

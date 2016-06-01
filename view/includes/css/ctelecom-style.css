@@ -1,6 +1,15 @@
+@import "../bootstrap/css/bootstrap.min.css";
 @import "easy-responsive-tabs.css";
+@import "owl.carousel.css";
 @import "star-rating.min.css";
 @import "font-awesome/css/font-awesome.min.css";
+@import "animate.min.css";
+@import "ctelecom-style_new.css";
+@import "fonts/swiss_bold/Swiss721BT-Bold.css";
+@import "fonts/swiss_light/Swiss721BT-Light.css";
+@import "fonts/rockwell/Rockwell-Regular.css";
+@import "fontello-8f5f3f72/css/fontello.css";
+@import "../uploadify/uploadifive.min.css";
 .row-nomargin{margin: 0px !important}
 .product-price{color:green;margin-top: 20px !important;font-size: 14px}
 .cart-button a{float: right ;color:green;font-size: 14px}
@@ -34,12 +43,6 @@
 .comments_review .comment_user{display:none}
 .display-none{display:none}
 
-.logo {
-    width: 213px;
-    height: 36px;
-    background: url('http://i.imgur.com/fd8Lcso.png') no-repeat;
-    margin: 30px auto;
-}
 
 .login-block {
     width: 320px;
@@ -142,14 +145,14 @@
     position: absolute;
     z-index: 999;
     height: 2em;
-    width: 2em;
+    width: 100%;
     margin: auto;
-    top: 30%;
+    top: 15%;
     left: 0;
     bottom: 0;
-    right: 0;color:#000 !important
+    right: 0;color:#a9a9a9 !important;text-align:center
 }
-.loading span{margin-left: -14px}
+.loading .spinner-style{font-size:29px}
 /* Transparent Overlay */
 .loading:before {
     content: '';
@@ -260,3 +263,13 @@
     text-align: center;
 }
 .ShoppingCartTable tr td:nth(3){position: relative}
+.panel-ctelecoms .panel-title > a{font-size:18px !important;color:#f58220 !important}
+.panel-ctelecoms label{font-weight:normal;}
+.panel-ctelecoms > .panel-heading {
+    color: #f58220;
+    background-color: #333333;
+    border-color: #DDD;
+    border-radius: 0px;
+    font-size:16px;
+}
+.panel-ctelecoms{border-color:#333333;border-radius: 0px;}

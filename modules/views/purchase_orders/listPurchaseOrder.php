@@ -24,6 +24,7 @@ $listTable->setExtraLinks(array(array('Details', $utils->icons->ico['list'], 'De
 ));
 $listTable->_special(false);
 $listTable->_active(false);
+$listTable->_paymentBtn(true);
 
 $listTable->setFilter(array(
     array("customer", "text"),array("order_date", "date"), array("product", "text"), array("From", "date"), array("To", "date")

@@ -11,8 +11,9 @@ $add = $_REQUEST['add'];
 if ($qty == '') { // set qty = 1 if don't qty value don't found
     $qty = 1;
 }
+$dynamic_price = $fpdo->from("product_dynamic_price")->where("product_id='$pro_id'")->fetch();
 
-$product = array('pro_id' => $pro_id, 'duration_id' => $duration_id, 'group_id' => $group_id, 'qty' => $qty);
+$product = array('pro_id' => $pro_id, 'duration_id' => $duration_id, 'group_id' => $group_id, 'unit_value' => $group_id, 'qty' => $qty);
 
 //add product to shopping Cart session
 $shopping_cart = $_SESSION['Shopping_Cart'];
@@ -39,13 +40,16 @@ if ($add != "") {
             if ($shopping_cart[$product_id]['group_id'] === $groups) {
                 $selected = "selected='selected'";
             }
-            $groups_select.="<option value='" . $groups . "' $selected>" . $get_title_g['title'] ." ".$get_unit_name['title']. "</option>";
+            $groups_select.="<option value='" . $groups . "' $selected>" . $get_title_g['title'] . " " . $get_unit_name['title'] . "</option>";
         }
         $groups_select.="</select>";
     } elseif ($get_dynamic_id['type_id'] === '1') {
         $get_groupName = $fpdo->from('pro_price_groups')->where("id='$group_id'")->fetch();
-          $get_unit_name = $fpdo->from('pro_price_units')->where("id", $get_dynamic_id['unit_id'])->fetch();
-        $groups_select = "<input type='text' value='" . $get_groupName['title'] . "' name='groups_cart' id='groups_cart' data-duration='$duration_id' data-dynamic='$dynamic_id' data-product='$product_id' data-type='unit' style='width:50%'>".$get_unit_name['title'];
+        $get_unit_name = $fpdo->from('pro_price_units')->where("id", $get_dynamic_id['unit_id'])->fetch();
+         $get_max_min = $fpdo->from('pro_price_groups')
+                ->select("max(title) as maxval,min(title) as minval")->where('id in ('.rtrim($get_dynamic_id['group_ids'], ',').')')->fetch();
+     
+        $groups_select = "<input type='number' max='" . $get_max_min['maxval'] . "' min='" . $get_max_min['minval'] . "' value='" . $get_groupName['title'] . "' name='groups_cart' id='groups_cart' data-duration='$duration_id' data-dynamic='$dynamic_id' data-product='$product_id' data-type='unit' style='width:50%'> " . $get_unit_name['title'];
     }
     //print_r($product);
 
@@ -87,5 +91,7 @@ if ($add != "") {
             . "</tr>";
     $total_price+=$price_after_promo;
     $total_price_before_discount+=$get_price['value'];
-    echo json_encode($tr);
+    echo json_encode(array($tr, count($_SESSION['Shopping_Cart'])));
+} else {
+    echo json_encode(count($_SESSION['Shopping_Cart']));
 }

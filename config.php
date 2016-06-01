@@ -28,4 +28,10 @@ define("ClassMain","col-sm-6");
 define("LabelSubCss",'col-sm-2');
 define("ReqSubCss",'');
 define("FIELDSubCss",'col-sm-10');
+define("mail_host","mail.voilahost.com");
+define("mail_email","info@voitest.com");
+define("mail_password","xB00GJey3o");
+define("mail_port",2525);
+define("mail_auth",'SSL');
+
 define("_V",'VOILA CMS V6.0.1');?>

@@ -1,0 +1,4 @@
+10.05.16 10:14:54 - 1062: Duplicate entry '7766710b493bbc1765e9db0307a78722' for key 'PRIMARY'
+
+SQL: INSERT INTO `lz_overlay_boxes` (`id`, `created`, `receiver_user_id`,`receiver_browser_id`,`event_action_id`, `url`,`content`, `displayed`, `closed`) VALUES ('7766710b493bbc1765e9db0307a78722', '1462871694','515602e806', 'a44d4fa1f8','','http://voitest.com/ctelecom_market/livezilla/feedback.php?cid=MTE3MDE_','',0,0);
+

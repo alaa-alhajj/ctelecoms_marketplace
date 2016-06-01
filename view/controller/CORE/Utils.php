@@ -1,5 +1,7 @@
 <?php
 
+include('PHPmailer/class.phpmailer.php');
+include('PHPmailer/class.smtp.php');
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -22,6 +24,53 @@ class utils {
 
         global $fpdo;
         $this->fpdo = & $fpdo;
+    }
+
+    public function sendMail($from, $to, $subject, $body, $idMail = "") {
+        $headers = "MIME-Version: 1.0\r\n";
+        $headers .= "Content-type: text/html; charset=utf-8\r\n";
+
+        $headers .= "From: " . $from . " \r\n";
+
+        $query = $this->fpdo->from('mails')->where('id', $idMail)->fetch();
+
+        $sname = "=?UTF-8?B?" . base64_encode("Ctelecoms") . "?=\n"; //  
+        $rname = "=?UTF-8?B?" . base64_encode("") . "?=\n"; //  
+        $sub = "=?UTF-8?B?" . base64_encode($subject) . "?=\n"; //  
+        $smail = $from;
+        $rmail = $from;
+
+        $mail = new PHPMailer();
+
+        $mail->IsSMTP(); // نختار الارسال عن طريق SMTP
+        $mail->Host = _mailer_host; // اسم سيرفر SMTP - ممكن ان يكون mail.yourdomain.com / smtp.yourdomain.com
+        $mail->SMTPSecure = mailer_smtp_secure; // secure transfer enabled REQUIRED for GMail
+        $mail->Port = mailer_port;
+        $mail->SMTPAuth = true;
+        $mail->Username = $query['username']; // البريد الخاص بموقعك يجب ان ينتهي باسم موقعك
+        $mail->Password = $query['password']; // كلمة مرور هذا البريد
+
+        $mail->AddReplyTo($smail); // نختار وجهة ارسال الرد في حال ارسل واسم مستقبل الرد
+        $mail->AddAddress("alaahj.92@gmail.com"); // بريد المستقبل واسمه
+//$mail->AddAddress("eng.lara@gmail.com");
+        $mail->From = $smail; // بريد المرسل
+        $mail->FromName = $sname; // اسم المرسل
+
+        $mail->Subject = $sub; // موضوع الرسالة
+
+
+        $mail->MsgHTML($body); // نص الرسالة - يمكن ان يكون كود html
+
+        $mail->IsHTML(true); // send as HTML
+
+        if ($mail->Send()) {
+            echo "Done";
+            return 1;
+        } else {
+            echo $mail->ErrorInfo;
+            echo "fail";
+            return 0;
+        }
     }
 
     public function rewriteFilter($val) {
@@ -263,12 +312,12 @@ class utils {
         if (file_exists($newfilename)) {
             return $newfilename;
         }
-        //Check if GD extension is loaded
+//Check if GD extension is loaded
         if (!extension_loaded('gd') && !extension_loaded('gd2')) {
             trigger_error("GD is not loaded", E_USER_WARNING);
             return false;
         }
-        //Get Image size info
+//Get Image size info
         $imgInfo = getimagesize($img);
         switch ($imgInfo[2]) {
             case 1: $im = imagecreatefromgif($img);
@@ -280,14 +329,14 @@ class utils {
             default: trigger_error('Unsupported filetype!', E_USER_WARNING);
                 break;
         }
-        //If image dimension is smaller, do not resize
+//If image dimension is smaller, do not resize
         if ($imgInfo[0] <= $w && $imgInfo[1] <= $h) {
             $nHeight = $imgInfo[1];
             $nWidth = $imgInfo[0];
             return $img;
         } else {
 
-            //yeah, resize it, but keep it proportional
+//yeah, resize it, but keep it proportional
             $rate = (($w / $imgInfo[0]) < ($h / $imgInfo[1])) ? ($w / $imgInfo[0]) : ($h / $imgInfo[1]);
             $nWidth = $imgInfo[0] * $rate;
             $nHeight = $imgInfo[1] * $rate;
@@ -306,7 +355,7 @@ class utils {
         }
         imagecopyresampled($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $imgInfo[0], $imgInfo[1]);
 
-        //Generate the file, and rename it to $newfilename
+//Generate the file, and rename it to $newfilename
         switch ($imgInfo[2]) {
             case 1: imagegif($newImg, $newfilename);
                 break;
@@ -347,12 +396,12 @@ class utils {
         } else {
             $strY = 0;
             $strX = 0;
-            //Check if GD extension is loaded
+//Check if GD extension is loaded
             if (!extension_loaded('gd') && !extension_loaded('gd2')) {
                 trigger_error("GD is not loaded", E_USER_WARNING);
                 return false;
             }
-            //Get Image size info
+//Get Image size info
             $imgInfo = @getimagesize($img);
             $nHeight = $imgInfo[1];
             $nWidth = $imgInfo[0];
@@ -366,7 +415,7 @@ class utils {
                 default: trigger_error('Unsupported filetype!', E_USER_WARNING);
                     break;
             }
-            //If image dimension is smaller, do not resize
+//If image dimension is smaller, do not resize
             if ($imgInfo[0] <= $w && $imgInfo[1] <= $h) {
                 $nHeight = $imgInfo[1];
                 $nWidth = $imgInfo[0];
@@ -378,7 +427,7 @@ class utils {
                     return $img;
                 }
             } else {
-                //yeah, resize it, but keep it proportional
+//yeah, resize it, but keep it proportional
                 if ($nWidth / $w < $nHeight / $h) {
                     $ww = $w;
                     $hh = ($nHeight * $w) / $nWidth;
@@ -402,7 +451,7 @@ class utils {
                 imagefilledrectangle($newImg, 0, 0, $w, $h, $transparent);
             }
             imagecopyresampled($newImg, $im, 0, 0, $strX, $strY, $w, $h, $side, $side2);
-            //Generate the file, and rename it to $newfilename
+//Generate the file, and rename it to $newfilename
             switch ($imgInfo[2]) {
                 case 1: imagegif($newImg, $newfilename);
                     break;
@@ -429,13 +478,13 @@ class utils {
 //			return $newfilename;
 //		}
 //	}	
-        //Check if GD extension is loaded
+//Check if GD extension is loaded
         if (!extension_loaded('gd') && !extension_loaded('gd2')) {
             trigger_error("GD is not loaded", E_USER_WARNING);
             return false;
         }
 
-        //Get Image size info
+//Get Image size info
         $imgInfo = getimagesize($img);
         switch ($imgInfo[2]) {
             case 1: $im = imagecreatefromgif($img);
@@ -465,7 +514,7 @@ class utils {
         }
         imagecopyresampled($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $imgInfo[0], $imgInfo[1]);
 
-        //Generate the file, and rename it to $newfilename
+//Generate the file, and rename it to $newfilename
         switch ($imgInfo[2]) {
             case 1: imagegif($newImg, $newfilename);
                 break;
@@ -605,7 +654,7 @@ class utils {
                 break;
         }
 
-        //  unlink($resizefile);
+//  unlink($resizefile);
         return $NewImg;
     }
 
@@ -760,15 +809,177 @@ class utils {
     function createPagination_load_more($widget_id) {
 
         $result = "<div class='load-more-area'><button type='button' class='load_more_items btn btn-primary btn-lg ' id='" . $widget_id . "' data-loading-text=\"<i class='fa fa-circle-o-notch fa-spin'></i> " . processing_order . "\">" . load_more . "</button></div>";
-        //$result = "<div class='load-more-area'><input type='button' value='".load_more."' id='$widget_id' class='load_more_items' /></div>";
+//$result = "<div class='load-more-area'><input type='button' value='".load_more."' id='$widget_id' class='load_more_items' /></div>";
         return $result;
     }
 
     function checkLogin() {
-        if(!isset($_SESSION['CUSTOMER_ID']) || (isset($_SESSION['CUSTOMER_ID']) && $_SESSION['CUSTOMER_ID']=='' )){
-             $this->redirect(_PREF);
-        }else{
+        if (!isset($_SESSION['CUSTOMER_ID']) || (isset($_SESSION['CUSTOMER_ID']) && $_SESSION['CUSTOMER_ID'] == '' )) {
+            $this->redirect(_PREF);
+        } else {
             return $_SESSION['CUSTOMER_ID'];
         }
     }
+
+    function getCategoriesMenu() {
+        $categories = $this->fpdo->from("product_category")->fetchAll();
+        $cat_manu = '<nav>'
+                . '<ul class="nav cat-menu">'
+                . '<li class="title-nav"><a href="javascript:;">CATEGORIES</a></li>';
+        foreach ($categories as $cat) {
+            $sub_categories = $this->fpdo->from("product_sub_category")->where("cat_id='" . $cat['id'] . "'")->fetchAll();
+            if (count($sub_categories) > 0) {
+                foreach ($sub_categories as $subcat) {
+                    $cat_manu.='<li><a href="#" id="sub-' . $subcat['id'] . '" data-toggle="collapse" data-target="#submenu' . $subcat['id'] . '" aria-expanded="true">' . $cat['title'] . ' <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+			<ul class="nav collapse" id="submenu' . $subcat['id'] . '" role="menu" aria-labelledby="sub-' . $subcat['id'] . '">
+				<li><a href="#">' . $subcat['title'] . '</a></li>
+				
+			</ul>
+		</li>';
+                }
+            } else {
+                $cat_manu.='<li><a href="#" >' . $cat['title'] . '</a></li>';
+            }
+        }
+        $cat_manu.="</ul></nav>";
+        return $cat_manu;
+    }
+
+    function getProductsBoxes($where, $limit = '', $col = '') {
+        if ($col != "") {
+            $class_col = 'col-sm-6';
+        } else {
+            $class_col = 'col-sm-4';
+        }
+        $featured_products = $this->fpdo->from("products")->where($where)->orderBy("id desc")->limit($limit)->fetchAll();
+        $featured_block = "<div class='row'>";
+        $fade_block = 300;
+        foreach ($featured_products as $products) {
+            $product_id = $products['id'];
+            $get_dynamic_price = $this->fpdo->from('product_dynamic_price')->where("product_id='$product_id'")->fetch();
+            $dynamic_price_id = $get_dynamic_price['id'];
+            $get_groups = explode(',', rtrim($get_dynamic_price['group_ids'], ','));
+            if ($get_dynamic_price['type_id'] === '2') {
+                $groups_select = "<select style='width:65%;float:left;margin-bottom: 10px;' name='groups' id='groups' class='form-control ProductGroups groups_cart_$product_id ProductGroups_$product_id' data-type='group' data-dynamic='" . $dynamic_price_id . "' data-product='" . $product_id . "'>";
+                foreach ($get_groups as $groups) {
+                    $get_title_g = $this->fpdo->from('pro_price_groups')->where("id='$groups'")->fetch();
+                    $get_unit_name = $this->fpdo->from('pro_price_units')->where("id", $get_dynamic_price['unit_id'])->fetch();
+                    $groups_select.="<option value='" . $groups . "'>" . $get_title_g['title'] . "</option>";
+                }
+                $groups_select.="</select> <span style='float:right;margin-top:6px'>  " . $get_unit_name['title'] . "</span>";
+            } elseif ($get_dynamic_price['type_id'] === '1') {
+                foreach ($get_groups as $groups) {
+                    $get_groupName = $this->fpdo->from('pro_price_groups')->where("id='$groups'")->fetch();
+                    $get_unit_name = $this->fpdo->from('pro_price_units')->where("id", $get_dynamic_price['unit_id'])->fetch();
+                    $get_max_min = $this->fpdo->from('pro_price_groups')
+                                    ->select("max(title) as maxval,min(title) as minval")->where('id in (' . rtrim($get_dynamic_price['group_ids'], ',') . ')')->fetch();
+                    $groups_select = "<input type='number' max='" . $get_max_min['maxval'] . "' min='0' value='" . $get_groupName['title'] . "' name='groups_cart' class='form-control groups_cart groups_cart_" . $product_id . "' data-duration='$duration_id' data-dynamic='$dynamic_price_id' data-product='$product_id' data-type='unit' style='width:65%;float:left;margin-bottom: 10px;'> <span style='float:right;margin-top:6px'>" . $get_unit_name['title'] . "</span>";
+                }
+            }
+
+
+
+
+            $get_durations = explode(',', rtrim($get_dynamic_price['duration_ids'], ','));
+            $durations_select = "<select name='durations' id='durations' class='form-control ProductDurations ProductDurations_$product_id' data-dynamic='" . $dynamic_price_id . "' data-product='" . $product_id . "'>";
+
+            foreach ($get_durations as $duration) {
+                $get_title_du = $this->fpdo->from('pro_price_duration')->where("id='$duration'")->fetch();
+                $durations_select.="<option value='" . $duration . "'>" . $get_title_du['title'] . "</option>";
+            }
+            $durations_select.="</select>";
+            $pro_photo = $this->viewPhoto($products['photos'], 'crop', 104, 156, 'img', 1, $_SESSION['dots'], 1, '', 'img-responsive');
+
+            $check_session_ShoppinCart = $_SESSION['Shopping_Cart'];
+
+            if ($check_session_ShoppinCart[$product_id] != "") {
+                $button_class = "RemovefromCart";
+                $cart_icon = '  <i class="demo-icon iconc-cart icon-style shopCartIcon"></i>';
+            } else {
+                $button_class = "addToCartSmall";
+                $cart_icon = '<i class="demo-icon iconc-cart-plus icon-style shopCartIcon"></i>';
+            }
+            $check_session_compare = $_SESSION['compareIDs'];
+
+            if ($check_session_compare[$product_id] != "") {
+                $class_compare = 'removeFromCompare';
+                $compare_icon = '<i class="demo-icon iconc-compare icon-style "></i>';
+            } else {
+                $class_compare = "addToCompare";
+                $compare_icon = '<i class="demo-icon iconc-compare-plus icon-style "></i>';
+            }
+
+
+            $link = _PREF . $_SESSION['pLang'] . "/page" . $products['page_id'] . "/" . $this->rewriteFilter($products['title']);
+            $featured_block.=' <div class="col-sm-4">
+                        <div class="product-block wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="' . $fade_block . 'ms">
+                            <div class="title"><a href="' . $link . '">' . $products['title'] . '</a></div>
+                            <div class="row row-nomargin product-details">
+                                <div class="col-xs-6">
+                                    <a href=""> ' . $pro_photo . '</a>
+                                </div>
+                                <div class="col-xs-6 select-price">
+                                    <div class="col-xs-12 nopadding">
+                                       ' . $durations_select . '
+                                    </div>
+                                    <div class="col-xs-12 nopadding">
+                                      ' . $groups_select . '
+                                    </div>
+                                    <span class="product_price_' . $product_id . '  relative price">
+                                         
+</span> <div class="load-price-img" style="display:none; margin-top: 16px;" data-id="' . $product_id . '">
+                    <img src="' . _ViewIMG . 'loading_small.gif" alt="" class="img-responsive" />
+                </div>    
+                                </div>
+                                <div class="col-xs-12 nopadding">
+                                    <div class="product-brief">
+                                      ' . $this->limit(strip_tags($products['brief']), 66) . '
+                                    
+                                    </div>
+                                </div>
+                             <div class="product-buttons">
+                                <div class="row row-nomargin">
+                                    <div class="col-xs-4 nopadding block-btn">
+                                        <a href="' . $link . '">
+                                       <div class="icon">                                            
+                                  <i class="demo-icon iconc-more1 icon-style"></i>
+                                   </div>
+                                     </a>
+                                    </div>
+                                    <div class="col-xs-4 nopadding block-btn">
+                                     <a href="javascript:;" class="' . $class_compare . '"  data-id="' . $product_id . '">
+                                               <div class="load-img" style="display:none; margin-top: 16px;" data-id="' . $product_id . '">
+                    <img src="' . _ViewIMG . 'loading_small.gif" alt="" class="img-responsive" />
+                </div>
+                                    <div class="icon">
+                                       
+                                  ' . $compare_icon . ' 
+                                      
+                                    
+                                    </div></a>
+                                    </div>
+                                    <div class="col-xs-4 nopadding block-btn relative" style="overflow: hidden">
+                                    
+                                        <a href="javascript:;" class="' . $button_class . '"  data-id="' . $product_id . '">
+                                             <div class="load-img" style="display:none; margin-top: 16px;" data-id="' . $product_id . '">
+                    <img src="' . _ViewIMG . 'loading_small.gif" alt="" class="img-responsive" />
+                </div>
+                                             <div class="icon">
+                                            ' . $cart_icon . '
+                                                </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> </div>
+                    </div>';
+
+            $fade_block = $fade_block + 300;
+
+// unset($_SESSION['Shopping_Cart']);
+        }
+        $featured_block.="</div>";
+        return $featured_block;
+    }
+
 }

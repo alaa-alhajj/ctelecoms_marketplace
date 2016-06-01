@@ -13,10 +13,6 @@ foreach ($shopping_cart as $key => $product) {
 //save change in session
 $_SESSION['Shopping_Cart']=$shopping_cart;
 
-if($foundProduct){
-    echo "Product removed successfully.";
-}else{
-    echo "Product don't found in cart.";
-}
 
- print_r($shopping_cart);
+
+ echo json_encode(count($_SESSION['Shopping_Cart']));

@@ -481,7 +481,7 @@ class widgets extends utils {
         if ($isStatic) {
             echo $widget = str_replace('##wid_start##', '', str_replace('##wid_end##', '', $widget));
         } else {
-            echo $widget = str_replace('##wid_start##', '', str_replace('##wid_end##', '', $widget));
+            echo $widget = str_replace('../../../',$_SESSION['dots'],str_replace('##wid_start##', '', str_replace('##wid_end##', '', $widget)));
         }
     }
 

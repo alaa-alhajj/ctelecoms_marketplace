@@ -1,3 +1,0 @@
-SELECT product_price_values.*
-FROM product_price_values
-WHERE `dynamic_price_id`='3' and `duration_id`='1' and `group_id`='10'

@@ -16,7 +16,7 @@
                                 <h4 class='color_ct'>Write a review</h4>
 
                                 <div class="input-group">
-                                    <input type="hidden" value="" name="customer_id" id="customer_id">
+                                    <input type="hidden" value="<?=$_SESSION['CUSTOMER_ID']?>" name="customer_id" id="customer_id">
                                     <input type="hidden" value="" name="product_id" id="product_sel">                                   
                                 </div>                            
                                 <span class="help-block"></span>

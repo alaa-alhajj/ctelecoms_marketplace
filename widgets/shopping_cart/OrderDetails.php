@@ -75,7 +75,11 @@
                     $units_title=$units_info['title'];
                     
                     $get_title_g = $this->fpdo->from('pro_price_groups')->where("id='$group_id'")->fetch();
+                    if($product['unit_value'] !=""){
+                       $group_title= $product['unit_value'];
+                    }else{
                     $group_title=$get_title_g['title'];
+                    }
                     
                     //print_r($product);
                     $qty=1;

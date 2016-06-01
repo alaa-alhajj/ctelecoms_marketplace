@@ -1,4 +1,5 @@
-<?php include "../../common/top.php";
+<?php
+include "../../common/top.php";
 include_once '../../common/constants.php';
 ?>
 <!DOCTYPE html>
@@ -13,9 +14,9 @@ include_once '../../common/constants.php';
         <link rel="stylesheet" href="../../includes/bootstrap/css/bootstrap.min.css">
         <!-- Font Awesome -->
         <link href="../../includes/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-        
+
         <!-- Ionicons -->
-        
+
         <!-- Theme style -->
         <link rel="stylesheet" href="../../includes/dist/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -47,15 +48,17 @@ include_once '../../common/constants.php';
 
         <script src="../../includes/plugins/jQuery/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-        <?php include '../../common/JsIncludes.php'; ?>
+<?php include '../../common/JsIncludes.php'; ?>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
         <script type="text/javascript" src="../../includes/plugins/jQuery/config.js"></script>
-        
-          <script type="text/javascript" src="../../includes/plugins/jQuery/Ctelecoms_scripts.js"></script>
+
+        <script type="text/javascript" src="../../includes/plugins/jQuery/Ctelecoms_scripts.js"></script>
         <script type="text/javascript" src="../../includes/plugins/jQuery/configTinymce.js"></script>
         <link href="../../includes/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <script src="../../includes/dist/js/app.min.js" type="text/javascript"></script>
         <link href="../../includes/plugins/tagit/css/jquery.tagit.css" rel="stylesheet" type="text/css"/>
-         <script type="text/javascript" src="../../includes/plugins/jQuery/seo_script.js"></script>
+        <script type="text/javascript" src="../../includes/plugins/jQuery/seo_script.js"></script>
         <link href="../../includes/plugins/tagit/css/tagit.ui-zendesk.css" rel="s-tylesheet" type="text/css"/>
         <link href="../../includes/File_Manager/assets/fancybox/jquery.fancybox-1.3.4.min.css" rel="stylesheet" type="text/css"/>
 
@@ -187,13 +190,13 @@ include_once '../../common/constants.php';
                 </nav>
             </header>
             <!-- Left side column. contains the logo and sidebar -->
-            <?php include('../../common/menu.php') ?>
+<?php include('../../common/menu.php') ?>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        <?php echo $utils->getModuleName($module_id); ?>
+                            <?php echo $utils->getModuleName($module_id); ?>
                         <small><?php
                             echo $utils->getModuleNameOperation();
                             echo $utils->getTableTitleField($table_id);
@@ -207,8 +210,8 @@ include_once '../../common/constants.php';
 
                 <!-- Main content -->
                 <section class="content">
-                     <?php
+                    <?php
                     @session_start();
-                    
+
                     $utils->checkSave($module_id);
                     ?>

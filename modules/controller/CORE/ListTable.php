@@ -65,8 +65,7 @@ class ListTable extends utils {
     var $val;
     var $moreButton = false;
     var $ReviewSearch;
-
-  
+    var $payment_btn;
 
     public function setRequireds($requireds) {
         $this->requireds = $requireds;
@@ -201,6 +200,10 @@ class ListTable extends utils {
 
     function _seo_page($page_id) {
         $this->page_id = $page_id;
+    }
+
+    function _paymentBtn($payment_btn = false) {
+        $this->payment_btn = $payment_btn;
     }
 
     public function _PurchaseOrderSearch($PurchaseOrderSearch) {
@@ -637,7 +640,7 @@ class ListTable extends utils {
             if ($this->active == true) {
                 $result.="<th width=30 align='center'>" . active . "</th>\n";
             }
-             if ($this->special == true) {
+            if ($this->special == true) {
                 $result.="<th width=30>" . special . "</th>\n";
             }
             if ($this->static != '') {
@@ -655,7 +658,7 @@ class ListTable extends utils {
             }
 
 
-           
+
             if ($this->seo == true) {
                 $result.="<th width=30>" . seo . "</th>\n";
             }
@@ -673,6 +676,10 @@ class ListTable extends utils {
             }
             if ($this->view_page == true) {
                 $result.="<th width=30>" . view . "</th>\n";
+            }
+
+            if ($this->payment_btn != '') {
+                $result.="<th width=30>" . Payment . "</th>\n";
             }
             if ($this->edit != '') {
                 $result.="<th width=30>" . edit . "</th>\n";
@@ -766,6 +773,9 @@ class ListTable extends utils {
                     if ($this->view_page == true) {
                         $result.="<td></td>\n";
                     }
+                    if ($this->payment_btn != '') {
+                        $result.="<td></td>\n";
+                    }
                     if ($this->edit != '') {
                         $result.="<td><button type='submit' class='btn-e-r btn btn-danger btn-sm'>" . $this->icons->ico['save'] . "</button></td>\n";
                     }
@@ -841,7 +851,7 @@ class ListTable extends utils {
                     if ($this->special == true) {
                         $result.="<td></td>\n";
                     }
-                      if ($this->static != '') {
+                    if ($this->static != '') {
                         $result.="<td></td>\n";
                     }
                     $i_page = 0;
@@ -854,11 +864,11 @@ class ListTable extends utils {
                             }
                         }
                     }
-                  
+
                     if ($this->seo == true) {
                         $result.="<td></td>\n";
                     }
-                      $i_dublicate = 0;
+                    $i_dublicate = 0;
                     foreach ($query as $row_dublicate) {
                         if ($i_dublicate < 1) {
                             if ($this->display == true) {
@@ -872,6 +882,9 @@ class ListTable extends utils {
                         $result.="<td></td>\n";
                     }
                     if ($this->view_page == true) {
+                        $result.="<td></td>\n";
+                    }
+                     if ($this->payment_btn != '') {
                         $result.="<td></td>\n";
                     }
                     if ($this->edit != '') {
@@ -981,9 +994,12 @@ class ListTable extends utils {
 
                     if ($this->view_page == true) {
                         $get_page_title = $this->fpdo->from('cms_pages')->where("id='$id'")->fetch();
-global $utils;
+                        global $utils;
                         $link_page = $this->view_page . "page" . $id . '/' . $utils->rewriteFilter($get_page_title['title']);
                         $result.="<td align='center'><a href='$link_page' target='_blank'>" . $this->icons->ico['view'] . "</a></td>\n";
+                    }
+                     if ($this->payment_btn != '') {
+                      $result.="<td align='center'><a href='javascript:;' data-id='" . $id . "'  class='payment-button'>" . $this->icons->ico['payment'] . "</a></td>\n";
                     }
                     if ($this->edit != '') {
                         $editLink = $this->edit;

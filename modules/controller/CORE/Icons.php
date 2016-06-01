@@ -27,6 +27,7 @@ class Icons {
         $this->ico['list'] = "<i class='fa fa-list-ol'></i>";
         $this->ico['view'] = "<i class='fa fa-search'></i>";
         $this->ico['dublicate'] = "<i class='fa fa-files-o'></i>";
+         $this->ico['payment'] = "<i class='fa fa-usd'></i>";
     }
 
     function setIcon($key, $value) {

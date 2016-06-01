@@ -33,6 +33,22 @@
     </div>
 </div>
 
+<div class="modal fade PaymentMODAL" id="PaymentMODAL" tabindex="-1" role="dialog" aria-labelledby="Delete Items">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title" id="gridSystemModalLabel">Add Payment</h3>
+            </div>
+            <div class="modal-body">
+            
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div>
+</div>
 
 <div class="modal fade ErrorModal" id="ErrorModal" tabindex="-1" role="dialog" aria-labelledby="Delete Items">
     <div class="modal-dialog modal-md" role="document">

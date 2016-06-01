@@ -16,17 +16,14 @@
 
 .bx-wrapper {
 	position: relative;
-	margin: 0 auto 15px;
+	margin: 0 auto 60px;
 	padding: 0;
 	*zoom: 1;
-/*	margin-top:-95px;*/
-	direction:ltr !important;
 }
 
 .bx-wrapper img {
 	max-width: 100%;
 	display: block;
-        width:100%;
 }
 
 /** THEME
@@ -34,13 +31,22 @@
 
 .bx-wrapper .bx-viewport {
 	
-	margin-bottom:-90px;
+	border:  5px solid #fff;
+	left: -5px;
+	background: #fff;
+	
+	/*fix other elements on the page moving (on Chrome)*/
+	-webkit-transform: translatez(0);
+	-moz-transform: translatez(0);
+    	-ms-transform: translatez(0);
+    	-o-transform: translatez(0);
+    	transform: translatez(0);
 }
 
 .bx-wrapper .bx-pager,
 .bx-wrapper .bx-controls-auto {
 	position: absolute;
-	
+	bottom: -30px;
 	width: 100%;
 }
 
@@ -60,17 +66,13 @@
 /* PAGER */
 
 .bx-wrapper .bx-pager {
-	
+	text-align: right;
 	font-size: .85em;
 	font-family: Arial;
 	font-weight: bold;
-	color: #a0a0a1;
-	padding-top: 20px;
-	position: absolute;top:0px;
-        padding-left:10%;
-        
-        
-        
+	color: #666;position: absolute;bottom: 10%;
+    padding-right: 10%;
+	
 }
 
 .bx-wrapper .bx-pager .bx-pager-item,
@@ -80,90 +82,53 @@
 	*display: inline;
 }
 
-.slider .bx-wrapper .bx-pager.bx-default-pager ,
-.slider2 .bx-wrapper .bx-pager.bx-default-pager {
-	display:none;
-}
-
-.slider3 .bx-wrapper .bx-pager.bx-default-pager {
-	top:170px;
-	margin:auto;
-	text-align:center;
-	padding-right:15px;
-}
-
 .bx-wrapper .bx-pager.bx-default-pager a {
-	background: #2b2b2b;
+	background: #c1c1c1;
 	text-indent: -9999px;
 	display: block;
 	width: 10px;
 	height: 10px;
 	margin: 0 5px;
 	outline: 0;
-	-moz-border-radius: 180px;
-	-webkit-border-radius: 180px;
-	border-radius: 180px;
-	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
+
 .bx-wrapper .bx-pager.bx-default-pager a:hover,
 .bx-wrapper .bx-pager.bx-default-pager a.active {
-	background: #ea2e27;
-        width: 10px;
-	height: 10px;
-        
+	background: #f58220;
 }
 
 /* DIRECTION CONTROLS (NEXT / PREV) */
 
 .bx-wrapper .bx-prev {
 	left: 10px;
-	height:65px;
-	background: url("images/highlight-left-arrow.png") no-repeat center left;
+	background: url(images/controls.png) no-repeat 0 -32px;
 }
 
 .bx-wrapper .bx-next {
 	right: 10px;
-	height:65px;
-	background: url("images/highlight-right-arrow.png") no-repeat center right;
+	background: url(images/controls.png) no-repeat -43px -32px;
 }
 
-.slider2 .bx-wrapper .bx-prev {
-	left: 10px;
-	height:94px;
-	background: url(images/left2-bn.png) no-repeat center left;
-}
-.slider2 .bx-wrapper .bx-next {
-	right: 10px;
-	height:94px;
-	background: url(images/right2-bn.png) no-repeat center right;
-}
-.slider3 .bx-wrapper .bx-prev {
-	left: 10px;
-	height:19px;
-	top:200px;
-	background: url(images/left2-bn.png) no-repeat center left;
-}
-.slider3 .bx-wrapper .bx-next {
-	right: 10px;
-	height:94px;
-	top:163px;
-	background: url(images/right2-bn.png) no-repeat center right;
+.bx-wrapper .bx-prev:hover {
+	background-position: 0 0;
 }
 
+.bx-wrapper .bx-next:hover {
+	background-position: -43px 0;
+}
 
 .bx-wrapper .bx-controls-direction a {
 	position: absolute;
 	top: 50%;
 	margin-top: -16px;
 	outline: 0;
-	width: 70px;
-	height: 70px;
+	width: 32px;
+	height: 32px;
 	text-indent: -9999px;
-	z-index: 999;
-}
-
-.slider2 .bx-wrapper .bx-controls-direction a {
-	top:25%;
+	z-index: 9999;
 }
 
 .bx-wrapper .bx-controls-direction a.disabled {

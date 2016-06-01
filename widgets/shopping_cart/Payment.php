@@ -27,6 +27,11 @@ if (isset($_REQUEST,$_REQUEST['payment_type'])){
         $get_pro_name = $this->fpdo->from("products")->where("id='$product_id'")->fetch();
 
         $get_dynamic_id = $this->fpdo->from('product_dynamic_price')->where("product_id='$product_id'")->fetch();
+        if($get_dynamic_id['type_id']==='1'){
+            $unit_value= $product['unit_value'];
+        }else{
+            $unit_value="";
+        }
         $dynamic_id = $get_dynamic_id['id'];
         $get_price = $this->fpdo->from('product_price_values')->where("`dynamic_price_id`='$dynamic_id' and `duration_id`='$duration_id' and `group_id`='$group_id'")->fetch();
         $product_price_id=$get_price['id']; //product_price_id
@@ -49,7 +54,7 @@ if (isset($_REQUEST,$_REQUEST['payment_type'])){
         }
         //echo "<br/> price after offer and promo = $price_after_promo <br/> ";
         //save products in purchase order
-        $insert_id = $this->fpdo->insertInto('purchase_order_products')->values(array('purchase_order_id'=>$order_insert_id,'product_id'=>$product_id,'product_price_id'=>$product_price_id,'product_price'=>$real_price,'offer_discount'=>$offer_discount,'promo_discount'=>$promo_discount))->execute();
+        $insert_id = $this->fpdo->insertInto('purchase_order_products')->values(array('purchase_order_id'=>$order_insert_id,'product_id'=>$product_id,'product_price_id'=>$product_price_id,'product_price'=>$real_price,'offer_discount'=>$offer_discount,'promo_discount'=>$promo_discount,'unit_value'=>$unit_value))->execute();
         
     }
     
@@ -60,7 +65,7 @@ if (isset($_REQUEST,$_REQUEST['payment_type'])){
     $query = $this->fpdo->update("purchase_order")->set(array('page_id' =>$page_id))->where('id', $order_insert_id)->execute();
         
      $_SESSION['OrderID']=$order_insert_id;
-     $_SESSION['Shopping_Cart']='';
+     unset($_SESSION['Shopping_Cart']);
      $utils->redirect(_PREF.$pLang."/page68/OrderDetails");
 }
          

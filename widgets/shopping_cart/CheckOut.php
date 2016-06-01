@@ -1,6 +1,6 @@
 <?
 @session_start();
-@session_start();
+
 if ($_POST['LoginC'] === 'login' && $_REQUEST['username'] != "" && $_REQUEST['password'] != "") {
     global $utils;
     global $pLang;

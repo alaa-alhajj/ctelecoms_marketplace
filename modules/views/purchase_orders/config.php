@@ -44,6 +44,11 @@ $Savecols_FAQ = array('product_id', 'question', 'answer');
 $cols_seo = array('seo_title', 'seo_description', 'seo_keywords', 'seo_img');
 $types_seo = array('title' => "text",'html' => "FullTextEditor",'seo_title' => "text",'seo_description' => "textarea",'seo_keywords' => "tags",'seo_img' => "photos");
 
+$cols_payment=array('value');
+$types_payment=array('value'=>'text');
+$dbtable_payment='payments';
+
+
 $pageList = "listProducts.php";
 $pageInsertProduct = "insertProduct.php";
 $pageProductFeatures = "insertProductFeatures.php";

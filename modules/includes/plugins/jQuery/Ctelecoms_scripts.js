@@ -723,12 +723,12 @@ $(document).ready(function() {
 
                 $('#Products #sub_cat_id').html(data[0]);
                 $('#Products #sub_cat_id').parent().find(".loadingA").remove();
-                 $('#Products #sub_cat_id').removeClass("pointer_events");
+                $('#Products #sub_cat_id').removeClass("pointer_events");
             }});
     });
 
     $this = $('#Products #cat_id').val();
-     $('#Products #sub_cat_id').addClass("pointer_events");
+    $('#Products #sub_cat_id').addClass("pointer_events");
     $('#Products #sub_cat_id').parent().append('<div id="loading-img"></div><div class="center-text loadingA" style="padding-top: 0px;font-size: 13px; position: absolute;z-index: 1; margin: auto;width: 100%;top:21%;color: grey;"><span>Getting Data... </span><i class="fa fa-spinner fa-spin spinner-style" ></i></div>');
     $.ajax({url: "../ajax/GetSubCategories.php"
         , type: 'post'
@@ -742,9 +742,246 @@ $(document).ready(function() {
             $('#Products #sub_cat_id option').removeAttr('selected');
             $('#Products #sub_cat_id option[value="' + $subCat_value + '"]').attr('selected', 'selected');
             $('#Products #sub_cat_id option[value="' + $subCat_value + '"]').prop('selected', 'selected');
-             $('#Products #sub_cat_id').parent().find(".loadingA").remove();
-              $('#Products #sub_cat_id').removeClass("pointer_events");
+            $('#Products #sub_cat_id').parent().find(".loadingA").remove();
+            $('#Products #sub_cat_id').removeClass("pointer_events");
         }});
+    /* Charts*/
 
+    function pie_chart_3d(chart, data, name, title) {
+        var chartDiv = document.createElement('div');
+        $('#' + chart).append(chartDiv);
+        $(chartDiv).highcharts({
+            chart: {
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45
+                }
+            },
+            title: {
+                text: title
+            },
+            subtitle: {
+                text: name
+            },
+            plotOptions: {
+                pie: {
+                    innerSize: 100,
+                    depth: 45,
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                    name: 'Number',
+                    data: data
+                }]
+        });
+    }
+
+    function bar_chart(chart, data, name, title, plus) {
+        var chartDiv = document.createElement('div');
+        $('#' + chart).append(chartDiv);
+        $(chartDiv).highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: title,
+                x: -20 //center
+            },
+            xAxis: {
+                categories: plus
+
+            },
+            yAxis: {
+                title: {
+                    text: title
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            }, plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{name: title,
+                    data: data}]
+        });
+    }
+   
+    function line_chart(chart, data, name, title, plus) {
+ var dataNew = [];
+ console.log(JSON.stringify(data));
+        var chartDiv = document.createElement('div');
+
+        $('#' + chart).append(chartDiv);
+     $(data).each(function() {
+        $v = $(this);
+        $v = $v[0];
+        console.log($v);
+        $v1 = $v['data'];
+        dataNew.push($v1[0]);
+
+        // alert($v1);
+
+    });
+    console.log(dataNew);
+        $(chartDiv).highcharts({
+            title: {
+                text: title,
+                x: -20 //center
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+            },
+            yAxis: {
+                title: {
+                    text: title
+                },
+                plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series:  data
+
+        });
+
+    }
+    /*All Customers by Region*/
+    $.ajax({url: "GetData.php",
+        async: false,
+        dataType: "json",
+        data: {type: 'Customers_Region'}, success: function(data) {
+            pie_chart_3d('chart', data, 'Percentage', 'All Customer by Region');
+        }
+    });
+    /*All Customers by Date*/
+    $year = $('#year_chart_customer').val();
+    $.ajax({url: "GetData.php",
+        async: false,
+        dataType: "json",
+        data: {type: 'Customers_Date', year: $year}, success: function(data) {
+            pie_chart_3d('chartDate', data, 'Percentage', 'All Customer by Date');
+        }
+    });
+    $('#yearly_chart').change(function() {
+        $('#chartDate').html('');
+        $year = $(this).val();
+        $.ajax({url: "GetData.php",
+            async: false,
+            dataType: "json",
+            data: {type: 'Customers_Date', year: $year}, success: function(data) {
+                pie_chart_3d('chartDate', data, 'Percentage', 'All Customer by Date');
+            }
+        });
+    });
+    /* All Purchase orders by customer */
+    $.ajax({url: "GetData.php",
+        async: false,
+        dataType: "json",
+        data: {type: 'PO_customer'}, success: function(data) {
+            pie_chart_3d('po_customer', data, 'Percentage', 'Purchase Orders by Customer');
+        }
+    });
+    /* All Purchase orders by region */
+    $.ajax({url: "GetData.php",
+        async: false,
+        dataType: "json",
+        data: {type: 'PO_region'}, success: function(data) {
+            pie_chart_3d('po_region', data, 'Percentage', 'Purchase Orders by Region');
+        }
+    });
+    /* All Purchase orders by date */
+    $year = $('#year_chart_po').val();
+    $.ajax({url: "GetData.php",
+        async: false,
+        dataType: "json",
+        data: {type: 'PO_date', year: $year}, success: function(data) {
+            pie_chart_3d('po_date', data, 'Percentage', 'Purchase Orders by Date');
+        }
+    });
+    $('#yearly_chartPO').change(function() {
+        $('#po_date').html('');
+        $year = $(this).val();
+        $.ajax({url: "GetData.php",
+            async: false,
+            dataType: "json",
+            data: {type: 'PO_date', year: $year}, success: function(data) {
+                pie_chart_3d('po_date', data, 'Percentage', 'Purchase Orders by Date');
+            }
+        });
+    });
+    /*product category*/
+    $.ajax({url: "GetData.php",
+        async: false,
+        dataType: "json",
+        data: {type: 'pro_cat', year: $year}, success: function(data) {
+            bar_chart('pro_cat', data[0], 'Percentage', "product Categories", data[1]);
+        }
+    });
+    /*product Date*/
+
+    $.ajax({url: "GetData.php",
+        async: false,
+        dataType: "json",
+        data: {type: 'pro_date'}, success: function(data) {
+
+
+            line_chart('pro_date', data, 'Percentage', "product date");
+
+        }
+    });
+     $('.payment-button').click(function() {
+        $.ajax({
+            url: '../../views/purchase_orders/get_payment.php',
+            type: 'post',
+            data: {id: $(this).data('id')},
+            async: false,
+            success: function(data) {
+                $('.PaymentMODAL .modal-body').html(data);
+                $('.PaymentMODAL').modal();
+               
+            }
+        });
+       
+  $('#Paymentsave input[name="id"]').remove();
+        var id = $(this).data('id');
+        $('#Paymentsave').append('<input type="hidden" name="id" id="id" value="' + id + '">');
+    });
+    $(document).on('submit', '#Paymentsave', function(e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax(
+                {
+                    type: 'post',
+                    url: '../../views/purchase_orders/SavePaymentAjax.php',
+                    data: formData,
+                    dataType: 'json', async: false,
+                    success: function(data)
+                    {
+                      notificationMessage(true);
+                        $('.PaymentMODAL').modal('toggle');
+
+                    }
+                });
+    });
 
 });
