@@ -45,9 +45,13 @@
                 if(count($cust_info) <= 1){ // email not exist
                     $activation_code=  rand(10000, 99999);
                     $insert_id = $this->fpdo->insertInto('customers')->values(array('name'=>$full_name,'email'=>$email,'password'=>md5($password),'company'=>$company,'city'=>$city,'adress'=>$adress,'activation_code'=>$activation_code))->execute(); 
-                    echo $active_link="http://"._SITE._PREF.$_SESSION['pLang']."/page69/cust$insert_id/code$activation_code/activation";
-                    //send activiation mail
+                    $active_link="http://"._SITE._PREF.$_SESSION['pLang']."/page69/cust$insert_id/code$activation_code/activation";
+                    
                     if($insert_id!=''){
+                        //send activation email
+                        $tags = array("{full-name}" => $full_name, '{activation-link}' => $active_link);
+                        $utils->sendMailC("info@voitest.com", $email, "Activation Email", "", 1, $tags);
+                        
                         $successMSG="<div class='alert alert-success'>Successful, welcome <strong>$full_name</strong> in our site. Check your Email for Activation email.  </div>"; 
                     }else{
                         $ErrorMSG="<div class='alert alert-danger'>Error,Please, try again later.</div>";

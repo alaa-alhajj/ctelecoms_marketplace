@@ -1,0 +1,14 @@
+id=1,product_id=2,purchase_order_id=1,product_price_id=7 
+2 89 0 1 Product 2 <p>brief here</p> <p>overview here</p> <p>Resources here</p> 51 1,   9 0 1 0 1 1 
+7 0 0 2 1 1 10 
+1 one month 1 
+ProductExpiredDate=2016-06-08 
+customer_name=Haider Issa,product_name=Product 2,remin_time_str=7 days,   
+------------------------- 
+id=2,product_id=1,purchase_order_id=2,product_price_id=6 
+1 88 0 1 Product 1 <p>Brief here</p> <p>over view</p> <p>Resources here</p> 51    9 0 1 0 1 1 
+6 0 0 1 2 9 10000 
+2 one year 12 
+ProductExpiredDate=2016-05-26 
+customer_name=Haider Issa,product_name=Product 1,remin_time_str=6 days,   
+------------------------- 

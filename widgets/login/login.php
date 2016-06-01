@@ -5,15 +5,16 @@ if ($_POST['LoginC'] === 'login' && $_REQUEST['username'] != "" && $_REQUEST['pa
     global $pLang;
     $uname = ($_REQUEST['username']);
     $passwd = md5($_REQUEST['password']);
-    $query = $this->fpdo->from('customers')->where(array('email' => $uname, 'password' => $passwd,'active' => 1))->fetch();
-    
-    if ($query['id'] !="") {
-      
+    $query = $this->fpdo->from('customers')->where(array('email' => $uname, 'password' => $passwd))->fetch();
+    $active=$query['active'];
+    if ($query['id'] !="" && $active==1) {
         $_SESSION['CUSTOMER_Name'] = $query['name'];
         $_SESSION['CUSTOMER_ID'] = $query['id'];
 
        // echo $pLang;
           $utils->redirect(_PREF.$_SESSION['pLang']."/page49/My-Account");
+    }else if ($query['id'] !="" && $active==0) {
+        $_SESSION['error_account_activation']='error';
     }else{
         $_SESSION['error_login']='error';
     }
@@ -28,10 +29,16 @@ if ($_POST['LoginC'] === 'login' && $_REQUEST['username'] != "" && $_REQUEST['pa
         <button type="submit">Login</button><input type='hidden' name='LoginC' value='login'>
     </form>
     <?if( $_SESSION['error_login'] !=""){?>
-    <div class="alert alert-danger error-login">incorrect email or password</div>
+    <div class="alert alert-danger error-login">Incorrect email or password</div>
     <?
     }
     unset( $_SESSION['error_login']);
+    ?>
+    <?if( $_SESSION['error_account_activation'] !=""){?>
+    <div class="alert alert-danger error-login">Please activate your account.</div>
+    <?
+    }
+    unset( $_SESSION['error_account_activation']);
     ?>
 </div>
 <?

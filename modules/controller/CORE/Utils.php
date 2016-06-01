@@ -1,5 +1,6 @@
 <?php
-
+include('PHPmailer/class.phpmailer.php');
+include('PHPmailer/class.smtp.php');
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -25,6 +26,89 @@ var $val;
         $this->icons = new Icons();
         //$this->field = new field();
     }
+    
+    function sendMailC($from, $to, $subject, $body, $idTemplate = "", $tags = "",$attachment) {
+        
+        $headers = "MIME-Version: 1.0\r\n";
+        $headers .= "Content-type: text/html; charset=utf-8\r\n";
+
+        $headers .= "From: " . $from . " \r\n";
+        if ($idTemplate != "") {
+            $query = $this->fpdo->from('mails')->where('id', $idTemplate)->fetch();
+            if ($query['id'] != "") {
+                $desc = $query['description'];
+                if ($subject == "") {
+                    $title = $query['title'];
+                    if ($title != "") {
+                        $subject = $title;
+                    }
+                }
+                $desc = str_replace("../../uploads", "http://" . _SITE . _PREF . "ui", $desc);
+                $desc = str_replace("../../", "http://" . _SITE . _PREF, $desc);
+                foreach ($tags as $key => $val) {
+                    $desc = str_replace("$key", $val, $desc);
+                }
+                if ($idTemplate != '0' && $idTemplate != 0) {
+                    
+                }
+                $body = $desc . $body;
+                if ($idTemplate != '0' && $idTemplate != 0) {
+                    $query = $this->fpdo->from('mails')->where("id='0'")->fetch();
+
+                    if ($query['id'] != "") {
+                        $desc = $query['description'];
+                        $desc = str_replace("../../uploads", "http://" . _SITE . _PREF . "ui", $desc);
+                        $desc = str_replace("../../", "http://" . _SITE . _PREF, $desc);
+                        $desc = str_replace("{body}", $body, $desc);
+                        $body = $desc;
+                    }
+                }
+            }
+        }
+   $query2 = $this->fpdo->from('mails')->where('id', $idTemplate)->fetch();
+   if($query2['recipient_email']!=""){
+       $to=$query2['recipient_email'];
+   }
+        $sname = "=?UTF-8?B?" . base64_encode($from) . "?=\n"; //  
+        $rname = "=?UTF-8?B?" . base64_encode("") . "?=\n"; //  
+        $sub = "=?UTF-8?B?" . base64_encode($subject) . "?=\n"; //  
+        $smail = $from;
+        $rmail = $from;
+
+        $mail = new PHPMailer();
+        $mail->IsSMTP(); // نختار الارسال عن طريق SMTP
+        $mail->Host = mail_host; // اسم سيرفر SMTP - ممكن ان يكون mail.yourdomain.com / smtp.yourdomain.com
+        $mail->SMTPSecure = mail_auth; // secure transfer enabled REQUIRED for GMail
+        //$mail->Host = "ssl://smtp.gmail.com:465";
+        $mail->Port = mail_port;
+        $mail->SMTPAuth = true;
+        $mail->Username = $query2['username']; // البريد الخاص بموقعك يجب ان ينتهي باسم موقعك
+        $mail->Password = $query2['password']; // كلمة مرور هذا البريد
+
+        $mail->AddReplyTo($smail); // نختار وجهة ارسال الرد في حال ارسل واسم مستقبل الرد
+        $mail->AddAddress($to); // بريد المستقبل واسمه
+           foreach ($attachment as $attach) {
+            $mail->addAttachment($attach);         // Add attachments
+            // echo $attach;
+        }
+        //$mail->AddAddress("eng.lara@gmail.com");
+        $mail->From = $smail; // بريد المرسل
+        $mail->FromName = $sname; // اسم المرسل
+
+        $mail->Subject = $sub; // موضوع الرسالة
+
+
+        $mail->MsgHTML($body); // نص الرسالة - يمكن ان يكون كود html
+
+        $mail->IsHTML(true); // send as HTML
+
+        if ($mail->Send()) {
+           // return 1;
+        } else {
+          //  return 0;
+        }
+    }
+    
   public function rewriteFilter($val) {
         $chrs = array('/', '&', '$', '_', ' ');
 

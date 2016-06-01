@@ -46,3 +46,8 @@ if($_REQUEST['cmsMlang'] != "") {
 $cms_active_langs = $_SESSION['cms_active_langs'] = $ob_cms_lang->getAllLangs();
 
 $cmsMlang = $_SESSION['cmsMlang'];
+
+if(!isset($_SESSION['notification'])){
+   include 'renewNotification.php';
+   $_SESSION['notification']="notify";
+}
