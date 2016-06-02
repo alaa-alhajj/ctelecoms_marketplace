@@ -42,7 +42,8 @@ class utils {
                         $subject = $title;
                     }
                 }
-                $desc = str_replace("../../uploads", "http://" . _SITE . _PREF . "ui", $desc);
+                
+                $desc = str_replace("../../../uploads", "http://" . _SITE . _PREF . "ui", $desc);
                 $desc = str_replace("../../", "http://" . _SITE . _PREF, $desc);
                 foreach ($tags as $key => $val) {
                     $desc = str_replace("$key", $val, $desc);
@@ -56,7 +57,7 @@ class utils {
 
                     if ($query['id'] != "") {
                         $desc = $query['description'];
-                        $desc = str_replace("../../uploads", "http://" . _SITE . _PREF . "ui", $desc);
+                        $desc = str_replace("../../../uploads", "http://" . _SITE . _PREF . "ui", $desc);
                         $desc = str_replace("../../", "http://" . _SITE . _PREF, $desc);
                         $desc = str_replace("{body}", $body, $desc);
                         $body = $desc;

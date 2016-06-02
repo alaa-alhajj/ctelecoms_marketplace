@@ -52,6 +52,13 @@
                         $tags = array("{full-name}" => $full_name, '{activation-link}' => $active_link);
                         $utils->sendMailC("info@voitest.com", $email, "Activation Email", "", 2, $tags);
                         
+                        //send new customer notification to admin
+                        //get recipient_email
+                        $mail_dts=$this->fpdo->from('mails')->where('id=4')->fetch();
+                        $recipient_email=$mail_dts['recipient_email'];
+                        $customer_dtls.="</table>";
+                        $utils->sendMailC("info@voitest.com", $recipient_email, "new Customer register notification", "", 4, $tags2);
+                        
                         $successMSG="<div class='alert alert-success'>Successful, welcome <strong>$full_name</strong> in our site. Check your Email for Activation email.  </div>"; 
                     }else{
                         $ErrorMSG="<div class='alert alert-danger'>Error,Please, try again later.</div>";
