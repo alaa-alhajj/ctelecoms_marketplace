@@ -5,70 +5,27 @@ $shopping_cart = $_SESSION['Shopping_Cart'];
 global $utils;
 global $pLang;
 
-if(!isset($_SESSION['PROMO_CODE'])){
-    $_SESSION['PROMO_CODE']='';
-}
 
-if (isset($_REQUEST,$_REQUEST['payment_type'])){
+$customer_id=$_SESSION['CUSTOMER_ID'];
+$customer_info = $this->fpdo->from("customers")->where("id='$customer_id'")->fetch();
+$customer_name=$customer_info['name'];
+$customer_email=$customer_info['email'];
 
-    $payment_type=$_REQUEST['payment_type'];
+$products_names=array();
+foreach ($shopping_cart as $key => $product) {
+    //print_r($product);
+    $product_id = $product['pro_id'];
+    $get_pro_name = $this->fpdo->from("products")->where("id='$product_id'")->fetch();
+    $product_name=$get_pro_name['title'];
+    $products_names[]=$product_name;
+}      
+
+$products_names_str=  implode(',', $products_names);
+
+$order_info = $this->fpdo->from("purchase_order")->where("id!='0'")->orderBy("id DESC")->limit('0,1')->fetch();
+$lastOrder=$order_info['id'];
+$newOrder=$lastOrder+1;
     
-    //create purchase order
-    $order_insert_id = $this->fpdo->insertInto('purchase_order')->values(array('customer_id'=>$_SESSION['CUSTOMER_ID'],'order_date'=>date('Y-m-d'),'payment_type'=>$payment_type,'promo_code'=>$_SESSION['PROMO_CODE']))->execute(); 
-    
-    foreach ($shopping_cart as $key => $product) {
-        //print_r($product);
-
-        $product_id = $product['pro_id'];
-        $duration_id = $product['duration_id'];
-        $group_id = $product['group_id'];
-        $qty = $product['qty'];
-        
-        $get_pro_name = $this->fpdo->from("products")->where("id='$product_id'")->fetch();
-
-        $get_dynamic_id = $this->fpdo->from('product_dynamic_price')->where("product_id='$product_id'")->fetch();
-        if($get_dynamic_id['type_id']==='1'){
-            $unit_value= $product['unit_value'];
-        }else{
-            $unit_value="";
-        }
-        $dynamic_id = $get_dynamic_id['id'];
-        $get_price = $this->fpdo->from('product_price_values')->where("`dynamic_price_id`='$dynamic_id' and `duration_id`='$duration_id' and `group_id`='$group_id'")->fetch();
-        $product_price_id=$get_price['id']; //product_price_id
-        //echo "product price info : <br/>";
-        
-        $check_offers = $this->fpdo->from('offers')->where("product_ids like '%" . $product_id . ",%'")->fetch();
-        $price_offer = ((($get_price['value']) - ($get_price['value']*($check_offers['discount_percentage'] / 100)) ));
-        $real_price=$get_price['value'];//product price with discount
-       // echo "<br/>after offer = $price_offer  ";
-        $offer_discount=0;
-        $offer_discount+=$check_offers['discount_percentage']; 
-        $promo_discount=0;
-        // $price_after_promo is final product 
-        if ($_SESSION['PROMO_CODE'] != "") {
-            $get_promo_discount = $this->fpdo->from('promo_codes')->where("id='" . $_SESSION['PROMO_CODE'] . "'")->fetch();
-            $price_after_promo = ((($price_offer) - ($price_offer*($get_promo_discount['discount_percentage'] / 100)) ));
-            $promo_discount+=$get_promo_discount['discount_percentage'];
-        } else {
-            $price_after_promo = $price_offer;
-        }
-        //echo "<br/> price after offer and promo = $price_after_promo <br/> ";
-        //save products in purchase order
-        $insert_id = $this->fpdo->insertInto('purchase_order_products')->values(array('purchase_order_id'=>$order_insert_id,'product_id'=>$product_id,'product_price_id'=>$product_price_id,'product_price'=>$real_price,'offer_discount'=>$offer_discount,'promo_discount'=>$promo_discount,'unit_value'=>$unit_value))->execute();
-        
-    }
-    
-    //generate page related with this purchase order.
-    $static_widget_id= 21;
-    $page_id = $this->fpdo->insertInto('cms_pages')->values(array('html'=>"##wid_start## ##wid_id_start##$static_widget_id##wid_id_end## ##wid_end##",'type'=>"generated",'lang'=>$pLang,'hidden'=>'1'))->execute();
-    //add generate page_id to purchase order 
-    $query = $this->fpdo->update("purchase_order")->set(array('page_id' =>$page_id))->where('id', $order_insert_id)->execute();
-        
-     $_SESSION['OrderID']=$order_insert_id;
-     unset($_SESSION['Shopping_Cart']);
-     $utils->redirect(_PREF.$pLang."/page68/OrderDetails");
-}
-         
 ?>
 
 
@@ -85,12 +42,101 @@ if (isset($_REQUEST,$_REQUEST['payment_type'])){
         </ul>
     </div>
     <div class="col-xs-9">
-        <form class="form-horizontal" role="form" method="post" action="">
+        <form class="form-horizontal" id='PaymentForm' role="form" method="post" action="<?=_PREF.$_SESSION['pLang']."/page101/orderProcessing"?>">
             <h3>Payment Method</h3>
-            </ul>
+            
             <?php
                 $payment_types = $this->fpdo->from("payment_types")->where(" 1 ")->fetchAll();
                 if(count($payment_types) > 0){
+                    $type1=$payment_types[0];
+                    //print_r($type1);
+                    $type_id=$type1['id'];
+                    $type_name=$type1['name'];
+                    ?>
+                    <div class="col-sm-6">
+                        <div class="radio radio1 col-sm-12">
+                            <input type="radio" name="payment_type" value="<?=$type_id?>"><?=$type_name?>.
+                        </div>
+                        
+                        <div class='payment_type bank-type col-sm-12'>
+                            <p class='brief-info'>
+                                Bank information here<br>
+                                Bank information here<br>
+                                Bank information here<br>
+                            </p>
+                            <hr>
+                            <button type="submit" class="btn btn-default">Submit</button>    
+                        </div>
+                        
+                    </div>
+                    <?php
+                        $type2=$payment_types[1];
+                        $type_id=$type2['id'];
+                        $type_name=$type2['name'];
+                    ?>
+                    <div class="col-sm-6">
+                        <div class="radio radio2 col-sm-12">
+                            <input type="radio" name="payment_type" value="<?=$type_id?>"><?=$type_name?>.
+                        </div>
+                        <div class='col-sm-12 payment_type E-payment-type'>
+                            <p class="brief-info">
+                                E-payment information here<br>
+                                E-payment information here<br>
+                                E-payment information here<br>
+                            </p>
+                            <hr>
+                            <!-- Button Code for PayTabs Express Checkout -->
+                             <div class="PT_express_checkout"></div>
+                             <script type="text/javascript">
+                                 Paytabs("#express_checkout").expresscheckout({
+                                     settings:{
+                                         secret_key: "wjYmbTkHGPzjZ6yeQmA2oJadTNFKqvTXOSj0LDIsthLsnjGeGhh41rhUeWFEszCgrVhdzZF2gqvEJcTqtauvBMpQI5vaE7r63IjC",
+                                                     merchant_id: "10011573",
+                                         amount: "10.00",
+                                         currency: "USD",
+                                         title: "Test Express Checkout Transaction",
+                                         product_names: "<?=$products_names_str?>",
+                                         order_id: <?=$newOrder?>,
+                                         url_redirect: "http://voitest.com/ctelecom_market/en/page101/PT2/orderProcessing",
+                                         display_billing_fields: 0,
+                                         display_shipping_fields: 0,
+                                         display_customer_info: 0,
+
+
+                                     },
+                                     customer_info:{
+                                         first_name: "<?=$customer_name?>",
+                                         last_name: "------",
+                                         phone_number: "--",
+                                         country_code: "973",
+                                         email_address: "<?=$customer_email?>"            
+                                     },
+                                     billing_address:{
+                                         full_address: "Manama, Bahrain",
+                                         city: "Manama",
+                                         state: "Manama",
+                                         country: "BHR",
+                                         postal_code: "00973"
+                                     },
+                                     shipping_address:{
+                                         shipping_first_name: "John",
+                                         shipping_last_name: "Smith",
+                                         full_address_shipping: "Manama, Bahrain",
+                                         city_shipping: "Manama",
+                                         state_shipping: "Manama",
+                                         country_shipping: "BHR",
+                                         postal_code_shipping: "00973"
+                                     },
+
+
+                                 });
+                             </script>
+                        </div>
+                    </div>
+            
+                
+                    <?php
+                    /*
                     $i=0;
                     foreach ($payment_types as $type) {
                         $type_id=$type['id'];
@@ -101,14 +147,11 @@ if (isset($_REQUEST,$_REQUEST['payment_type'])){
                         }
                         echo '  <div class="radio">
                                     <input type="radio" name="payment_type" value="'.$type_id.'" '.$checked.'>'.$type_name.'.
-                                </div><br/>';
+                                </div>';
                         $i++;
-                    }
+                    }*/
                 }
             ?>
-            <hr>
-            </ul>
-            <button type="submit" class="btn btn-default">Submit</button>
         </form>
 
     </div>

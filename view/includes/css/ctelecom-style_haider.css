@@ -25,3 +25,7 @@
 .purchase-orders-container a:hover{
     color:#F58120  !important;
 }
+
+#PaymentForm .payment_type{
+    display:none;
+}

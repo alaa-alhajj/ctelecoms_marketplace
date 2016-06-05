@@ -31,10 +31,14 @@ include_once 'view/common/langsLabel.php';
                         <link href="<?php echo _Include ?>css/ctelecom-style_haider.css" rel="stylesheet" type="text/css"/>
                         <script src="<?php echo _Include ?>js/jquery.min.1.11.0.js" type="text/javascript"></script>
                         <script src="<?php echo _Include ?>js/jquery-ui.min.js" type="text/javascript"></script>
-
+						<link rel="stylesheet" href="https://www.paytabs.com/express/express.css">
+						<script src="https://www.paytabs.com/express/express_checkout_v3.js"></script>
 
 
                         </head>
                         <body>  
                             <!------------------------ Header-------------------------->
-	<?php $widgets->printWidget(25);?>
+						<?php $widgets->printWidget(25);?>
+						<div class="path-sect container nopadding">
+           <?php echo $path->getPath();?>
+        </div>

@@ -56,7 +56,14 @@
                         //get recipient_email
                         $mail_dts=$this->fpdo->from('mails')->where('id=4')->fetch();
                         $recipient_email=$mail_dts['recipient_email'];
+                        $customer_dtls="<table class='table table-bordered' border='0'>";
+                        $customer_dtls.="<tr><td><b> Customer Name</b>:</b></td><td> $full_name</td></tr>
+                                         <tr><td><b>  E-mail</b>:</td><td> $email</td></tr>
+                                         <tr><td><b>  Company</b>:</td><td> $company</td></tr>
+                                         <tr><td><b>  City</b>:</td><td> $city</td></tr>
+                                         <tr><td><b>  Adress</b>:</td><td> $adress</td></tr>";
                         $customer_dtls.="</table>";
+                        $tags2 = array("{customer_name}" => $full_name, '{register-datetime}' => date("Y-m-d h:i:s"), '{customer-details}' =>$customer_dtls);
                         $utils->sendMailC("info@voitest.com", $recipient_email, "new Customer register notification", "", 4, $tags2);
                         
                         $successMSG="<div class='alert alert-success'>Successful, welcome <strong>$full_name</strong> in our site. Check your Email for Activation email.  </div>"; 
