@@ -476,7 +476,7 @@ class field extends utils {
         }
 
 
-        $res = '<div style="position:relative"><select class="' . $this->css_class . '" name="' . $this->name . '" id="' . $this->id . '" ' . $this->required . '>';
+        $res = '<div style="position:relative" class="in-form-inline"><select class="' . $this->css_class . '" name="' . $this->name . '" id="' . $this->id . '" ' . $this->required . '>';
         if ($this->required == '') {
             $res.= '<option value="">------</option>';
         }

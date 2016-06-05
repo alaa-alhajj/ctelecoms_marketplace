@@ -13,4 +13,18 @@ $("#PaymentForm .radio2 input").click(function (){
     $("#PaymentForm .E-payment-type").slideDown();
 });
     
+$(".TryFreeRequest").click(function(){
+    var customer_id=$(this).data('customer_id');
+    var product_id=$(this).data('product_id');
+    $.ajax({
+        url:_PREF+"AddProductfreeRequest",
+        type:'post',
+        data:{
+            customer_id:customer_id,
+            product_id:product_id}
+        ,success:function(data){    
+                alert(data);
+        }
+    });
+});
 

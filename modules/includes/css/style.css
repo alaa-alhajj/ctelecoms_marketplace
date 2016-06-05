@@ -260,3 +260,13 @@ a[data-switcher="SwitcherV"] .fa.fa-check{color:#00A65A}
     font-size:13px;clear:both
 }
 .dashboard-box > .panel-heading a{color:#fff}
+
+.form-inline label{
+    margin-top: 5px;
+}
+.form-inline .in-form-inline{
+    padding:0px !important;
+    margin:0px !important;
+    position: inherit !important;
+    float:right;
+}
