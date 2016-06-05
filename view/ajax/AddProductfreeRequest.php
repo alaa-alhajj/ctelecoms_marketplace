@@ -1,7 +1,7 @@
 ﻿<?php
 include('../../view/common/top.php');
 
-print_r($_REQUEST);
+//print_r($_REQUEST);
 $customer_id=$_REQUEST['customer_id'];
 $product_id=$_REQUEST['product_id'];
 if($customer_id!='' && $product_id!=''){
@@ -19,7 +19,7 @@ if($customer_id!='' && $product_id!=''){
         $product_dts=$fpdo->from('products')->where("id='$product_id'")->fetch();
         $productName=$product_dts['title'];
         
-        $tags = array("{customer-name}" => $customerName,'product-name'=>$productName,'{free-request-datetime}' => date("Y-m-d h:i:s"));
+        $tags = array("{customer-name}" => $customerName,'{product-name}'=>$productName,'{free-request-datetime}' => date("Y-m-d h:i:s"));
         $utils->sendMailC("info@voitest.com", $recipient_email, "New product free request notification", "", 6, $tags);
         echo "your try free request send successfully ";
     }else{
