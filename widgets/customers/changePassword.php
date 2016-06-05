@@ -20,7 +20,7 @@
             if($customer_password !==  md5($newpassword)){ //check if new password is same old one.
                 if($customer_password ===  md5($oldPassword)){ // old password is correct
                     if($newpassword===$repeat_newpassword && $newpassword!=''){
-                         print_r($_REQUEST);
+                         //print_r($_REQUEST);
                         $query = $this->fpdo->update("customers")->set(array('password' => md5($newpassword) ))->where('id', $customer_id)->execute();
                         if($query!=''){
                             $successMSG="<div class='alert alert-success'> Your Password was changed successfully </div>"; 
